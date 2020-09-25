@@ -1,69 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="214dp"
-    android:layout_height="240dp"
-    android:background="@drawable/subject_att"
-    android:orientation="vertical"
-    android:padding="22dp"
-    android:weightSum="2">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="0dp">
 
-    <TextView
-        android:id="@+id/editTime"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/helveticaneue_light"
-        android:text="9:00-10:00"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="21sp"
-        android:visibility="visible" />
+        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        app:cardBackgroundColor="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible">
-
-        <me.tankery.lib.circularseekbar.CircularSeekBar
-            android:id="@+id/attSeekbar"
-            android:layout_width="132dp"
-            android:layout_height="132dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:weightSum="3">
-
-        <ImageView
-            android:id="@+id/presentBtn"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/present" />
+            android:background="@drawable/subject_att"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@color/colorAccent" />
+            <TextView
+                android:id="@+id/editTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helveticaneue_light"
+                android:text="9:00-10:00"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="21sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/absentBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/absent" />
+            <me.tankery.lib.circularseekbar.CircularSeekBar
+                android:id="@+id/attSeekbar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="4dp"
+                android:visibility="visible"
+                app:cs_circle_color="#00FFFFFF"
+                app:cs_circle_fill="#00FFFFFF"
+                app:cs_circle_progress_color="@color/colorPrimary"
+
+                app:cs_circle_stroke_width="16dp"
 
 
-    </LinearLayout>
+                app:cs_circle_style="round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTime" />
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/presentBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/attSeekbar"
+                app:srcCompat="@drawable/present" />
+
+            <ImageView
+                android:id="@+id/absentBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/attSeekbar"
+                app:srcCompat="@drawable/absent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

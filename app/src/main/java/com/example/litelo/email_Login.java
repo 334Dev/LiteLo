@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class email_Login extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class email_Login extends AppCompatActivity {
     private String email,password;
     private Integer userStatus=0;
     private Button button;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class email_Login extends AppCompatActivity {
             getWindow().getSharedElementReturnTransition().setDuration(1000)
                     .setInterpolator(new DecelerateInterpolator());
         }
+
+        firestore=FirebaseFirestore.getInstance();
 
         emailLinear=findViewById(R.id.emailLinear);
         editMail=findViewById(R.id.editEmail);
@@ -121,8 +126,22 @@ public class email_Login extends AppCompatActivity {
                             //On successful Login
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
-                            Intent i= new Intent(email_Login.this, HomeActivity.class);
-                            startActivity(i);
+                            String UserUID=mAuth.getCurrentUser().getUid();
+                            firestore.collection("Users").document(UserUID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    DocumentSnapshot snapshot=task.getResult();
+                                    if(snapshot.exists()){
+                                        Intent i= new Intent(email_Login.this, HomeActivity.class);
+                                        startActivity(i);
+                                    }
+                                    else{
+                                        Intent i= new Intent(email_Login.this, UserInfo.class);
+                                        startActivity(i);
+                                    }
+                                }
+                            });
+
                         }
                         else{
                             //on Failed Login

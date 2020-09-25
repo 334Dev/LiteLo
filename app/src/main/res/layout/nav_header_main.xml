@@ -34,23 +34,25 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/header_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/helveticaneue_medium"
-                android:text="Anant Shukla"
+                android:text="Couldn't Load"
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/branch_Reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/helveticaneue_medium"
-                android:text="ECE, 20195066" />
+                android:text="Sorry" />
 
 
         </LinearLayout>

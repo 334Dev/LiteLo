@@ -3,6 +3,7 @@ package com.example.litelo;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class UserInfo extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String UserUID;
     private View parentLayout;
+    private String[] groupsMech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class UserInfo extends AppCompatActivity {
 
 
         //Groups
-        final String[] groups= new String[]{"EC1", "EC2", "EC3", "EC4"};
+        groupsMech= new String[]{"A1","A2","B1","B2","E1"};
 
         //OnClick button
         button.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +83,7 @@ public class UserInfo extends AppCompatActivity {
                 else if(Group.isEmpty()){
                     editGroup.setError("Write the Group Name");
                 }
-                else if(!Arrays.asList(groups).contains(Group)){
+                else if(!Arrays.asList(groupsMech).contains(Group)){
                     editGroup.setError("InValid Group Name");
                 }
 
@@ -94,9 +96,13 @@ public class UserInfo extends AppCompatActivity {
                     firestore.collection("Users").document(UserUID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Snackbar.make(parentLayout, "Welcome "+Name+"!", Snackbar.LENGTH_SHORT).show();
-                            Intent i= new Intent(UserInfo.this, HomeActivity.class);
-                            startActivity(i);
+                                addClasses();
+                                Snackbar.make(parentLayout, "Welcome " + Name + "!", Snackbar.LENGTH_SHORT).show();
+                                Intent i = new Intent(UserInfo.this, HomeActivity.class);
+                                startActivity(i);
+
+                                Snackbar.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -112,5 +118,38 @@ public class UserInfo extends AppCompatActivity {
         });
 
 
+    }
+
+    private void addClasses() {
+        //default present absent value
+        final Map<String, Integer> map= new HashMap<>();
+        map.put("Present", 0);
+        map.put("Absent", 0);
+
+        //integer for success
+        final Integer[] success = new Integer[1];
+
+        //sem check
+        if(Arrays.asList(groupsMech).contains(editGroup.getText().toString())) {
+            //subject list
+            final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
+
+
+            //creating document of each subject
+            for(int i=0;i<6;i++) {
+                firestore.collection("Users").document(UserUID).collection("Classes")
+                        .document(mechClasses[i]).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("All Subjects added", "onSuccess: Subject Added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        }
     }
 }
