@@ -25,6 +25,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
     private View parentLayout;
     private int RC_SIGN_IN=101;
 
@@ -151,15 +154,30 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Snackbar.make(parentLayout, "Authentication Successful", Snackbar.LENGTH_SHORT).show();
-                            Intent sharedintent= new Intent(MainActivity.this, UserInfo.class);
-                            //Transition Animation
-                            ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                    new android.util.Pair<View, String>(logo, "logoTransition"),
-                                    new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
-                                    new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"));
-                            startActivity(sharedintent, options.toBundle());
+                            String UserUID=mAuth.getCurrentUser().getUid();
+                            firestore=FirebaseFirestore.getInstance();
+                            firestore.collection("Users").document(UserUID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    DocumentSnapshot snapshot=task.getResult();
+                                    if(snapshot.exists()){
+                                        Intent i= new Intent(MainActivity.this, HomeActivity.class);
+                                        startActivity(i);
+                                    }
+                                    else{
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Snackbar.make(parentLayout, "Authentication Successful", Snackbar.LENGTH_SHORT).show();
+                                        Intent sharedintent= new Intent(MainActivity.this, UserInfo.class);
+                                        //Transition Animation
+                                        ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                                new android.util.Pair<View, String>(logo, "logoTransition"),
+                                                new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
+                                                new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"));
+                                        startActivity(sharedintent, options.toBundle());
+                                    }
+                                }
+                            });
+
 
                         } else {
                             // If sign in fails, display a message to the user.

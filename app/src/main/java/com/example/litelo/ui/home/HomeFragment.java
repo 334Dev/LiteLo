@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,13 +24,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FirebaseFirestore firestore;
-    private TextView className, className2, disc, disc2, timeDate, timeDate2;
+    private TextView className, className2, disc, disc2, timeDate, timeDate2,subjectName, subjectDesc,attText;
     private List<AttendanceModel> attendanceModels;
     private AttendenceAdaptor attendenceAdaptor;
     private String group;
@@ -36,6 +45,10 @@ public class HomeFragment extends Fragment {
     private List<String> todayClass;
     private List<Double> timing;
     private ViewPager2 viewPager;
+    private ImageView loadingWhite, presentBtn, absentBtn;
+    private ProgressBar loadingBar;
+    private Button presentAll;
+    private CircularSeekBar seekBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,14 +66,88 @@ public class HomeFragment extends Fragment {
         disc2=root.findViewById(R.id.desc2);
         timeDate2=root.findViewById(R.id.dateTime2);
 
+        subjectDesc=root.findViewById(R.id.subjectDesc);
+        subjectName=root.findViewById(R.id.subjectName);
+
         viewPager=root.findViewById(R.id.viewPagerAtt);
+
+        presentAll=root.findViewById(R.id.presentAll);
+        loadingBar=root.findViewById(R.id.loadingBar);
+        loadingWhite=root.findViewById(R.id.loadingWhite);
+
+        checkDate();
 
         setCcClasses();
 
         getTodaysClass();
 
 
+
         return root;
+    }
+
+    private void checkDate() {
+        UserID=mAuth.getCurrentUser().getUid();
+        Calendar date= Calendar.getInstance();
+        final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        Log.i("Date", "checkDate: "+deviceDay);
+
+        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String ServerDate= documentSnapshot.getString("Date");
+                if(ServerDate.contentEquals(deviceDay)){
+                    Log.i("DateCheck", "onSuccess: Same");
+                }else{
+                    Log.i("DateCheck", "onSuccess: Different");
+                    newDayChanges(deviceDay);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    private void newDayChanges(final String deviceDay) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("absentStatus", false);
+        map.put("presentStatus", false);
+        final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
+        for(String data:mechClasses) {
+            firestore.collection("Users").document(UserID).collection("Classes").document(data)
+                    .update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.i("newDayChanges", "onSuccess: newDayChanges");
+                    setserverDate(deviceDay);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i("newDateChanges", "onFailure: newDayChanges");
+                }
+            });
+
+
+        }
+
+    }
+
+    private void setserverDate(String deviceDay) {
+        firestore.collection("Users").document(UserID).update("Date", deviceDay).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("setserverDate", "onSuccess: Successful");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("setserverDate", "onSuccess: Successful");
+            }
+        });
     }
 
     private void getTodaysClass() {
@@ -82,6 +169,7 @@ public class HomeFragment extends Fragment {
                 for(DocumentSnapshot snapshot:snapshotList){
                     todayClass.add(snapshot.getString("Subject"));
                     timing.add(snapshot.getDouble("Time"));
+
                 }
                 Log.i("timing", "onSuccess: "+timing.get(0));
                 Log.i("timing", "onSuccess: "+todayClass.get(2));
@@ -114,7 +202,7 @@ public class HomeFragment extends Fragment {
                                 }
                         }
 
-                        attendenceAdaptor= new AttendenceAdaptor(attendanceModels,timing);
+                        attendenceAdaptor= new AttendenceAdaptor(attendanceModels,timing,todayClass);
                         viewPager.setAdapter(attendenceAdaptor);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -129,6 +217,21 @@ public class HomeFragment extends Fragment {
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(3);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(final int position) {
+                subjectName.setText(todayClass.get(position));
+                final Double present=attendanceModels.get(position).getPresent();
+                final Double absent=attendanceModels.get(position).getAbsent();
+                setHint(present,absent);
+            }
+        });
+
+
+
+        loadingWhite.setVisibility(View.INVISIBLE);
+        loadingBar.setVisibility(View.INVISIBLE);
+        presentAll.setVisibility(View.VISIBLE);
 
     }
 
@@ -158,4 +261,34 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    public void setHint(Double present, Double absent){
+        Integer Present=present.intValue();
+        Integer Absent=absent.intValue();
+
+        Integer ClassesHeld= Present+Absent;
+        Integer TotalClass=54;;
+        Integer Progress=80;
+        Integer consClass;
+        consClass=((Absent * 100) / (100 - Progress))-ClassesHeld;
+        if(Progress==80){
+            if(consClass<0){
+                subjectDesc.setText("You can miss next "+"the"+" classes.");
+            }
+            else if(consClass<=TotalClass-ClassesHeld){
+                subjectDesc.setText("Go in the next " + Integer.toString(consClass) + " to come back on track.");
+            }
+            else{
+                if(absent==0){
+                    subjectDesc.setText("You'll have to attend all classes.");
+                }
+                else{
+                    subjectDesc.setText("Not possible.");
+                }
+            }
+        }
+
+
+    }
+
 }

@@ -122,9 +122,11 @@ public class UserInfo extends AppCompatActivity {
 
     private void addClasses() {
         //default present absent value
-        final Map<String, Integer> map= new HashMap<>();
+        final Map<String, Object> map= new HashMap<>();
         map.put("Present", 0);
         map.put("Absent", 0);
+        map.put("absentStatus", false);
+        map.put("presentStatus", false);
 
         //integer for success
         final Integer[] success = new Integer[1];

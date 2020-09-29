@@ -4,6 +4,23 @@ public class AttendanceModel {
 
     private Double Absent;
     private Double Present;
+    private Boolean presentStatus, absentStatus;
+
+    public Boolean getPresentStatus() {
+        return presentStatus;
+    }
+
+    public void setPresentStatus(Boolean presentStatus) {
+        this.presentStatus = presentStatus;
+    }
+
+    public Boolean getAbsentStatus() {
+        return absentStatus;
+    }
+
+    public void setAbsentStatus(Boolean absentStatus) {
+        this.absentStatus = absentStatus;
+    }
 
     public AttendanceModel(){
 
