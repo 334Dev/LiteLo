@@ -93,7 +93,8 @@ public class UserInfo extends AppCompatActivity {
                     user.put("Name", Name);
                     user.put("Group", Group);
                     user.put("RegNo", Reg);
-                    firestore.collection("Users").document(UserUID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    firestore.collection("Users").document(UserUID).set(user)
+                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                                 addClasses();

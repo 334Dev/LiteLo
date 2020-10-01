@@ -1,5 +1,6 @@
 package com.example.litelo.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.litelo.ListShow;
 import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,6 +83,16 @@ public class HomeFragment extends Fragment {
 
         getTodaysClass();
 
+        presentAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(getActivity(),ListShow.class);
+                startActivity(i);
+            }
+        });
+
+
+
 
 
         return root;
@@ -92,7 +104,8 @@ public class HomeFragment extends Fragment {
         final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         Log.i("Date", "checkDate: "+deviceDay);
 
-        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("Users").document(UserID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String ServerDate= documentSnapshot.getString("Date");
@@ -118,7 +131,8 @@ public class HomeFragment extends Fragment {
         final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
         for(String data:mechClasses) {
             firestore.collection("Users").document(UserID).collection("Classes").document(data)
-                    .update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .update("absentStatus", false,"presentStatus", false)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i("newDayChanges", "onSuccess: newDayChanges");
@@ -226,6 +240,8 @@ public class HomeFragment extends Fragment {
                 setHint(present,absent);
             }
         });
+
+
 
 
 
