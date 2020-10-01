@@ -75,8 +75,6 @@ public class HomeFragment extends Fragment {
         viewPager=root.findViewById(R.id.viewPagerAtt);
 
         presentAll=root.findViewById(R.id.presentAll);
-        loadingBar=root.findViewById(R.id.loadingBar);
-        loadingWhite=root.findViewById(R.id.loadingWhite);
 
         //SlideBar
         SlideSeekBar=root.findViewById(R.id.slideSeekBar);
@@ -95,8 +93,6 @@ public class HomeFragment extends Fragment {
 
         getTodaysClass();
 
-        loadingWhite.setVisibility(View.INVISIBLE);
-        loadingBar.setVisibility(View.INVISIBLE);
 
         return root;
     }
@@ -245,11 +241,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-        loadingWhite.setVisibility(View.INVISIBLE);
-        loadingBar.setVisibility(View.INVISIBLE);
-
-        presentAll.setVisibility(View.VISIBLE);
 
     }
 
