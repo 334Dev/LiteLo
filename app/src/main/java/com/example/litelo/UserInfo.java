@@ -19,7 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class UserInfo extends AppCompatActivity {
@@ -88,13 +90,15 @@ public class UserInfo extends AppCompatActivity {
                 }
 
                 else if(iReg>20170000 && iReg<20210000){
+                    Calendar date= Calendar.getInstance();
+                    final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
                     Map<String, Object> user = new HashMap<>();
                     user.put("Name", Name);
                     user.put("Group", Group);
                     user.put("RegNo", Reg);
-                    firestore.collection("Users").document(UserUID).set(user)
-                             .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    user.put("Date", deviceDay);
+                    firestore.collection("Users").document(UserUID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                                 addClasses();
