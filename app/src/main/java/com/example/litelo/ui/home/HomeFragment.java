@@ -49,7 +49,10 @@ public class HomeFragment extends Fragment {
     private ImageView loadingWhite, presentBtn, absentBtn;
     private ProgressBar loadingBar;
     private Button presentAll;
-    private CircularSeekBar seekBar;
+    //SlideUp
+    private CircularSeekBar SlideSeekBar;
+    private TextView TotalAttend, TotalNotAttend, Remaining;
+    private ImageView Attendplus, NotAttendplus, Attendminus, NotAttendminus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,17 +79,28 @@ public class HomeFragment extends Fragment {
         loadingBar=root.findViewById(R.id.loadingBar);
         loadingWhite=root.findViewById(R.id.loadingWhite);
 
+        //SlideBar
+        SlideSeekBar=root.findViewById(R.id.slideSeekBar);
+        Remaining=root.findViewById(R.id.remaining);
+        TotalAttend=root.findViewById(R.id.slideTotalAttend);
+        TotalNotAttend=root.findViewById(R.id.slideTotalNotAttend);
+        Attendplus=root.findViewById(R.id.attendPlus);
+        Attendminus=root.findViewById(R.id.AttendNot);
+        NotAttendminus=root.findViewById(R.id.NotAttendNot);
+        NotAttendplus=root.findViewById(R.id.NotAttendPlus);
+
+
         checkDate();
 
         setCcClasses();
 
         getTodaysClass();
-
-        loadingBar.setVisibility(View.INVISIBLE);
         loadingWhite.setVisibility(View.INVISIBLE);
+        loadingBar.setVisibility(View.INVISIBLE);
 
         return root;
     }
+
 
     private void checkDate() {
         UserID=mAuth.getCurrentUser().getUid();
@@ -232,8 +246,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        //loadingWhite.setVisibility(View.INVISIBLE);
-        //loadingBar.setVisibility(View.INVISIBLE);
+
         presentAll.setVisibility(View.VISIBLE);
 
     }
@@ -295,7 +308,18 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
+        /*Double totalLectures= 56.0;
+        Double remain=totalLectures-present-absent;
+        Double percent=present*100/(absent+present);
+        Double attend=0.0,notAttend=0.0;
+        SlideSeekBar.setProgress(Float.parseFloat(percent.toString()));
+        Remaining.setText(remain.intValue());
+        Attendplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });*/
 
     }
 
