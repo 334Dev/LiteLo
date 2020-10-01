@@ -57,9 +57,8 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="0dp"
                     android:layout_marginBottom="-1dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="84"
-                    android:textAlignment="center"
                     android:textColor="@color/colorWhite"
                     android:textSize="32dp" />
             </RelativeLayout>

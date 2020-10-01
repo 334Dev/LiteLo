@@ -73,8 +73,8 @@ public class HomeFragment extends Fragment {
         viewPager=root.findViewById(R.id.viewPagerAtt);
 
         presentAll=root.findViewById(R.id.presentAll);
-        //loadingBar=root.findViewById(R.id.loadingBar);
-        //loadingWhite=root.findViewById(R.id.loadingWhite);
+        loadingBar=root.findViewById(R.id.loadingBar);
+        loadingWhite=root.findViewById(R.id.loadingWhite);
 
         checkDate();
 
@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment {
 
         getTodaysClass();
 
-
+        loadingBar.setVisibility(View.INVISIBLE);
+        loadingWhite.setVisibility(View.INVISIBLE);
 
         return root;
     }

@@ -73,7 +73,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
 
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="84"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
