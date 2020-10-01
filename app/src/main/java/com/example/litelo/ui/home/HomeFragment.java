@@ -19,6 +19,7 @@ import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -72,8 +73,8 @@ public class HomeFragment extends Fragment {
         viewPager=root.findViewById(R.id.viewPagerAtt);
 
         presentAll=root.findViewById(R.id.presentAll);
-        loadingBar=root.findViewById(R.id.loadingBar);
-        loadingWhite=root.findViewById(R.id.loadingWhite);
+        //loadingBar=root.findViewById(R.id.loadingBar);
+        //loadingWhite=root.findViewById(R.id.loadingWhite);
 
         checkDate();
 
@@ -117,8 +118,9 @@ public class HomeFragment extends Fragment {
         map.put("presentStatus", false);
         final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
         for(String data:mechClasses) {
-            firestore.collection("Users").document(UserID).collection("Classes").document(data)
-                    .update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    DocumentReference reff=firestore.collection("Users").document(UserID).
+                    collection("Classes").document(data);
+                    reff.update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i("newDayChanges", "onSuccess: newDayChanges");
@@ -229,8 +231,8 @@ public class HomeFragment extends Fragment {
 
 
 
-        loadingWhite.setVisibility(View.INVISIBLE);
-        loadingBar.setVisibility(View.INVISIBLE);
+        //loadingWhite.setVisibility(View.INVISIBLE);
+        //loadingBar.setVisibility(View.INVISIBLE);
         presentAll.setVisibility(View.VISIBLE);
 
     }
@@ -269,14 +271,19 @@ public class HomeFragment extends Fragment {
         Integer ClassesHeld= Present+Absent;
         Integer TotalClass=54;;
         Integer Progress=80;
-        Integer consClass;
+        Integer consClass,consClass2;
         consClass=((Absent * 100) / (100 - Progress))-ClassesHeld;
+        consClass2=(((Absent+1) * 100) / (100 - Progress))-ClassesHeld;
         if(Progress==80){
-            if(consClass<0){
+            if(consClass2<0){
                 subjectDesc.setText("You can miss next "+"the"+" classes.");
             }
             else if(consClass<=TotalClass-ClassesHeld){
-                subjectDesc.setText("Go in the next " + Integer.toString(consClass) + " to come back on track.");
+                if(consClass<0){
+                    subjectDesc.setText("You have to attend the next class");
+                }else {
+                    subjectDesc.setText("Go in the next " + Integer.toString(consClass) + " to come back on track.");
+                }
             }
             else{
                 if(absent==0){
