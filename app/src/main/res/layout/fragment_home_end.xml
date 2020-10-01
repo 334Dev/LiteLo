@@ -28,11 +28,11 @@
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView12"
+            app:layout_constraintEnd_toStartOf="@+id/slideTotalNotAttend"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <me.tankery.lib.circularseekbar.CircularSeekBar
-            android:id="@+id/circularSeekBar"
+            android:id="@+id/slideSeekBar"
             android:layout_width="132dp"
             android:layout_height="132dp"
             android:layout_marginTop="24dp"
@@ -57,10 +57,10 @@
             android:text="Attend"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="@+id/circularSeekBar"
-            app:layout_constraintEnd_toStartOf="@+id/circularSeekBar"
+            app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
+            app:layout_constraintEnd_toStartOf="@+id/slideSeekBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/circularSeekBar" />
+            app:layout_constraintTop_toTopOf="@+id/slideSeekBar" />
 
         <TextView
             android:id="@+id/textView4"
@@ -70,13 +70,13 @@
             android:text="Not Attend"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="@+id/circularSeekBar"
+            app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/circularSeekBar"
-            app:layout_constraintTop_toTopOf="@+id/circularSeekBar" />
+            app:layout_constraintStart_toEndOf="@+id/slideSeekBar"
+            app:layout_constraintTop_toTopOf="@+id/slideSeekBar" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/attendPlus"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="6dp"
@@ -87,7 +87,7 @@
             app:layout_constraintStart_toStartOf="@+id/textView5" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/AttendNot"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="6dp"
@@ -97,7 +97,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/NotAttendPlus"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="6dp"
@@ -107,7 +107,7 @@
             app:layout_constraintStart_toStartOf="@+id/textView4" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/NotAttendNot"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="6dp"
@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.465"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/circularSeekBar" />
+            app:layout_constraintTop_toBottomOf="@+id/slideSeekBar" />
 
         <TextView
             android:id="@+id/textView8"
@@ -144,7 +144,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/slideTotalAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -156,7 +156,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView8" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/slideTotalNotAttend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
@@ -168,7 +168,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView10" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/remaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -347,7 +347,7 @@
             android:fontFamily="@font/helveticaneue_medium"
             android:text="Maths"
             android:textColor="@color/colorWhite"
-            android:textSize="24dp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/subjectDesc"
@@ -358,7 +358,7 @@
             android:fontFamily="@font/helveticaneue_medium"
             android:text="You can miss the next class"
             android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

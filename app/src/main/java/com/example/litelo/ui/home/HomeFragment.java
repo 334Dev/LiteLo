@@ -19,6 +19,7 @@ import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,7 +49,10 @@ public class HomeFragment extends Fragment {
     private ImageView loadingWhite, presentBtn, absentBtn;
     private ProgressBar loadingBar;
     private Button presentAll;
-    private CircularSeekBar seekBar;
+    //SlideUp
+    private CircularSeekBar SlideSeekBar;
+    private TextView TotalAttend, TotalNotAttend, Remaining;
+    private ImageView Attendplus, NotAttendplus, Attendminus, NotAttendminus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,16 +79,28 @@ public class HomeFragment extends Fragment {
         loadingBar=root.findViewById(R.id.loadingBar);
         loadingWhite=root.findViewById(R.id.loadingWhite);
 
+        //SlideBar
+        SlideSeekBar=root.findViewById(R.id.slideSeekBar);
+        Remaining=root.findViewById(R.id.remaining);
+        TotalAttend=root.findViewById(R.id.slideTotalAttend);
+        TotalNotAttend=root.findViewById(R.id.slideTotalNotAttend);
+        Attendplus=root.findViewById(R.id.attendPlus);
+        Attendminus=root.findViewById(R.id.AttendNot);
+        NotAttendminus=root.findViewById(R.id.NotAttendNot);
+        NotAttendplus=root.findViewById(R.id.NotAttendPlus);
+
+
         checkDate();
 
         setCcClasses();
 
         getTodaysClass();
-
-
+        loadingWhite.setVisibility(View.INVISIBLE);
+        loadingBar.setVisibility(View.INVISIBLE);
 
         return root;
     }
+
 
     private void checkDate() {
         UserID=mAuth.getCurrentUser().getUid();
@@ -117,8 +133,9 @@ public class HomeFragment extends Fragment {
         map.put("presentStatus", false);
         final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
         for(String data:mechClasses) {
-            firestore.collection("Users").document(UserID).collection("Classes").document(data)
-                    .update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    DocumentReference reff=firestore.collection("Users").document(UserID).
+                    collection("Classes").document(data);
+                    reff.update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i("newDayChanges", "onSuccess: newDayChanges");
@@ -229,8 +246,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        loadingWhite.setVisibility(View.INVISIBLE);
-        loadingBar.setVisibility(View.INVISIBLE);
+
         presentAll.setVisibility(View.VISIBLE);
 
     }
@@ -269,14 +285,19 @@ public class HomeFragment extends Fragment {
         Integer ClassesHeld= Present+Absent;
         Integer TotalClass=54;;
         Integer Progress=80;
-        Integer consClass;
+        Integer consClass,consClass2;
         consClass=((Absent * 100) / (100 - Progress))-ClassesHeld;
+        consClass2=(((Absent+1) * 100) / (100 - Progress))-ClassesHeld;
         if(Progress==80){
-            if(consClass<0){
+            if(consClass2<0){
                 subjectDesc.setText("You can miss next "+"the"+" classes.");
             }
             else if(consClass<=TotalClass-ClassesHeld){
-                subjectDesc.setText("Go in the next " + Integer.toString(consClass) + " to come back on track.");
+                if(consClass<0){
+                    subjectDesc.setText("You have to attend the next class");
+                }else {
+                    subjectDesc.setText("Go in the next " + Integer.toString(consClass) + " to come back on track.");
+                }
             }
             else{
                 if(absent==0){
@@ -287,7 +308,18 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
+        /*Double totalLectures= 56.0;
+        Double remain=totalLectures-present-absent;
+        Double percent=present*100/(absent+present);
+        Double attend=0.0,notAttend=0.0;
+        SlideSeekBar.setProgress(Float.parseFloat(percent.toString()));
+        Remaining.setText(remain.intValue());
+        Attendplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });*/
 
     }
 
