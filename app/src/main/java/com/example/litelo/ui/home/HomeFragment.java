@@ -1,5 +1,6 @@
 package com.example.litelo.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.litelo.ListShow;
 import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -92,7 +94,13 @@ public class HomeFragment extends Fragment {
         setCcClasses();
 
         getTodaysClass();
-
+        presentAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ListShow.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }
