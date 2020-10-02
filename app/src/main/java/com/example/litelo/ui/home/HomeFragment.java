@@ -235,7 +235,7 @@ public class HomeFragment extends Fragment {
                 subjectName.setText(todayClass.get(position));
                 final Double present=attendanceModels.get(position).getPresent();
                 final Double absent=attendanceModels.get(position).getAbsent();
-                setHint(present,absent);
+                setHint(present,absent,position);
             }
         });
 
@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void setHint(Double present, Double absent){
+    public void setHint(Double present, Double absent,Integer position){
         Integer Present=present.intValue();
         Integer Absent=absent.intValue();
 
@@ -293,19 +293,86 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
-        /*Double totalLectures= 56.0;
-        Double remain=totalLectures-present-absent;
-        Double percent=present*100/(absent+present);
-        Double attend=0.0,notAttend=0.0;
-        SlideSeekBar.setProgress(Float.parseFloat(percent.toString()));
-        Remaining.setText(remain.intValue());
+        setSwipeUp(present,absent,position);
+    }
+    private Double percentage,attend=0.0,notattend=0.0,SwipeAbsent, SwipePresent,totalclass=0.0,tempRemain;
+    public void setSwipeUp(final Double present, Double absent,Integer position) {
+        final String subject=todayClass.get(position);
+        Log.i("subject", "setSwipeUp: "+subject);
+        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                totalclass=Double.parseDouble(documentSnapshot.get(subject).toString());
+                Log.i("StotalClass", "onSuccess: "+totalclass);
+            }
+        });
+        final Double remain = totalclass - present - absent;
+        Log.i("remain", "setSwipeUp: "+remain+" "+present+" "+absent);
+        tempRemain=remain;
+        Remaining.setText(remain.toString());
+        Log.i("Remain", "setSwipeUp: "+Remaining.getText());
+        percentage = calculatePer(present, absent);
+        SlideSeekBar.setMax(100);
+        SlideSeekBar.setProgress(Float.parseFloat(percentage.toString()));
+        SwipeAbsent = absent;
+        SwipePresent = present;
         Attendplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(attend+notattend+1<=remain && attend>=0 && notattend>=0) {
+                    attend = attend + 1;
+                    TotalAttend.setText(attend.toString());
+                    tempRemain=tempRemain-1;
+                    Remaining.setText(tempRemain.toString());
+                    SwipePresent = SwipePresent + 1;
+                    SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                }
             }
-        });*/
-
+        });
+        NotAttendplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(attend+notattend+1<=remain && attend>=0 && notattend>=0) {
+                    notattend = notattend + 1;
+                    TotalNotAttend.setText(notattend.toString());
+                    tempRemain=tempRemain-1;
+                    Remaining.setText(tempRemain.toString());
+                    SwipeAbsent = SwipeAbsent + 1;
+                    SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                }
+            }
+        });
+        Attendminus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(attend+notattend-1<remain && attend-1>=0 && notattend>=0) {
+                    attend = attend - 1;
+                    TotalAttend.setText(attend.toString());
+                    tempRemain=tempRemain+1;
+                    Remaining.setText(tempRemain.toString());
+                    SwipePresent = SwipePresent - 1;
+                    SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                }
+            }
+        });
+        NotAttendminus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(attend+notattend-1<remain && attend>=0 && notattend-1>=0) {
+                    notattend = notattend - 1;
+                    TotalNotAttend.setText(notattend.toString());
+                    tempRemain=tempRemain+1;
+                    Remaining.setText(tempRemain.toString());
+                    SwipeAbsent = SwipeAbsent - 1;
+                    SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                }
+            }
+        });
     }
+
+    public Double calculatePer(Double present,Double absent){
+        return present * 100 / (present + absent);
+    }
+
 
 }
