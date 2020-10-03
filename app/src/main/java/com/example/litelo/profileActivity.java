@@ -23,6 +23,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,8 +71,9 @@ public class profileActivity extends AppCompatActivity {
                public void onClick(View view) {
 
                        // open Gallery
-                    Intent openGalleryIntent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(openGalleryIntent,1000);
+                  /*  Intent openGalleryIntent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(openGalleryIntent,1000);*/
+                  CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(profileActivity.this);
 
                }
            });
@@ -92,14 +95,29 @@ public class profileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1000){
-            if(resultCode== Activity.RESULT_OK){
-                Uri ImageUri=data.getData();
-                profileImageView.setImageURI(ImageUri);
+       /* if(requestCode==1000) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri ImageUri = data.getData();
+                // profileImageView.setImageURI(ImageUri);
 
-                uploadImageToFirebase(ImageUri);
+
+
+
+                //uploadImageToFirebase(ImageUri);
 
             }
+        }*/
+
+            if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
+                CropImage.ActivityResult result=CropImage.getActivityResult(data);
+
+                    Uri resultUri=result.getUri();
+                    profileImageView.setImageURI(resultUri);
+                    uploadImageToFirebase(resultUri);
+
+
+
+
         }
     }
 
