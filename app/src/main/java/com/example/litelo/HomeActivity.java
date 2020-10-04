@@ -3,10 +3,13 @@ package com.example.litelo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -97,7 +100,25 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
         menu.getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
+        menu.getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
@@ -111,9 +132,12 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    private void gotoMainActivity() {
+    private void gotoMainActivity()
+    {
         Intent intent= new Intent(HomeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

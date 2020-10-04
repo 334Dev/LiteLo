@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.litelo.ListShow;
+import com.example.litelo.MainActivity;
 import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +38,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
+
+import static com.example.litelo.R.id.action_signout;
 
 public class HomeFragment extends Fragment {
 
@@ -87,7 +94,6 @@ public class HomeFragment extends Fragment {
         Attendminus=root.findViewById(R.id.AttendNot);
         NotAttendminus=root.findViewById(R.id.NotAttendNot);
         NotAttendplus=root.findViewById(R.id.NotAttendPlus);
-
 
         checkDate();
 
