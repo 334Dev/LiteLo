@@ -1,7 +1,6 @@
 package com.example.litelo.ui.slideshow;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.litelo.R;
@@ -62,11 +59,13 @@ public class SlideshowFragment extends Fragment {
                 Canvas canvas=myPage1.getCanvas();
                 canvas.drawText("Hello everyone !!",40 ,50,myPaint);
                 MyPdfDocument.finishPage(myPage1);
-                File file=new File(Environment.getExternalStorageDirectory(),"/LiteLOOOOO.pdf");
+                File file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
                 try {
                     MyPdfDocument.writeTo(new FileOutputStream(file));
+                    Toast.makeText(getContext(), "Added", Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
                 }
                 MyPdfDocument.close();
             }
