@@ -179,6 +179,18 @@
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="@+id/textView6" />
 
+        <TextView
+            android:id="@+id/SlidePercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textColor="@color/colorWhite"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
+            app:layout_constraintEnd_toEndOf="@+id/slideSeekBar"
+            app:layout_constraintStart_toStartOf="@+id/slideSeekBar"
+            app:layout_constraintTop_toTopOf="@+id/slideSeekBar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -318,7 +330,7 @@
         android:background="@drawable/greenbutton"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="Present All"
+        android:text="Show All"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="14sp"

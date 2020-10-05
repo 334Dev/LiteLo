@@ -5,6 +5,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.0"
 
+    lintOptions{
+        disable 'GradleDependency'
+    }
+
     defaultConfig {
         applicationId "com.example.litelo"
         minSdkVersion 23

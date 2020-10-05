@@ -1,7 +1,6 @@
 package com.example.litelo.ui.home;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,15 +62,12 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         Double time=timing.get(position);
-        Log.i("AdapterTime", "onBindViewHolder: "+time);
         Double present=attendanceModels.get(position).getPresent();
         Double absent=attendanceModels.get(position).getAbsent();
         Boolean presentStatus=attendanceModels.get(position).getPresentStatus();
         Boolean absentStatus=attendanceModels.get(position).getAbsentStatus();
         holder.setSeekBar(present,absent,presentStatus,absentStatus);
         holder.setTime(time);
-
-
     }
 
     @Override

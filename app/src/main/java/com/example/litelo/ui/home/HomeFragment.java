@@ -50,9 +50,10 @@ public class HomeFragment extends Fragment {
     private ImageView loadingWhite, presentBtn, absentBtn;
     private ProgressBar loadingBar;
     private Button presentAll;
+    private Map<String, Object> mMap;
     //SlideUp
     private CircularSeekBar SlideSeekBar;
-    private TextView TotalAttend, TotalNotAttend, Remaining;
+    private TextView TotalAttend, TotalNotAttend, Remaining, SlidePercentage;
     private ImageView Attendplus, NotAttendplus, Attendminus, NotAttendminus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,9 +61,11 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        //Firebase Instances
         firestore=FirebaseFirestore.getInstance();
         mAuth= FirebaseAuth.getInstance();
 
+        //Club classes
         className=root.findViewById(R.id.className);
         disc=root.findViewById(R.id.desc);
         timeDate=root.findViewById(R.id.dateTime);
@@ -71,11 +74,11 @@ public class HomeFragment extends Fragment {
         disc2=root.findViewById(R.id.desc2);
         timeDate2=root.findViewById(R.id.dateTime2);
 
+        //lower subject and hint
         subjectDesc=root.findViewById(R.id.subjectDesc);
         subjectName=root.findViewById(R.id.subjectName);
 
         viewPager=root.findViewById(R.id.viewPagerAtt);
-
         presentAll=root.findViewById(R.id.presentAll);
 
         //SlideBar
@@ -87,6 +90,33 @@ public class HomeFragment extends Fragment {
         Attendminus=root.findViewById(R.id.AttendNot);
         NotAttendminus=root.findViewById(R.id.NotAttendNot);
         NotAttendplus=root.findViewById(R.id.NotAttendPlus);
+        SlidePercentage=root.findViewById(R.id.SlidePercentage);
+
+        UserID=mAuth.getCurrentUser().getUid();
+        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                group=documentSnapshot.getString("Group");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("GetGroup", "onFailure: Failed");
+            }
+        });
+        Log.i("GetGroup", "onCreateView: "+group);
+        mMap=new HashMap<>();
+        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                mMap=documentSnapshot.getData();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
 
 
         checkDate();
@@ -105,7 +135,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-
+    //Check and compare device and server date
     private void checkDate() {
         UserID=mAuth.getCurrentUser().getUid();
         Calendar date= Calendar.getInstance();
@@ -120,6 +150,7 @@ public class HomeFragment extends Fragment {
                     Log.i("DateCheck", "onSuccess: Same");
                 }else{
                     Log.i("DateCheck", "onSuccess: Different");
+                    //if different calling method newDayChanges
                     newDayChanges(deviceDay);
                 }
             }
@@ -130,7 +161,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
+    //newDayChanges-> setting all the subject's present absent status back to false
     private void newDayChanges(final String deviceDay) {
         Map<String, Object> map = new HashMap<>();
         map.put("absentStatus", false);
@@ -142,6 +173,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.i("newDayChanges", "onSuccess: newDayChanges");
+                    //after changing to false setting server day to today's day
                     setserverDate(deviceDay);
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -155,7 +187,7 @@ public class HomeFragment extends Fragment {
         }
 
     }
-
+    //setServerDay-> updating day
     private void setserverDate(String deviceDay) {
         firestore.collection("Users").document(UserID).update("Date", deviceDay).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -169,7 +201,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
+    //getting today's academic classes from database
     private void getTodaysClass() {
         UserID=mAuth.getCurrentUser().getUid();
         firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -183,16 +215,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> snapshotList= queryDocumentSnapshots.getDocuments();
-                //int i=0;
                 todayClass= new ArrayList<String>();
                 timing= new ArrayList<Double>();
+                //iterating through all the documents and storing data in arrayList todayClass nad timing
                 for(DocumentSnapshot snapshot:snapshotList){
                     todayClass.add(snapshot.getString("Subject"));
                     timing.add(snapshot.getDouble("Time"));
 
                 }
-                Log.i("timing", "onSuccess: "+timing.get(0));
-                Log.i("timing", "onSuccess: "+todayClass.get(2));
+                //after getting today's classes setting classes based on userProfile data
                 setTodaysClass();
 
             }
@@ -206,7 +237,7 @@ public class HomeFragment extends Fragment {
 
 
     }
-
+    //setting today's class with personalized data
     private void setTodaysClass() {
         firestore.collection("Users").document(UserID).collection("Classes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -214,14 +245,13 @@ public class HomeFragment extends Fragment {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<DocumentSnapshot> snapshotList=queryDocumentSnapshots.getDocuments();
                         attendanceModels=new ArrayList<>();
-                        int i=0;
                         for(DocumentSnapshot snapshot: snapshotList) {
                                 if(todayClass.contains(snapshot.getId())) {
+                                    //storing data in attendance model class
                                     attendanceModels.add(snapshot.toObject(AttendanceModel.class));
-
                                 }
                         }
-
+                        //setting up adapter class and assigning this adapter to viewPager
                         attendenceAdaptor= new AttendenceAdaptor(attendanceModels,timing,todayClass);
                         viewPager.setAdapter(attendenceAdaptor);
                     }
@@ -231,24 +261,26 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
+        //View pager basic settings
         viewPager.setPadding(250,0,250,0);
-
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(3);
+
+        //OnPageSelected
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(final int position) {
                 subjectName.setText(todayClass.get(position));
                 final Double present=attendanceModels.get(position).getPresent();
                 final Double absent=attendanceModels.get(position).getAbsent();
+                //calling setHint function to set up
                 setHint(present,absent,position);
             }
         });
 
     }
-
+    //setting club classes
     private void setCcClasses() {
         firestore.collection("ClubClasses").document("CC").collection("Classes")
                 .whereEqualTo("visibility", "show").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -275,7 +307,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
+    //setting hint
     public void setHint(Double present, Double absent,Integer position){
         Integer Present=present.intValue();
         Integer Absent=absent.intValue();
@@ -303,23 +335,19 @@ public class HomeFragment extends Fragment {
         }
         setSwipeUp(present,absent,position);
     }
-    private Double percentage,attend=0.0,notattend=0.0,SwipeAbsent, SwipePresent,totalclass=0.0,tempRemain;
+
+    //setting lower card view details
+    private Double percentage=0.0,attend=0.0,notattend=0.0,SwipeAbsent, SwipePresent,totalclass=0.0,tempRemain;
     public void setSwipeUp(final Double present, Double absent,Integer position) {
         final String subject=todayClass.get(position);
-        Log.i("subject", "setSwipeUp: "+subject);
-        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                totalclass=Double.parseDouble(documentSnapshot.get(subject).toString());
-                Log.i("StotalClass", "onSuccess: "+totalclass);
-            }
-        });
+        Object Class= mMap.get(subject);
+        totalclass=Double.parseDouble(Class.toString());
         final Double remain = totalclass - present - absent;
-        Log.i("remain", "setSwipeUp: "+remain+" "+present+" "+absent);
         tempRemain=remain;
         Remaining.setText(remain.toString());
-        Log.i("Remain", "setSwipeUp: "+Remaining.getText());
         percentage = calculatePer(present, absent);
+        Integer inPer=percentage.intValue();
+        SlidePercentage.setText(inPer.toString());
         SlideSeekBar.setMax(100);
         SlideSeekBar.setProgress(Float.parseFloat(percentage.toString()));
         SwipeAbsent = absent;
@@ -334,6 +362,8 @@ public class HomeFragment extends Fragment {
                     Remaining.setText(tempRemain.toString());
                     SwipePresent = SwipePresent + 1;
                     SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                    Integer inPer=calculatePer(SwipePresent,SwipeAbsent).intValue();
+                    SlidePercentage.setText(inPer.toString());
                 }
             }
         });
@@ -347,6 +377,8 @@ public class HomeFragment extends Fragment {
                     Remaining.setText(tempRemain.toString());
                     SwipeAbsent = SwipeAbsent + 1;
                     SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                    Integer inPer=calculatePer(SwipePresent,SwipeAbsent).intValue();
+                    SlidePercentage.setText(inPer.toString());
                 }
             }
         });
@@ -360,6 +392,8 @@ public class HomeFragment extends Fragment {
                     Remaining.setText(tempRemain.toString());
                     SwipePresent = SwipePresent - 1;
                     SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                    Integer inPer=calculatePer(SwipePresent,SwipeAbsent).intValue();
+                    SlidePercentage.setText(inPer.toString());
                 }
             }
         });
@@ -373,6 +407,8 @@ public class HomeFragment extends Fragment {
                     Remaining.setText(tempRemain.toString());
                     SwipeAbsent = SwipeAbsent - 1;
                     SlideSeekBar.setProgress(Float.parseFloat(calculatePer(SwipePresent, SwipeAbsent).toString()));
+                    Integer inPer=calculatePer(SwipePresent,SwipeAbsent).intValue();
+                    SlidePercentage.setText(inPer.toString());
                 }
             }
         });
