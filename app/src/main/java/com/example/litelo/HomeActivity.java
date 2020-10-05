@@ -3,10 +3,14 @@ package com.example.litelo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private TextView headerName, headerReg;
+    private ImageView headerPic;
     private FirebaseFirestore firestore;
     private String UserID;
 
@@ -56,10 +62,25 @@ public class HomeActivity extends AppCompatActivity {
         View headerView= navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerName=headerView.findViewById(R.id.header_Name);
         headerReg=headerView.findViewById(R.id.branch_Reg);
+        headerPic=headerView.findViewById(R.id.header_Pic);
+
+        headerPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               Intent i= new Intent(HomeActivity.this,profileActivity.class);
+                startActivity(i);
+
+            }
+        });
+
 
 
         //headerView Text
         setHeaderViewText();
+
+
+
 
 
         // Passing each menu ID as a set of Ids because each
@@ -93,11 +114,31 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
         menu.getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
+        menu.getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
@@ -111,9 +152,12 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    private void gotoMainActivity() {
+    private void gotoMainActivity()
+    {
         Intent intent= new Intent(HomeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -1,6 +1,7 @@
 package com.example.litelo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.Query;
 public class ListShow extends AppCompatActivity {
     private String UserID;
     private FirebaseAuth mAuth;
+    private Toolbar toolbar;
 
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -24,8 +26,12 @@ public class ListShow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_show);
+
+
+
         mAuth=FirebaseAuth.getInstance();
         createRecView();
+
     }
 
     private void createRecView() {

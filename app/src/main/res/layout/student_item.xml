@@ -7,7 +7,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginTop="25dp"
     android:layout_marginEnd="10dp"
-
+    tools:visibility="visible"
     app:cardBackgroundColor="#363B3F"
     app:cardCornerRadius="25sp"
     app:cardElevation="60sp">
