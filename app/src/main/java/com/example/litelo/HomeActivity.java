@@ -5,10 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -82,9 +79,8 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-           storageReference= FirebaseStorage.getInstance().getReference();
+        storageReference= FirebaseStorage.getInstance().getReference();
         StorageReference profileRef=storageReference.child("users/"+mAuth.getCurrentUser().getUid()+"/profile.jpg");
-
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
