@@ -3,8 +3,5 @@
     <font
         android:font="@font/montserrat_medium"
         android:fontStyle="normal"/>
-    <font
-        android:font="@font/montserrat_semibold"
-        android:fontStyle="normal"/>
 
 </font-family>

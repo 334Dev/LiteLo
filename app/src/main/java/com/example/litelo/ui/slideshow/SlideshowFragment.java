@@ -3,6 +3,7 @@ package com.example.litelo.ui.slideshow;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
@@ -24,7 +25,6 @@ import com.example.litelo.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class SlideshowFragment extends Fragment {
 
@@ -70,19 +70,20 @@ public class SlideshowFragment extends Fragment {
 
                 Canvas canvas = myPage1.getCanvas();
 
-                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
                 myPaint.setTextSize(9.131f);
 
                 canvas.drawText("Anant Shukla", 8, y, myPaint);
 
                 myPaint.setTextSize(3.5f);
+                myPaint.setLinearText(true);
+                myPaint.setLetterSpacing(0.04f);
 
-                myPaint.setTextScaleX(1f);
+
                 for (int i = 0; i < 4; i++) {
-
-                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
                     canvas.drawText(KeyDataR[i] + " : ", 116, yR, myPaint);
-                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.NORMAL));
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
                     canvas.drawText(ValueDataR[i], 134, yR, myPaint);
                     yR = yR + 7.0f;
 
@@ -90,22 +91,20 @@ public class SlideshowFragment extends Fragment {
 
                 for (int i = 0; i < 3; i++)
                 {
-                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
-                canvas.drawText(KeyDataL[i] + " : ", 8, yL, myPaint);
-                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.NORMAL));
-                canvas.drawText(ValueDataL[i], 27, yL, myPaint);
-                yL=yL+7.0f;
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
+                    canvas.drawText(KeyDataL[i] + " : ", 8, yL, myPaint);
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                    canvas.drawText(ValueDataL[i], 30, yL, myPaint);
+                    yL=yL+7.0f;
+                }
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,54.86f,202f,54.86f,myPaint);
 
-                   }
-
-
-
-
-
-
-
-
-
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Career Objective", 12,56,myPaint);
 
 
 

@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
-    <!---light -->
-
     <font
-        android:font="@font/helveticaneue_medium"
+        android:font="@font/montserrat_semibold"
         android:fontStyle="normal"/>
-
-    <font
-        android:fontStyle="normal"
-        android:font="@font/helveticaneu_bold"/>
-
 </font-family>
