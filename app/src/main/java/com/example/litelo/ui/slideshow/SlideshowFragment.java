@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Environment;
@@ -54,11 +55,16 @@ public class SlideshowFragment extends Fragment {
                 PdfDocument MyPdfDocument=new PdfDocument();
                 Paint myPaint=new Paint();
                 PdfDocument.PageInfo myPageInfo1=new PdfDocument.PageInfo.
-                        Builder(250,400,1).create();
+                        Builder(210,297,1).create();
                 PdfDocument.Page myPage1=MyPdfDocument.startPage(myPageInfo1);
+
                 Canvas canvas=myPage1.getCanvas();
-                canvas.drawText("Hello everyone !!",40 ,50,myPaint);
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat),Typeface.BOLD));
+                myPaint.setTextSize(9.131f);
+                canvas.drawText("Anant Shukla", 8,17.368f,myPaint);
                 MyPdfDocument.finishPage(myPage1);
+
+
                 File file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
                 try {
                     MyPdfDocument.writeTo(new FileOutputStream(file));
