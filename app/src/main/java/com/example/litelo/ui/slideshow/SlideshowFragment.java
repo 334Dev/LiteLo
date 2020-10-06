@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
@@ -106,13 +105,16 @@ public class SlideshowFragment extends Fragment {
                 myPaint.setTextSize(5f);
                 myPaint.setColor(Color.parseColor("#000000"));
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                canvas.drawText("Career Objective", 12,57,myPaint);
-                String str="To use my problem solving skills to solve real life problems " +
-                        "and help the world to become better and more connected.";
-                StaticLayout smallStaticLayout=StaticLayout.Builder.obtain("To use my problem solving skills to solve real life problems " +
-                        "and help the world to become better and more connected.",0,str.length()+1,myPaint,184).build();
+                canvas.drawText("Career Objective", 10,56,myPaint);
+                myPaint.setTextSize(3.5f);
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_medium),Typeface.NORMAL));
+                String str="To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
+                        "To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
+                        "To use my problem solving skills to solve real life problems and help the world to become better and more connected.";
 
+                StaticLayout smallStaticLayout=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,184).build();
 
+                canvas.translate(8,60);
                 smallStaticLayout.draw(canvas);
 
 
