@@ -24,11 +24,20 @@ import com.example.litelo.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class SlideshowFragment extends Fragment {
 
     private SlideshowViewModel slideshowViewModel;
     Button generate;
+    private Float y=17.368f;
+    private String[] KeyDataR={"Mobile","Email","GitHub","LinkedIn"};
+    private String[] ValueDataR={"+914234677431","mittal11darpan@gmail.com","github.com/iamanantshukla","linkedin.com/in/anant-shukla-16b1231b3/"};
+    private String[] KeyDataL={"Discipline","Branch","College"};
+    private String[] ValueDataL={"Bachelor of Technology","Electronics and Communication Engineering","Motilal Nehru National Institute of Technology"};
+    private Float xR=120.0f;
+    private Float yR=y+3.0f;
+    private Float yL=y+10.0f;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,19 +58,57 @@ public class SlideshowFragment extends Fragment {
     }
 
     private void CreatePdf() {
+        final int i;
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PdfDocument MyPdfDocument=new PdfDocument();
-                Paint myPaint=new Paint();
-                PdfDocument.PageInfo myPageInfo1=new PdfDocument.PageInfo.
-                        Builder(210,297,1).create();
-                PdfDocument.Page myPage1=MyPdfDocument.startPage(myPageInfo1);
+                PdfDocument MyPdfDocument = new PdfDocument();
+                Paint myPaint = new Paint();
+                PdfDocument.PageInfo myPageInfo1 = new PdfDocument.PageInfo.
+                        Builder(210, 297, 1).create();
+                PdfDocument.Page myPage1 = MyPdfDocument.startPage(myPageInfo1);
 
-                Canvas canvas=myPage1.getCanvas();
-                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat),Typeface.BOLD));
+                Canvas canvas = myPage1.getCanvas();
+
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
                 myPaint.setTextSize(9.131f);
-                canvas.drawText("Anant Shukla", 8,17.368f,myPaint);
+
+                canvas.drawText("Anant Shukla", 8, y, myPaint);
+
+                myPaint.setTextSize(3.5f);
+
+                myPaint.setTextScaleX(1f);
+                for (int i = 0; i < 4; i++) {
+
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
+                    canvas.drawText(KeyDataR[i] + " : ", 116, yR, myPaint);
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.NORMAL));
+                    canvas.drawText(ValueDataR[i], 134, yR, myPaint);
+                    yR = yR + 7.0f;
+
+                }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.BOLD));
+                canvas.drawText(KeyDataL[i] + " : ", 8, yL, myPaint);
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat), Typeface.NORMAL));
+                canvas.drawText(ValueDataL[i], 27, yL, myPaint);
+                yL=yL+7.0f;
+
+                   }
+
+
+
+
+
+
+
+
+
+
+
+
                 MyPdfDocument.finishPage(myPage1);
 
 
