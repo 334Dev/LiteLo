@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
@@ -36,6 +37,10 @@ public class SlideshowFragment extends Fragment {
     private String[] ValueDataR={"+914234677431","mittal11darpan@gmail.com","github.com/iamanantshukla","linkedin.com/in/anant-shukla-16b1231b3/"};
     private String[] KeyDataL={"Discipline","Branch","College"};
     private String[] ValueDataL={"Bachelor of Technology","Electronics and Communication Engineering","Motilal Nehru National Institute of Technology"};
+    private String[] eduProgress={"B.Tech, Electronics and Communication","X CBSE","XII CBSE"};
+    private String[] eduInstitute={"MNNIT Allahabad","Army Public School, N.R.","Army Public School, N.R."};
+    private String[] eduCGPA={"7.7","10","94.4"};
+    private String[] eduYear={"2023","2017","2019"};
     private Float xR=120.0f;
     private Float MainY=54.86f;
     private Float yR=y+3.0f;
@@ -134,13 +139,24 @@ public class SlideshowFragment extends Fragment {
 
                 MainY=MainY+ObjectiveHeight+11.2f;
 
-                
+                myPaint.setTextSize(3.5f);
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
 
-
-
-
-
-
+                canvas.drawText("Progress",8,MainY+8f,myPaint);
+                canvas.drawText("Institute",100,MainY+8f,myPaint);
+                canvas.drawText("%CGPA",143,MainY+8f,myPaint);
+                canvas.drawText("Year of Completion",167,MainY+8f,myPaint);
+                MainY=MainY+8f;
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_medium), Typeface.NORMAL));
+                for(int i=0;i<3;i++){
+                    MainY=MainY+8f;
+                    myPaint.setTextAlign(Paint.Align.LEFT);
+                    canvas.drawText(eduProgress[i],8,MainY,myPaint);
+                    myPaint.setTextAlign(Paint.Align.CENTER);
+                    canvas.drawText(eduInstitute[i],110,MainY,myPaint);
+                    canvas.drawText(eduCGPA[i],151,MainY,myPaint);
+                    canvas.drawText(eduYear[i],184,MainY,myPaint);
+                }
 
 
                 MyPdfDocument.finishPage(myPage1);
