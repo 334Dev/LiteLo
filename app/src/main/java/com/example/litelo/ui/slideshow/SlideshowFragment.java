@@ -7,10 +7,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.style.BulletSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -41,6 +46,12 @@ public class SlideshowFragment extends Fragment {
     private String[] eduInstitute={"MNNIT Allahabad","Army Public School, N.R.","Army Public School, N.R."};
     private String[] eduCGPA={"7.7","10","94.4"};
     private String[] eduYear={"2023","2017","2019"};
+    private  String[] areasOfInterest={"Data Structures and Algorithms","Android Development","Competitive Programming","Software Development"};
+    private  String[] computerSkillKey={"Programming Languages","Android","Video Editing"};
+    private  String[] computerSkillValue={"C,C++,Java,Python","Native Development","Adobe Premiere Pro"};
+
+
+
     private Float xR=120.0f;
     private Float MainY=54.86f;
     private Float yR=y+3.0f;
@@ -67,6 +78,7 @@ public class SlideshowFragment extends Fragment {
     private void CreatePdf() {
         final int i;
         generate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onClick(View v) {
                 PdfDocument MyPdfDocument = new PdfDocument();
@@ -86,6 +98,9 @@ public class SlideshowFragment extends Fragment {
                 myPaint.setLinearText(true);
                 myPaint.setLetterSpacing(0.04f);
 
+
+                myPaint.setStrokeJoin(TextPaint.Join.ROUND);
+                myPaint.setStrokeCap(TextPaint.Cap.ROUND);
 
                 for (int i = 0; i < 4; i++) {
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
@@ -157,6 +172,83 @@ public class SlideshowFragment extends Fragment {
                     canvas.drawText(eduCGPA[i],151,MainY,myPaint);
                     canvas.drawText(eduYear[i],184,MainY,myPaint);
                 }
+
+                canvas.translate(0,-27);
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight +10f,myPaint);
+
+                myPaint.setTextAlign(Paint.Align.LEFT);
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Areas of Interests", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+
+                canvas.translate(-107,40);
+                myPaint.setTextSize(3.5f);
+                   for (int i=0;i<4;i++)
+                   {
+                       MainY=MainY+5f;
+                       myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
+                       canvas.drawText("•", 116, MainY,myPaint);
+                       myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                       canvas.drawText(areasOfInterest[i], 120, MainY, myPaint);
+
+                   }
+
+                canvas.translate(107,-27);
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight +10f,myPaint);
+
+                myPaint.setTextAlign(Paint.Align.LEFT);
+
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Computer Skills", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+
+                canvas.translate(-107,40);
+                myPaint.setTextSize(3.5f);
+                for (int i=0;i<3;i++)
+                {
+                    MainY=MainY+5f;
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
+                    canvas.drawText("•  "+computerSkillKey[i], 116, MainY,myPaint);
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                    canvas.drawText(": "+computerSkillValue[i], 180, MainY, myPaint);
+
+                }
+
+
+
+                canvas.translate(107,-27);
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight +10f,myPaint);
+
+                myPaint.setTextAlign(Paint.Align.LEFT);
+
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Projects", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 MyPdfDocument.finishPage(myPage1);
