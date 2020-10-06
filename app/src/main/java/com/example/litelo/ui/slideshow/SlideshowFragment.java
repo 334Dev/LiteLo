@@ -37,6 +37,7 @@ public class SlideshowFragment extends Fragment {
     private String[] KeyDataL={"Discipline","Branch","College"};
     private String[] ValueDataL={"Bachelor of Technology","Electronics and Communication Engineering","Motilal Nehru National Institute of Technology"};
     private Float xR=120.0f;
+    private Float MainY=54.86f;
     private Float yR=y+3.0f;
     private Float yL=y+10.0f;
 
@@ -105,10 +106,12 @@ public class SlideshowFragment extends Fragment {
                 myPaint.setTextSize(5f);
                 myPaint.setColor(Color.parseColor("#000000"));
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                canvas.drawText("Career Objective", 10,56,myPaint);
+                canvas.drawText("Career Objective", 10,56.5f,myPaint);
                 myPaint.setTextSize(3.5f);
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_medium),Typeface.NORMAL));
                 String str="To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
+                        "To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
+                        "To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
                         "To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
                         "To use my problem solving skills to solve real life problems and help the world to become better and more connected.";
 
@@ -116,6 +119,26 @@ public class SlideshowFragment extends Fragment {
 
                 canvas.translate(8,60);
                 smallStaticLayout.draw(canvas);
+
+
+                int ObjectiveHeight=smallStaticLayout.getHeight();
+                canvas.translate(-8,-60);
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight +10f,myPaint);
+
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Education", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+
+                MainY=MainY+ObjectiveHeight+11.2f;
+
+                
+
+
+
+
 
 
 
