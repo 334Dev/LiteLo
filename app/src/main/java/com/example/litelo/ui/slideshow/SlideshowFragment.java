@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +65,7 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PdfDocument MyPdfDocument = new PdfDocument();
-                Paint myPaint = new Paint();
+                TextPaint myPaint = new TextPaint();
                 PdfDocument.PageInfo myPageInfo1 = new PdfDocument.PageInfo.
                         Builder(210, 297, 1).create();
                 PdfDocument.Page myPage1 = MyPdfDocument.startPage(myPageInfo1);
@@ -104,11 +106,21 @@ public class SlideshowFragment extends Fragment {
                 myPaint.setTextSize(5f);
                 myPaint.setColor(Color.parseColor("#000000"));
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                canvas.drawText("Career Objective", 12,56,myPaint);
+                canvas.drawText("Career Objective", 12,57,myPaint);
+                String str="To use my problem solving skills to solve real life problems " +
+                        "and help the world to become better and more connected.";
+                StaticLayout smallStaticLayout=StaticLayout.Builder.obtain("To use my problem solving skills to solve real life problems " +
+                        "and help the world to become better and more connected.",0,str.length()+1,myPaint,184).build();
+
+
+                smallStaticLayout.draw(canvas);
+
 
 
 
                 MyPdfDocument.finishPage(myPage1);
+
+
 
 
                 File file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
