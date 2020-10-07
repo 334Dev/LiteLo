@@ -36,11 +36,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
-    private TextView headerName, headerReg;
+    private TextView headerName, headerReg,ViewProfile;
     private CircleImageView headerPic;
     private FirebaseFirestore firestore;
     private String UserID;
     private StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +70,9 @@ public class HomeActivity extends AppCompatActivity {
         headerName=headerView.findViewById(R.id.header_Name);
         headerReg=headerView.findViewById(R.id.branch_Reg);
         headerPic=headerView.findViewById(R.id.header_Pic);
+        ViewProfile=headerView.findViewById(R.id.viewProfile);
 
-        headerPic.setOnClickListener(new View.OnClickListener() {
+        ViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
