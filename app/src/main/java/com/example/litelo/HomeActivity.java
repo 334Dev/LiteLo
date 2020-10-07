@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+        /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("LiteLoNotify","LiteLoNotify", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager= getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
@@ -70,8 +70,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE, 27);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE,7);
         calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);*/
 
 
         //checking whether login or not

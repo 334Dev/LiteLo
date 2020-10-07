@@ -37,10 +37,10 @@ public class Notification_receiver extends BroadcastReceiver {
         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"LiteLoNotify")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Darpan lubs Aditya")
-                .setContentText("Dono gay hai")
+                .setContentTitle("Hello mnnitians")
+                .setContentText("Build your resume nowwwwwww")
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_MAX);
 
         if (intent.getAction().equals("MY_NOTIFICATION_MESSAGE")) {
             notificationManager.notify(100,builder.build());
