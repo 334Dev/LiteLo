@@ -1,6 +1,5 @@
 package com.example.litelo;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -10,8 +9,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-
-import com.example.litelo.ui.home.HomeFragment;
 
 public class Notification_receiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -27,7 +24,7 @@ public class Notification_receiver extends BroadcastReceiver {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent repeating_intent = new Intent(context, HomeFragment.class);
+        Intent repeating_intent = new Intent(context, HomeActivity.class);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent=PendingIntent.getActivity(context,100,repeating_intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -37,11 +34,11 @@ public class Notification_receiver extends BroadcastReceiver {
 
 
 
-        NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"")
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"LiteLoNotify")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Anant Bhadwa")
-                .setContentText("Attandence ki maa chud gyi")
+                .setContentTitle("Darpan lubs Aditya")
+                .setContentText("Dono gay hai")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
