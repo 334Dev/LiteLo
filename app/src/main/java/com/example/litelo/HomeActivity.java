@@ -71,13 +71,13 @@ public class HomeActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
 
         calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE, 53);
+        calendar.set(Calendar.MINUTE, 27);
         calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
         intent.setAction("MY_NOTIFICATION_MESSAGE");
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
