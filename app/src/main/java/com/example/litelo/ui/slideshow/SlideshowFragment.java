@@ -17,12 +17,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.litelo.R;
 import com.example.litelo.createPDF;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SlideshowFragment extends Fragment {
 
     private SlideshowViewModel slideshowViewModel;
     private ImageView createImg;
-    private TextView createTxt;
+    private TextView createTxt,greetingTxt;
+    private FirebaseAuth mAuth;
+    private String UserID;
+    private FirebaseFirestore firestore;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,6 +57,38 @@ public class SlideshowFragment extends Fragment {
                 createpdf();
             }
         });
+        mAuth=FirebaseAuth.getInstance();
+        UserID=mAuth.getCurrentUser().getUid();
+        firestore=FirebaseFirestore.getInstance();
+        greetingTxt=root.findViewById(R.id.greeting_resume);
+
+
+
+        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String name=documentSnapshot.getString("Name");
+
+                String lastName = "";
+                String firstName= "";
+                if(name.split("\\w+").length>1){
+
+                    lastName = name.substring(name.lastIndexOf(" ")+1);
+                    firstName = name.substring(0, name.lastIndexOf(' '));
+                }
+                else{
+                    firstName = name;
+                }
+
+
+                greetingTxt.setText("Hi "+firstName+",");
+
+
+            }
+        });
+
+
+
 
         return root;
     }
