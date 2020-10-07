@@ -1,5 +1,6 @@
 package com.example.litelo;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -332,6 +333,8 @@ public class createPDF extends AppCompatActivity {
                 try {
                     MyPdfDocument.writeTo(new FileOutputStream(file));
                     Toast.makeText(getApplicationContext(), "Added", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(getApplicationContext(),PDFViewPage.class);
+                    startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
