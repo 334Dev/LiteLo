@@ -1,7 +1,14 @@
 package com.example.litelo;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -29,6 +37,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -36,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
-    private TextView headerName, headerReg,ViewProfile;
+    private TextView headerName, headerReg, ViewProfile;
     private CircleImageView headerPic;
     private FirebaseFirestore firestore;
     private String UserID;
@@ -50,39 +60,55 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //Notification in progress
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 33);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
+        intent.setAction("MY_NOTIFICATION_MESSAGE");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
         //checking whether login or not
-        mAuth=FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser().getUid().isEmpty()){
-            Intent i= new Intent(HomeActivity.this, MainActivity.class);
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser().getUid().isEmpty()) {
+            Intent i = new Intent(HomeActivity.this, MainActivity.class);
             startActivity(i);
-        }
-        else{
-           UserID=mAuth.getCurrentUser().getUid();
+        } else {
+            UserID = mAuth.getCurrentUser().getUid();
         }
         //Firestore instance
-        firestore=FirebaseFirestore.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         //Inflate the header view
-        View headerView= navigationView.inflateHeaderView(R.layout.nav_header_main);
-        headerName=headerView.findViewById(R.id.header_Name);
-        headerReg=headerView.findViewById(R.id.branch_Reg);
-        headerPic=headerView.findViewById(R.id.header_Pic);
-        ViewProfile=headerView.findViewById(R.id.viewProfile);
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        headerName = headerView.findViewById(R.id.header_Name);
+        headerReg = headerView.findViewById(R.id.branch_Reg);
+        headerPic = headerView.findViewById(R.id.header_Pic);
+        ViewProfile = headerView.findViewById(R.id.viewProfile);
 
         ViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-               Intent i= new Intent(HomeActivity.this,profileActivity.class);
+                Intent i = new Intent(HomeActivity.this, profileActivity.class);
                 startActivity(i);
 
             }
         });
-        storageReference= FirebaseStorage.getInstance().getReference();
-        StorageReference profileRef=storageReference.child("users/"+mAuth.getCurrentUser().getUid()+"/profile.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileRef = storageReference.child("users/" + mAuth.getCurrentUser().getUid() + "/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -97,17 +123,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
         //headerView Text
         setHeaderViewText();
-
-
-
 
 
         // Passing each menu ID as a set of Ids because each
@@ -129,18 +146,17 @@ public class HomeActivity extends AppCompatActivity {
         firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String name=documentSnapshot.getString("Name");
-                String group=documentSnapshot.getString("Group");
-                String reg=documentSnapshot.getString("RegNo");
+                String name = documentSnapshot.getString("Name");
+                String group = documentSnapshot.getString("Group");
+                String reg = documentSnapshot.getString("RegNo");
 
                 headerName.setText(name);
-                String regtxt=group+", "+reg;
+                String regtxt = group + ", " + reg;
                 headerReg.setText(regtxt);
 
             }
         });
     }
-
 
 
     @Override
@@ -151,7 +167,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
 
                 return false;
             }
@@ -160,7 +176,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Toast.makeText(getApplicationContext(),"Nahi bana hai",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
 
                 return false;
             }
@@ -179,9 +195,8 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    private void gotoMainActivity()
-    {
-        Intent intent= new Intent(HomeActivity.this, MainActivity.class);
+    private void gotoMainActivity() {
+        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -192,4 +207,21 @@ public class HomeActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+    public void initChannels(Context context) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return;
+        }
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel("default",
+                "Channel name",
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Channel description");
+        notificationManager.createNotificationChannel(channel);
+
+
+    }
+
 }
