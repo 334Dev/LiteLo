@@ -10,11 +10,9 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.text.style.BulletSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +47,14 @@ public class SlideshowFragment extends Fragment {
     private  String[] areasOfInterest={"Data Structures and Algorithms","Android Development","Competitive Programming","Software Development"};
     private  String[] computerSkillKey={"Programming Languages","Android","Video Editing"};
     private  String[] computerSkillValue={"C,C++,Java,Python","Native Development","Adobe Premiere Pro"};
-
+    private String[] ProjectName={"Yantriki","Golden Ratio App","LiteLo"};
+    private String[] project0={"An android quiz app for conducting timer based quiz","Technology Stack: Android Studio, Firebase, Adobe Illustrator, Adobe XD.","https://github.com/SAEapp/Automobile-Quiz-App-2"};
+    private String[] project1={"An android app for educating people about golden ratio.","Technology Stack: Android Studio, Firebase, Google ML Kit, Adobe After effects, Adobe Illustrator Adobe XD.","https://github.com/iamanantshukla/GoldenRatio"};
+    private String[] project2={"An android quiz app for conducting timer based quiz","Technology Stack: Android Studio, Firebase, Adobe Illustrator, Adobe XD.","https://github.com/SAEapp/Automobile-Quiz-App-2"};
+    private String[] Hobbies={"Listening Music", "Badminton","Cinematography"};
+    private String[] Awards={"Secured 1st Position in “Cisco Thinqbator design challenge Virtual Hackathon” for working under\n" +
+            "the prototype of Covid Tracking and Temperature Monitoring Model","Secured 2nd Position in “The Mighty Pen-Eloquence 2020” Annual Literary Fest of MNNIT Allahabad."
+            ,"Secured 2nd Position in Debate-Eloquence 2020” Annual Literary Fest of MNNIT Allahabad."};
 
 
     private Float xR=120.0f;
@@ -135,7 +140,7 @@ public class SlideshowFragment extends Fragment {
                         "To use my problem solving skills to solve real life problems and help the world to become better and more connected."+
                         "To use my problem solving skills to solve real life problems and help the world to become better and more connected.";
 
-                StaticLayout smallStaticLayout=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,184).build();
+                StaticLayout smallStaticLayout=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,194).build();
 
                 canvas.translate(8,60);
                 smallStaticLayout.draw(canvas);
@@ -225,36 +230,119 @@ public class SlideshowFragment extends Fragment {
                 canvas.translate(107,-27);
                 myPaint.setColor(Color.parseColor("#D3D3D3"));
                 myPaint.setStrokeWidth(7f);
-                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight +10f,myPaint);
+                canvas.drawLine(8f,MainY+ObjectiveHeight +10f,202f,MainY+ObjectiveHeight+10f,myPaint);
 
                 myPaint.setTextAlign(Paint.Align.LEFT);
 
                 myPaint.setTextSize(5f);
                 myPaint.setColor(Color.parseColor("#000000"));
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                canvas.drawText("Projects", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+                canvas.drawText("Projects", 10,MainY+ObjectiveHeight+11.2f,myPaint);
+                MainY=MainY+ObjectiveHeight+11.2f-5f;
 
+                Log.i("ProjectName_Length", "onClick: "+ProjectName.length);
+                myPaint.setTextSize(3.5f);
+                for(int i=0;i<ProjectName.length;i++){
+                    MainY=MainY+12f;
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
+                    canvas.drawText(ProjectName[i],8,MainY,myPaint);
+                    for(int j=0;j<3;j++){
+                        myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_medium), Typeface.NORMAL));
+                        if(i==0) {
+                            str = "•  " + project0[j];
+                        }else if(i==1){
+                            str = "•  " + project1[j];
+                        }else if(i==2){
+                            str = "•  " + project2[j];
+                        }
+                        StaticLayout Proj=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,190).build();
+                        canvas.translate(12,MainY);
+                        MainY=MainY+Proj.getHeight()+5f;
+                        Proj.draw(canvas);
+                        canvas.translate(-12,-MainY);
+                        MainY=MainY+5f;
+                    }
+                    MainY=MainY-5f;
+                }
 
+                myPaint.setColor(Color.parseColor("#D3D3D3"));
+                myPaint.setStrokeWidth(7f);
+                canvas.drawLine(8f,MainY+12f,202f,MainY+12f,myPaint);
 
+                myPaint.setTextAlign(Paint.Align.LEFT);
 
+                myPaint.setTextSize(5f);
+                myPaint.setColor(Color.parseColor("#000000"));
+                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                canvas.drawText("Hobbies", 10,MainY+13.2f,myPaint);
+                MainY=MainY+13.2f;
+                myPaint.setTextSize(3.5f);
+                MainY=MainY+8f;
+                for(int i=0;i<Hobbies.length;i++){
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                    canvas.drawText("•  "+Hobbies[i], 8, MainY, myPaint);
+                    MainY=MainY+5f;
+                }
+                MainY=MainY-5f;
+                Integer neededSpace=Awards.length*8+30;
+                if(297-MainY>neededSpace){
+                    myPaint.setColor(Color.parseColor("#D3D3D3"));
+                    myPaint.setStrokeWidth(7f);
+                    canvas.drawLine(8f,MainY+12f,202f,MainY+12f,myPaint);
 
+                    myPaint.setTextAlign(Paint.Align.LEFT);
 
+                    myPaint.setTextSize(5f);
+                    myPaint.setColor(Color.parseColor("#000000"));
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                    canvas.drawText("Hobbies", 10,MainY+13.2f,myPaint);
+                    MainY=MainY+13.2f;
+                    myPaint.setTextSize(3.5f);
+                    MainY=MainY+4f;
+                    for(int i=0;i<Awards.length;i++){
+                        myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                        str="•  "+Awards[i];
+                        StaticLayout awards=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,192).build();
+                        ObjectiveHeight=awards.getHeight();
+                        canvas.translate(8,MainY);
+                        awards.draw(canvas);
+                        canvas.translate(-8,-MainY);
+                        MainY=MainY+ObjectiveHeight+2f;
+                    }
+                    MyPdfDocument.finishPage(myPage1);
+                }else{
+                    MyPdfDocument.finishPage(myPage1);
+                    PdfDocument.PageInfo myPageInfo2 = new PdfDocument.PageInfo.
+                            Builder(210, 297, 2).create();
+                    PdfDocument.Page myPage2 = MyPdfDocument.startPage(myPageInfo2);
 
+                    Canvas canvas2 = myPage2.getCanvas();
 
+                    myPaint.setColor(Color.parseColor("#D3D3D3"));
+                    myPaint.setStrokeWidth(7f);
+                    canvas2.drawLine(8f,12,202f,12,myPaint);
 
+                    myPaint.setTextAlign(Paint.Align.LEFT);
 
-
-
-
-
-
-
-
-
-                MyPdfDocument.finishPage(myPage1);
-
-
-
+                    myPaint.setTextSize(5f);
+                    myPaint.setColor(Color.parseColor("#000000"));
+                    myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                    canvas2.drawText("Awards & Achievements", 10,13,myPaint);
+                    MainY=13f;
+                    myPaint.setTextSize(3.5f);
+                    MainY=MainY+4f;
+                    for(int i=0;i<Awards.length;i++){
+                        myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                        str="•  "+Awards[i];
+                        StaticLayout awards=StaticLayout.Builder.obtain(str,0,str.length()-1,myPaint,192).build();
+                        ObjectiveHeight=awards.getHeight();
+                        canvas2.translate(8,MainY);
+                        awards.draw(canvas2);
+                        canvas2.translate(-8,-MainY);
+                        MainY=MainY+ObjectiveHeight+2f;
+                    }
+                    MyPdfDocument.finishPage(myPage2);
+                }
 
                 File file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
                 try {
