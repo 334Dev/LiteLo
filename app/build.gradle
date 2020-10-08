@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.0"
 
-    lintOptions{
+    lintOptions {
         disable 'GradleDependency'
     }
 
@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.google.firebase:firebase-database:16.0.4'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
     testImplementation 'junit:junit:4.12'
     implementation 'com.hbb20:ccp:2.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
