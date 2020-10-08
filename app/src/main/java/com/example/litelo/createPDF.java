@@ -14,6 +14,7 @@ import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -52,13 +53,30 @@ public class createPDF extends AppCompatActivity {
     private Float yR=y+3.0f;
     private Float yL=y+10.0f;
 
+    private Integer PERSONAL_FLAG=0;
 
+    private LinearLayout personalGroup;
+    private LinearLayout personalItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_p_d_f);
         generate=findViewById(R.id.genButton);
+        personalGroup=findViewById(R.id.PersonalGroup);
+        personalItems=findViewById(R.id.personalItems);
+        personalGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PERSONAL_FLAG==0) {
+                    personalItems.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    PERSONAL_FLAG=1;
+                }else{
+                    personalItems.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
+                    PERSONAL_FLAG=0;
+                }
+            }
+        });
         CreatePdf();
     }
 

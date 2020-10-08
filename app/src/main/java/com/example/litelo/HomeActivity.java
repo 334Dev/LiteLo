@@ -1,9 +1,7 @@
 package com.example.litelo;
 
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,8 +33,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -65,22 +61,7 @@ public class HomeActivity extends AppCompatActivity {
             NotificationManager manager= getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
 
-        }
-        //Notification in progress
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE,7);
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
-        intent.setAction("MY_NOTIFICATION_MESSAGE");
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);*/
-
+        }*/
 
         //checking whether login or not
         mAuth = FirebaseAuth.getInstance();
