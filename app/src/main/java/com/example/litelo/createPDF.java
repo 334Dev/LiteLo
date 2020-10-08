@@ -347,6 +347,12 @@ public class createPDF extends AppCompatActivity {
                     MyPdfDocument.finishPage(myPage2);
                 }
 
+                y=17.368f;
+                MainY=54.86f;
+                yR=y+3.0f;
+                yL=y+10.0f;
+
+
                 File file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
                 try {
                     MyPdfDocument.writeTo(new FileOutputStream(file));
