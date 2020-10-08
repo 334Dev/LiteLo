@@ -3,6 +3,7 @@ package com.example.litelo;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,7 +29,9 @@ public class PDFViewPage extends AppCompatActivity {
         setContentView(R.layout.activity_p_d_f_view_page);
         pdfView=findViewById(R.id.pdfView);
         file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
-        pdfView.fromFile(file).load();
+
+        pdfView.fromFile(file).spacing(6).load();
+        pdfView.setBackgroundColor(Color.BLACK);
         shareButton=findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
