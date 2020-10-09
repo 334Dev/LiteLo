@@ -1,275 +1,551 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    android:orientation="vertical"
-    android:paddingTop="32dp"
-    tools:context=".createPDF">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/PersonalGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:paddingTop="32dp"
+        tools:context=".createPDF">
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            app:srcCompat="@drawable/add" />
-
-        <TextView
-            android:id="@+id/personalinfo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/PersonalGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/helveticaneue_sem"
-            android:paddingLeft="32dp"
-            android:text="Personal Information"
-            android:textColor="@color/colorWhite"
-            android:textSize="24dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/personalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Personal Information"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/personalItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personalItems" />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/personalItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
 
-        <EditText
-            android:id="@+id/name"
+            <EditText
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Phone Number"
+                android:inputType="number"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/github"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="GitHub "
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/linkedIn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="LinkedIn "
+                android:inputType="textEmailAddress"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/currentInstitute"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="Full Name"
-            android:inputType="textPersonName"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-        <EditText
-            android:id="@+id/github"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="GitHub "
-            android:inputType="text"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-        <EditText
-            android:id="@+id/linkedIn"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="LinkedIn "
-            android:inputType="textEmailAddress"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/currentInstitute"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/add" />
-
-        <TextView
-            android:id="@+id/instituteDetail"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="@font/helveticaneue_sem"
-            android:paddingLeft="32dp"
-            android:text="Current Institute Detail"
-            android:textColor="@color/colorWhite"
-            android:textSize="24dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/instituteDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Current Institute Detail"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/currentInstituteList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personalItems" />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/currentInstituteList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/discipline"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Discipline"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
 
-        <EditText
-            android:id="@+id/discipline"
+            <EditText
+                android:id="@+id/branch"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Branch"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/college"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="College"
+                android:inputType="textEmailAddress"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/careerObj"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="Discipline"
-            android:inputType="textPersonName"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-        <EditText
-            android:id="@+id/branch"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="Branch"
-            android:inputType="text"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-        <EditText
-            android:id="@+id/college"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="6dp"
-            android:background="@drawable/insidetext"
-            android:ems="10"
-            android:hint="College"
-            android:inputType="textEmailAddress"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/careerObj"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:paddingStart="16dp">
-
-        <ImageView
-            android:id="@+id/objectiveI"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/add" />
-
-        <TextView
-            android:id="@+id/objectiveN"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="@font/helveticaneue_sem"
-            android:paddingLeft="32dp"
-            android:text="Career Objective"
-            android:textColor="@color/colorWhite"
-            android:textSize="24dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/objectiveI"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/objectiveN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Career Objective"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ObjectiveList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personalItems" />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/ObjectiveList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/objective"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/longtext_in"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="Objective"
+                android:inputType="textMultiLine"
+                android:maxLines="12"
+                android:paddingStart="22dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="22dp"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
 
-        <EditText
-            android:id="@+id/objective"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/education"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/longtext_in"
-            android:ems="10"
-            android:hint="Objective"
-            android:gravity="start"
-            android:inputType="textMultiLine"
-            android:maxLines="8"
-            android:singleLine="false"
-            android:textAlignment="viewStart"
-            android:paddingTop="22dp"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/educationI"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/educationN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Education"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/educationList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/schoolX3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="X Class"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/nameSchool5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="School"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/Xpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="Passing year"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+
+                <EditText
+                    android:id="@+id/Xcgpa"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="% / CGPA"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/schoolX2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="XII Class"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/nameSchool4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="School"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/XIIpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="Passing year"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+
+                <EditText
+                    android:id="@+id/XIIcgpa"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="% / CGPA"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/schoolX"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="College"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/nameSchool"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Institute Name"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/Cpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="Passing year"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+
+                <EditText
+                    android:id="@+id/Ccgpa"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/insidetext"
+                    android:ems="10"
+                    android:hint="% / CGPA"
+                    android:inputType="textPersonName"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/genButton"
+            android:layout_width="173dp"
+            android:layout_height="61dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/greenbutton"
+            android:fontFamily="@font/helveticaneue_medium"
+            android:text="generate"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/genButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="48dp"
-        android:text="generate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-</LinearLayout>
+</ScrollView>

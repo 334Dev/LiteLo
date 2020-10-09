@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         logo_name=findViewById(R.id.logo_name);
 
         //button
-        email=findViewById(R.id.email);
+        email=findViewById(R.id.mobile);
         google=findViewById(R.id.google);
         phone=findViewById(R.id.phone);
 

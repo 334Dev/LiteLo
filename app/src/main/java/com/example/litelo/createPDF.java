@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -23,14 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class createPDF extends AppCompatActivity {
     Button generate;
     private Float y=17.368f;
     private String[] KeyDataR={"Mobile","Email","GitHub","LinkedIn"};
-    private String[] ValueDataR={"+914234677431","mittal11darpan@gmail.com","github.com/iamanantshukla","linkedin.com/in/anant-shukla-16b1231b3/"};
+    private List<String> ValueDataR;
     private String[] KeyDataL={"Discipline","Branch","College"};
-    private String[] ValueDataL={"Bachelor of Technology","Electronics and Communication Engineering","Motilal Nehru National Institute of Technology"};
+    private List<String> ValueDataL;
     private String[] eduProgress={"B.Tech, Electronics and Communication","X CBSE","XII CBSE"};
     private String[] eduInstitute={"MNNIT Allahabad","Army Public School, N.R.","Army Public School, N.R."};
     private String[] eduCGPA={"7.7","10","94.4"};
@@ -58,6 +61,8 @@ public class createPDF extends AppCompatActivity {
     private LinearLayout personalGroup;
     private LinearLayout personalItems;
 
+    //personalInfo
+    private TextView Name, Email, Github, LinkedIn,Mobile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,15 @@ public class createPDF extends AppCompatActivity {
         generate=findViewById(R.id.genButton);
         personalGroup=findViewById(R.id.PersonalGroup);
         personalItems=findViewById(R.id.personalItems);
+
+        //personal info
+        Name=findViewById(R.id.name);
+        Email=findViewById(R.id.email);
+        Mobile=findViewById(R.id.mobile);
+        Github=findViewById(R.id.github);
+        LinkedIn=findViewById(R.id.linkedIn);
+
+
         personalGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +103,7 @@ public class createPDF extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onClick(View v) {
+                getTextField();
                 PdfDocument MyPdfDocument = new PdfDocument();
                 TextPaint myPaint = new TextPaint();
                 PdfDocument.PageInfo myPageInfo1 = new PdfDocument.PageInfo.
@@ -100,7 +115,7 @@ public class createPDF extends AppCompatActivity {
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
                 myPaint.setTextSize(9.131f);
 
-                canvas.drawText("Anant Shukla", 8, y, myPaint);
+                canvas.drawText(Name.getText().toString(), 8, y, myPaint);
 
                 myPaint.setTextSize(3.5f);
                 myPaint.setLinearText(true);
@@ -114,7 +129,7 @@ public class createPDF extends AppCompatActivity {
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
                     canvas.drawText(KeyDataR[i] + " : ", 116, yR, myPaint);
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                    canvas.drawText(ValueDataR[i], 134, yR, myPaint);
+                    canvas.drawText(ValueDataR.get(i), 134, yR, myPaint);
                     yR = yR + 7.0f;
 
                 }
@@ -124,7 +139,7 @@ public class createPDF extends AppCompatActivity {
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
                     canvas.drawText(KeyDataL[i] + " : ", 8, yL, myPaint);
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                    canvas.drawText(ValueDataL[i], 30, yL, myPaint);
+                    canvas.drawText(ValueDataL.get(i), 30, yL, myPaint);
                     yL=yL+7.0f;
                 }
                 myPaint.setColor(Color.parseColor("#D3D3D3"));
@@ -214,7 +229,7 @@ public class createPDF extends AppCompatActivity {
                 myPaint.setTextSize(5f);
                 myPaint.setColor(Color.parseColor("#000000"));
                 myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                canvas.drawText("Computer Skills", 10,MainY+ObjectiveHeight +11.2f,myPaint);
+                canvas.drawText("Skills", 10,MainY+ObjectiveHeight +11.2f,myPaint);
 
                 canvas.translate(-107,40);
                 myPaint.setTextSize(3.5f);
@@ -366,5 +381,14 @@ public class createPDF extends AppCompatActivity {
                 MyPdfDocument.close();
             }
         });
+    }
+
+    private void getTextField() {
+        ValueDataR=new ArrayList<>();
+        ValueDataR.add(Mobile.getText().toString());
+        ValueDataR.add(Email.getText().toString());
+        ValueDataR.add(Github.getText().toString());
+        ValueDataR.add(LinkedIn.getText().toString());
+
     }
 }
