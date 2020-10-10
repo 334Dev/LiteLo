@@ -1,6 +1,8 @@
 package com.example.litelo.ui.home;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,7 +42,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     private TextView  attText;
 
     private ViewGroup hintViewgrp;
-
+    Context context;
     public AttendenceAdaptor(List<AttendanceModel> attendanceModels, List<Double> timing, List<String> todaysClass) {
         this.attendanceModels = attendanceModels;
         this.timing=timing;
@@ -54,6 +56,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_model, parent, false);
         hintViewgrp=parent;
+        context=parent.getContext();
         view.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         return new AttendenceAdaptor.mViewHolder(view);
@@ -70,7 +73,9 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         holder.setTime(time);
     }
 
+
     @Override
+
     public int getItemCount() {
         return attendanceModels.size();
     }
@@ -87,15 +92,21 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             view=itemView;
             preBtn=view.findViewById(R.id.presentBtn);
             abeBtn=view.findViewById(R.id.absentBtn);
+
             preBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.sound);
+                    mediaPlayer.start();
                     increaseAtt(getAdapterPosition());
+
                 }
             });
             abeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.sound);
+                    mediaPlayer.start();
                     decreaseAtt(getAdapterPosition());
                 }
             });
@@ -221,6 +232,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         else  {
 
             if(abStatus){
+
                 Map<String, Double> map = new HashMap<>();
                 map.put("Present", present + 1);
                 map.put("Absent", absent - 1);
