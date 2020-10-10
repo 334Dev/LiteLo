@@ -441,61 +441,58 @@ public class createPDF extends AppCompatActivity {
 
                     myPaint.setColor(Color.parseColor("#D3D3D3"));
                     myPaint.setStrokeWidth(7f);
-                    canvas.drawLine(8f, MainY + ObjectiveHeight + 10f, 202f, MainY + ObjectiveHeight + 10f, myPaint);
+                    canvas.drawLine(8f, MainY + 10f, 202f, MainY + 10f, myPaint);
 
                     myPaint.setTextAlign(Paint.Align.LEFT);
                     myPaint.setTextSize(5f);
                     myPaint.setColor(Color.parseColor("#000000"));
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                    canvas.drawText("Areas of Interests", 10, MainY + ObjectiveHeight + 11.2f, myPaint);
-
-                    canvas.translate(-107, 40);
+                    canvas.drawText("Areas of Interests", 10, MainY +  11.2f, myPaint);
+                    MainY=MainY+11.2f+10f;
                     myPaint.setTextSize(3.5f);
                     for (int i = 0; i < areasOfInterest.size(); i++) {
                         MainY = MainY + 5f;
                         myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
-                        canvas.drawText("•", 116, MainY, myPaint);
+                        canvas.drawText("•", 8, MainY, myPaint);
                         myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                        canvas.drawText(areasOfInterest.get(i), 120, MainY, myPaint);
+                        canvas.drawText(areasOfInterest.get(i), 10, MainY, myPaint);
 
                     }
 
-                    canvas.translate(107, -27);
                     myPaint.setColor(Color.parseColor("#D3D3D3"));
                     myPaint.setStrokeWidth(7f);
-                    canvas.drawLine(8f, MainY + ObjectiveHeight + 10f, 202f, MainY + ObjectiveHeight + 10f, myPaint);
+                    canvas.drawLine(8f, MainY +  10f, 202f, MainY +  10f, myPaint);
 
                     myPaint.setTextAlign(Paint.Align.LEFT);
 
                     myPaint.setTextSize(5f);
                     myPaint.setColor(Color.parseColor("#000000"));
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                    canvas.drawText("Skills", 10, MainY + ObjectiveHeight + 11.2f, myPaint);
+                    canvas.drawText("Skills", 10, MainY +  11.2f, myPaint);
 
-                    canvas.translate(-107, 40);
+                    MainY=MainY + 11.2f+5f;
                     myPaint.setTextSize(3.5f);
                     for (int i = 0; i < computerSkillKey.size(); i++) {
                         MainY = MainY + 5f;
                         myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.BOLD));
-                        canvas.drawText("•  " + computerSkillKey.get(i), 116, MainY, myPaint);
+                        canvas.drawText("•  " + computerSkillKey.get(i), 8, MainY, myPaint);
                         myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                        canvas.drawText(": " + computerSkillValue.get(i), 180, MainY, myPaint);
+                        canvas.drawText(": " + computerSkillValue.get(i), 120, MainY, myPaint);
 
                     }
 
 
-                    canvas.translate(107, -27);
                     myPaint.setColor(Color.parseColor("#D3D3D3"));
                     myPaint.setStrokeWidth(7f);
-                    canvas.drawLine(8f, MainY + ObjectiveHeight + 10f, 202f, MainY + ObjectiveHeight + 10f, myPaint);
+                    canvas.drawLine(8f, MainY + 10f, 202f, MainY  + 10f, myPaint);
 
                     myPaint.setTextAlign(Paint.Align.LEFT);
 
                     myPaint.setTextSize(5f);
                     myPaint.setColor(Color.parseColor("#000000"));
                     myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                    canvas.drawText("Projects", 10, MainY + ObjectiveHeight + 11.2f, myPaint);
-                    MainY = MainY + ObjectiveHeight + 11.2f - 5f;
+                    canvas.drawText("Projects", 10, MainY +  11.2f, myPaint);
+                    MainY = MainY + 11.2f + 5f;
 
                     Log.i("ProjectName_Length", "onClick: " + ProjectName.size());
                     myPaint.setTextSize(3.5f);
