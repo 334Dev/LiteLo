@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -126,7 +127,7 @@
                 android:background="@drawable/insidetext"
                 android:ems="10"
                 android:hint="LinkedIn "
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:paddingStart="22dp"
                 android:paddingEnd="22dp"
                 android:textColor="@color/colorWhite"
@@ -324,7 +325,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/schoolX3"
+                android:id="@+id/schoolX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -334,7 +335,7 @@
                 android:textSize="22sp" />
 
             <EditText
-                android:id="@+id/nameSchool5"
+                android:id="@+id/xSchool"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
@@ -393,7 +394,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/schoolX2"
+                android:id="@+id/schoolXII"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -403,7 +404,7 @@
                 android:textSize="22sp" />
 
             <EditText
-                android:id="@+id/nameSchool4"
+                android:id="@+id/xiiSchool"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
@@ -462,7 +463,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/schoolX"
+                android:id="@+id/nameCollege"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -472,7 +473,7 @@
                 android:textSize="22sp" />
 
             <EditText
-                android:id="@+id/nameSchool"
+                android:id="@+id/collegeName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
@@ -531,11 +532,864 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/InterestGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/InterestInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Area of Interest"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/InterestItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/interest1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*Interest 1"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/interest2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*Interest 2"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/interest3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*Interest 3"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/interest4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Interest 4"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/interest5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Interest 5"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skills"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/skillsI"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/skillsN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Skills"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/skillsList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/skill1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Skill 1*"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/skillType1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skill Type"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/skillList1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skills"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/skill2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Skill 2*"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/skillType2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skill Type"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/skillList2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skills"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/skill3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Skill 3"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/skillType3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skill Type"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/skillList3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Skills"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/project"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/projectI"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/projectN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Project"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/projectList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/pro1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Project 1*"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro1name3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Project Name"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/pro1Desc3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:paddingTop="16dp"
+                android:text="Project Description"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro1Desc7"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="1."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro1Desc8"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="2."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro1Desc9"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="3."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/pro2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Project 2"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro2name2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Project Name"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/pro2Desc2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:paddingTop="16dp"
+                android:text="Project Description"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro2Desc4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="1."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro2Desc5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="2."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro2Desc6"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="3."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/pro3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:paddingTop="16dp"
+                android:text="Project 3"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro3name"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="Project Name"
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/pro3Desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:paddingTop="16dp"
+                android:text="Project Description"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/pro3Desc1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="1."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro3Desc2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="2."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/pro3Desc3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="3."
+                android:inputType="textPersonName"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/HobbyGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/hobbyadd"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/HobbyInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Hobby"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/HobbyItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/hobby1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*hobby 1"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/hobby2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*hobby 2"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/hobby3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="*hobby 3"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/hobby4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="hobby 4"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/hobby5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/insidetext"
+                android:ems="10"
+                android:hint="hobby 5"
+                android:inputType="text"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/awards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/awardI"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:id="@+id/awardN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/helveticaneue_sem"
+                android:paddingLeft="32dp"
+                android:text="Awards an Achievements"
+                android:textColor="@color/colorWhite"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/personalItems" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/awardList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/award1"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/longtext_in"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="*1."
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:paddingStart="22dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="22dp"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/award2"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/longtext_in"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="2."
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:paddingStart="22dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="22dp"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/award3"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/longtext_in"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="3."
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:paddingStart="22dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="22dp"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/award4"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/longtext_in"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="4."
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:paddingStart="22dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="22dp"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/genButton"
             android:layout_width="173dp"
             android:layout_height="61dp"
             android:layout_gravity="center"
+            android:layout_marginTop="48dp"
             android:layout_marginBottom="48dp"
             android:background="@drawable/greenbutton"
             android:fontFamily="@font/helveticaneue_medium"
