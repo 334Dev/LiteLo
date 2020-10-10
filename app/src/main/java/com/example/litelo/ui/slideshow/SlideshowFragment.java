@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.litelo.PDFViewPage;
 import com.example.litelo.R;
 import com.example.litelo.createPDF;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,8 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SlideshowFragment extends Fragment {
 
     private SlideshowViewModel slideshowViewModel;
-    private ImageView createImg;
-    private TextView createTxt,greetingTxt;
+    private ImageView createImg,ViewPdfImg;
+    private TextView createTxt,greetingTxt,viewPdfText;
     private FirebaseAuth mAuth;
     private String UserID;
     private FirebaseFirestore firestore;
@@ -45,6 +46,8 @@ public class SlideshowFragment extends Fragment {
 
         createImg=root.findViewById(R.id.createImg);
         createTxt=root.findViewById(R.id.createTxt);
+        viewPdfText=root.findViewById(R.id.textView13);
+        ViewPdfImg=root.findViewById(R.id.imageView7);
         createTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +58,18 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createpdf();
+            }
+        });
+        viewPdfText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPdf();
+            }
+        });
+        ViewPdfImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPdf();
             }
         });
         mAuth=FirebaseAuth.getInstance();
@@ -90,10 +105,16 @@ public class SlideshowFragment extends Fragment {
 
 
 
+
+
         return root;
     }
     void createpdf(){
         Intent i= new Intent(getActivity(), createPDF.class);
+        startActivity(i);
+    }
+    void viewPdf(){
+        Intent i= new Intent(getActivity(), PDFViewPage.class);
         startActivity(i);
     }
 
