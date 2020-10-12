@@ -1,19 +1,18 @@
 package com.example.litelo.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,7 +20,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.litelo.ListShow;
-import com.example.litelo.MainActivity;
 import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,10 +37,10 @@ import java.util.Map;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-import static com.example.litelo.R.id.action_signout;
-
 public class HomeFragment extends Fragment {
 
+    private AlertDialog.Builder builder;
+    private AlertDialog show;
     private HomeViewModel homeViewModel;
     private FirebaseFirestore firestore;
     private TextView className, className2, disc, disc2, timeDate, timeDate2,subjectName, subjectDesc,attText;
@@ -71,6 +69,14 @@ public class HomeFragment extends Fragment {
         //Firebase Instances
         firestore=FirebaseFirestore.getInstance();
         mAuth= FirebaseAuth.getInstance();
+
+        //loading dailog
+        builder=new AlertDialog.Builder(getContext());
+        builder.setView(R.layout.loading_dailog);
+        builder.setCancelable(true);
+        show = builder.show();
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
         //Club classes
         className=root.findViewById(R.id.className);
@@ -137,7 +143,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return root;
     }
 
@@ -227,9 +232,9 @@ public class HomeFragment extends Fragment {
                 for(DocumentSnapshot snapshot:snapshotList){
                     todayClass.add(snapshot.getString("Subject"));
                     timing.add(snapshot.getDouble("Time"));
-
                 }
                 //after getting today's classes setting classes based on userProfile data
+                show.dismiss();
                 setTodaysClass();
 
             }
@@ -239,8 +244,6 @@ public class HomeFragment extends Fragment {
                 Log.i("fail1", "onFailure: timing and subject");
             }
         });
-
-
 
     }
     //setting today's class with personalized data
@@ -271,7 +274,7 @@ public class HomeFragment extends Fragment {
         viewPager.setPadding(250,0,250,0);
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
 
         //OnPageSelected
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

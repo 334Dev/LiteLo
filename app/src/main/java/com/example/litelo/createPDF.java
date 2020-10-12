@@ -532,99 +532,57 @@ public class createPDF extends AppCompatActivity {
                     MainY = MainY + 13.2f;
                     myPaint.setTextSize(3.5f);
                     MainY = MainY + 8f;
-                    if(297-MainY>35) {
-                        for (int i = 0; i < Hobbies.size(); i++) {
-                            myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                            canvas.drawText("•  " + Hobbies.get(i), 8, MainY, myPaint);
-                            MainY = MainY + 5f;
-                        }
-                        MainY = MainY - 5f;
-                        Integer neededSpace = Awards.size() * 8 + 30;
-                        if (297 - MainY > neededSpace) {
-                            myPaint.setColor(Color.parseColor("#D3D3D3"));
-                            myPaint.setStrokeWidth(7f);
-                            canvas.drawLine(8f, MainY + 12f, 202f, MainY + 12f, myPaint);
-
-                            myPaint.setTextAlign(Paint.Align.LEFT);
-
-                            myPaint.setTextSize(5f);
-                            myPaint.setColor(Color.parseColor("#000000"));
-                            myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                            canvas.drawText("Hobbies", 10, MainY + 13.2f, myPaint);
-                            MainY = MainY + 13.2f;
-                            myPaint.setTextSize(3.5f);
-                            MainY = MainY + 4f;
-                            for (int i = 0; i < Awards.size(); i++) {
-                                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                                str = "•  " + Awards.get(i);
-                                StaticLayout awards = StaticLayout.Builder.obtain(str, 0, str.length() - 1, myPaint, 192).build();
-                                ObjectiveHeight = awards.getHeight();
-                                canvas.translate(8, MainY);
-                                awards.draw(canvas);
-                                canvas.translate(-8, -MainY);
-                                MainY = MainY + ObjectiveHeight + 2f;
-                            }
-                            MyPdfDocument.finishPage(myPage1);
-                        } else {
-                            MyPdfDocument.finishPage(myPage1);
-                            PdfDocument.PageInfo myPageInfo2 = new PdfDocument.PageInfo.
-                                    Builder(210, 297, 2).create();
-                            PdfDocument.Page myPage2 = MyPdfDocument.startPage(myPageInfo2);
-
-                            Canvas canvas2 = myPage2.getCanvas();
-
-                            myPaint.setColor(Color.parseColor("#D3D3D3"));
-                            myPaint.setStrokeWidth(7f);
-                            canvas2.drawLine(8f, 12, 202f, 12, myPaint);
-
-                            myPaint.setTextAlign(Paint.Align.LEFT);
-
-                            myPaint.setTextSize(5f);
-                            myPaint.setColor(Color.parseColor("#000000"));
-                            myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                            canvas2.drawText("Awards & Achievements", 10, 13, myPaint);
-                            MainY = 13f;
-                            myPaint.setTextSize(3.5f);
-                            MainY = MainY + 4f;
-                            for (int i = 0; i < Awards.size(); i++) {
-                                myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                                str = "•  " + Awards.get(i);
-                                StaticLayout awards = StaticLayout.Builder.obtain(str, 0, str.length() - 1, myPaint, 192).build();
-                                ObjectiveHeight = awards.getHeight();
-                                canvas2.translate(8, MainY);
-                                awards.draw(canvas2);
-                                canvas2.translate(-8, -MainY);
-                                MainY = MainY + ObjectiveHeight + 2f;
-                            }
-                            MyPdfDocument.finishPage(myPage2);
-                        }
-
-
-                    }else{
-                        MyPdfDocument.finishPage(myPage1);
-                        PdfDocument.PageInfo myPageInfo2 = new PdfDocument.PageInfo.
-                                Builder(210, 297, 2).create();
-                        PdfDocument.Page myPage2 = MyPdfDocument.startPage(myPageInfo2);
-                        MainY=8f;
-                        Canvas canvas2 = myPage2.getCanvas();
-                        for (int i = 0; i < Hobbies.size(); i++) {
-                            myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
-                            canvas2.drawText("•  " + Hobbies.get(i), 8, MainY, myPaint);
-                            MainY = MainY + 5f;
-                        }
-                        MainY = MainY - 5f;
-
+                    for (int i = 0; i < Hobbies.size(); i++) {
+                        myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                        canvas.drawText("•  " + Hobbies.get(i), 8, MainY, myPaint);
+                        MainY = MainY + 5f;
+                    }
+                    MainY = MainY - 5f;
+                    Integer neededSpace = Awards.size() * 8 + 30;
+                    if (297 - MainY > neededSpace) {
                         myPaint.setColor(Color.parseColor("#D3D3D3"));
                         myPaint.setStrokeWidth(7f);
-                        canvas2.drawLine(8f, 5+MainY, 202f, 12, myPaint);
+                        canvas.drawLine(8f, MainY + 12f, 202f, MainY + 12f, myPaint);
 
                         myPaint.setTextAlign(Paint.Align.LEFT);
 
                         myPaint.setTextSize(5f);
                         myPaint.setColor(Color.parseColor("#000000"));
                         myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
-                        canvas2.drawText("Awards & Achievements", 10, 6+MainY, myPaint);
-                        MainY = MainY+6f;
+                        canvas.drawText("Hobbies", 10, MainY + 13.2f, myPaint);
+                        MainY = MainY + 13.2f;
+                        myPaint.setTextSize(3.5f);
+                        MainY = MainY + 4f;
+                        for (int i = 0; i < Awards.size(); i++) {
+                            myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_normal), Typeface.NORMAL));
+                            str = "•  " + Awards.get(i);
+                            StaticLayout awards = StaticLayout.Builder.obtain(str, 0, str.length() - 1, myPaint, 192).build();
+                            ObjectiveHeight = awards.getHeight();
+                            canvas.translate(8, MainY);
+                            awards.draw(canvas);
+                            canvas.translate(-8, -MainY);
+                            MainY = MainY + ObjectiveHeight + 2f;
+                        }
+                        MyPdfDocument.finishPage(myPage1);
+                    } else {
+                        MyPdfDocument.finishPage(myPage1);
+                        PdfDocument.PageInfo myPageInfo2 = new PdfDocument.PageInfo.
+                                Builder(210, 297, 2).create();
+                        PdfDocument.Page myPage2 = MyPdfDocument.startPage(myPageInfo2);
+
+                        Canvas canvas2 = myPage2.getCanvas();
+
+                        myPaint.setColor(Color.parseColor("#D3D3D3"));
+                        myPaint.setStrokeWidth(7f);
+                        canvas2.drawLine(8f, 12, 202f, 12, myPaint);
+
+                        myPaint.setTextAlign(Paint.Align.LEFT);
+
+                        myPaint.setTextSize(5f);
+                        myPaint.setColor(Color.parseColor("#000000"));
+                        myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_semi), Typeface.NORMAL));
+                        canvas2.drawText("Awards & Achievements", 10, 13, myPaint);
+                        MainY = 13f;
                         myPaint.setTextSize(3.5f);
                         MainY = MainY + 4f;
                         for (int i = 0; i < Awards.size(); i++) {
@@ -639,7 +597,6 @@ public class createPDF extends AppCompatActivity {
                         }
                         MyPdfDocument.finishPage(myPage2);
                     }
-
 
                     y = 17.368f;
                     MainY = 54.86f;
@@ -777,7 +734,7 @@ public class createPDF extends AppCompatActivity {
         Hobbies.add(hobby3.getText().toString());
 
 
-        if(hobby4.getText().toString().isEmpty()){
+        /*if(hobby4.getText().toString().isEmpty()){
             Log.i(TAG, "getTextField: hobby4 empty");
         }else{
             Hobbies.add(hobby4.getText().toString());
@@ -787,7 +744,7 @@ public class createPDF extends AppCompatActivity {
             Log.i(TAG, "getTextField: hobby4 empty");
         }else{
             Hobbies.add(hobby5.getText().toString());
-        }
+        }*/
 
         Awards=new ArrayList<>();
         Awards.add(award1.getText().toString());
