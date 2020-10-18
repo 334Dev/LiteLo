@@ -17,9 +17,11 @@ public class splashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        //overriding activity transition
         overridePendingTransition(R.anim.fadein, R.anim.splashscreen);
         mAuth= FirebaseAuth.getInstance();
 
+        //handler to delay
         Handler mHandler= new Handler();
         mHandler.postDelayed(new Runnable() {
             @Override

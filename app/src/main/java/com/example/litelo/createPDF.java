@@ -201,7 +201,7 @@ public class createPDF extends AppCompatActivity {
         award3=findViewById(R.id.award3);
         award4=findViewById(R.id.award4);
 
-
+        //expand and collapse personal fields
         personalGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +216,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse institute fields
         currentInstitute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,6 +231,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse career fields
         careerObj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,6 +246,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse education fields
         education.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,6 +261,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse interest fields
         interest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,6 +276,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse skills fields
         skills.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,6 +291,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse projects fields
         project.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,6 +306,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse awards fields
         awards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,6 +321,7 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //expand and collapse hobby fields
         hobby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,9 +336,11 @@ public class createPDF extends AppCompatActivity {
             }
         });
 
+        //create pdf method call
         CreatePdf();
     }
 
+    //collapse all the fields group
     private void collapseAll() {
         personalItems.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
         currentInstituteList.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
@@ -343,7 +353,7 @@ public class createPDF extends AppCompatActivity {
         interestList.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0));
     }
 
-
+    //create PDF using canvas and paint
     private void CreatePdf() {
         final int i;
         generate.setOnClickListener(new View.OnClickListener() {
@@ -354,6 +364,8 @@ public class createPDF extends AppCompatActivity {
                     getTextField();
                     PdfDocument MyPdfDocument = new PdfDocument();
                     TextPaint myPaint = new TextPaint();
+
+                    //PDF page 1
                     PdfDocument.PageInfo myPageInfo1 = new PdfDocument.PageInfo.
                             Builder(210, 297, 1).create();
                     PdfDocument.Page myPage1 = MyPdfDocument.startPage(myPageInfo1);
@@ -603,7 +615,7 @@ public class createPDF extends AppCompatActivity {
                     yR = y + 3.0f;
                     yL = y + 10.0f;
 
-
+                    //storing file in external storage
                     File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lite.pdf");
                     try {
                         MyPdfDocument.writeTo(new FileOutputStream(file));
@@ -622,6 +634,7 @@ public class createPDF extends AppCompatActivity {
         });
     }
 
+    //field checker whether empty or not
     private boolean checkField() {
         if(!Mobile.getText().toString().isEmpty() && !Email.getText().toString().isEmpty() && !Github.getText().toString().isEmpty()
         && !LinkedIn.getText().toString().isEmpty() && !discipline.getText().toString().isEmpty() && !branch.getText().toString().isEmpty()
@@ -640,6 +653,7 @@ public class createPDF extends AppCompatActivity {
 
     }
 
+    //getting text from all the fields
     private void getTextField() {
         ValueDataR=new ArrayList<>();
         ValueDataR.add(Mobile.getText().toString());
@@ -733,18 +747,6 @@ public class createPDF extends AppCompatActivity {
         Hobbies.add(hobby2.getText().toString());
         Hobbies.add(hobby3.getText().toString());
 
-
-        /*if(hobby4.getText().toString().isEmpty()){
-            Log.i(TAG, "getTextField: hobby4 empty");
-        }else{
-            Hobbies.add(hobby4.getText().toString());
-        }
-
-        if(hobby5.getText().toString().isEmpty()){
-            Log.i(TAG, "getTextField: hobby4 empty");
-        }else{
-            Hobbies.add(hobby5.getText().toString());
-        }*/
 
         Awards=new ArrayList<>();
         Awards.add(award1.getText().toString());

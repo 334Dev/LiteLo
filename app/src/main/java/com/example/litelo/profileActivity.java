@@ -58,7 +58,7 @@ public class profileActivity extends AppCompatActivity {
         UserID=mAuth.getCurrentUser().getUid();
         storageReference=FirebaseStorage.getInstance().getReference();
 
-        //storing image in firestore
+        //getting image from firestore
         StorageReference profileRef=storageReference.child("users/"+mAuth.getCurrentUser().getUid()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                @Override
@@ -78,6 +78,7 @@ public class profileActivity extends AppCompatActivity {
         //setting profile details
         setProfileDetails();
 
+        //logout button functionality
         logoutBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -94,17 +95,12 @@ public class profileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
+            //get cropped image and upload to firebase
             if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
                 CropImage.ActivityResult result=CropImage.getActivityResult(data);
-
                     Uri resultUri=result.getUri();
                     profileImageView.setImageURI(resultUri);
                     uploadImageToFirebase(resultUri);
-
-
-
-
         }
     }
 
@@ -130,6 +126,7 @@ public class profileActivity extends AppCompatActivity {
 
     }
 
+    //setting all the fields of profile
     private void setProfileDetails(){
         fstore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
