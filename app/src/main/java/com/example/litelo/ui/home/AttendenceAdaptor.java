@@ -105,7 +105,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             abeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.sound);
+                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.failsound);
                     mediaPlayer.start();
                     decreaseAtt(getAdapterPosition());
                 }
