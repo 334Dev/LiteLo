@@ -44,42 +44,41 @@ public class profileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-           mAuth=FirebaseAuth.getInstance();
+        //instantiating firebase auth and firestore
+        mAuth=FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
 
-           profileImageView=findViewById(R.id.profile_picMain);
-           profile_name=findViewById(R.id.profile_name);
-           profile_Regno=findViewById(R.id.profile_regNo);
-           profile_Grp=findViewById(R.id.profile_Grp);
-           logoutBtn=findViewById(R.id.logout_profile);
-                   fstore=FirebaseFirestore.getInstance();
+        profileImageView=findViewById(R.id.profile_picMain);
+        profile_name=findViewById(R.id.profile_name);
+        profile_Regno=findViewById(R.id.profile_regNo);
+        profile_Grp=findViewById(R.id.profile_Grp);
+        logoutBtn=findViewById(R.id.logout_profile);
+
+        //getting current userID
         UserID=mAuth.getCurrentUser().getUid();
-           storageReference=FirebaseStorage.getInstance().getReference();
-           StorageReference profileRef=storageReference.child("users/"+mAuth.getCurrentUser().getUid()+"/profile.jpg");
+        storageReference=FirebaseStorage.getInstance().getReference();
 
-           profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        //storing image in firestore
+        StorageReference profileRef=storageReference.child("users/"+mAuth.getCurrentUser().getUid()+"/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                @Override
                public void onSuccess(Uri uri) {
                    Picasso.get().load(uri).into(profileImageView);
-
                }
-           });
+        });
 
-
-           profileImageView.setOnClickListener(new View.OnClickListener() {
+        //choosing image from gallery
+        profileImageView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-
-                       // open Gallery
-                  /*  Intent openGalleryIntent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(openGalleryIntent,1000);*/
                   CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(profileActivity.this);
-
                }
-           });
+        });
 
-         setProfileDetails();
+        //setting profile details
+        setProfileDetails();
 
-         logoutBtn.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  mAuth.signOut();
@@ -87,7 +86,7 @@ public class profileActivity extends AppCompatActivity {
                  startActivity(i);
                  finish();
              }
-         });
+        });
 
     }
 

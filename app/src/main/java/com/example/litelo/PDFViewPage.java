@@ -24,10 +24,14 @@ public class PDFViewPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_d_f_view_page);
         pdfView=findViewById(R.id.pdfView);
+        //getting the resume file from internal storage
         file=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Lite.pdf");
 
+        //setting up the file in pdfView
         pdfView.fromFile(file).spacing(6).load();
         pdfView.setBackgroundColor(Color.BLACK);
+
+        //floating share button
         shareButton=findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +44,7 @@ public class PDFViewPage extends AppCompatActivity {
             }
         });
 
-
+        //Required Permissions request
         ActivityCompat.requestPermissions(this,new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
