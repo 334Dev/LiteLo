@@ -23,6 +23,9 @@ public class StudentAdapter extends FirestoreRecyclerAdapter<student,StudentAdap
 
     @Override
     protected void onBindViewHolder(@NonNull StudentHolder holder, int position, @NonNull student model) {
+
+        //setting up the info to be displayed on each card
+
         if(position==0)
         holder.sub.setText("Language Lab");
         if(position==1)
@@ -57,9 +60,10 @@ public class StudentAdapter extends FirestoreRecyclerAdapter<student,StudentAdap
             holder.attText.setText(Perc.toString() + "%");
             holder.seekBar.setMax(TotalClass);
             holder.seekBar.setProgress(Present);
-            if (Perc >= 75)
+            if (Perc >= 75)   //colour green if Att is more than 75
                 holder.seekBar.setCircleProgressColor(Color.parseColor("#1DB824"));
-            else
+
+            else              //colour red if Att is more than 75
                 holder.seekBar.setCircleProgressColor(Color.parseColor("#FF7597"));
         }
     }

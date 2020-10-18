@@ -36,8 +36,13 @@ public class ListShow extends AppCompatActivity {
 
     private void createRecView() {
         UserID=mAuth.getCurrentUser().getUid();
+
+        // taking userId and and its classes list
+
         Query query=db.collection("/Users/"+UserID+"/Classes");
-        //Query query=db.collection("/Users/9afXDaalTRbpjn5behwOKAfYWcz1/Classes");
+
+        // Setting RecyclerViewAdapter
+
         FirestoreRecyclerOptions<student> options= new FirestoreRecyclerOptions.Builder<student>()
                 .setQuery(query,student.class).build();
         adapter=new StudentAdapter(options);
@@ -47,12 +52,14 @@ public class ListShow extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    //if App is in use
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
     }
 
+    //if App is in background
     @Override
     protected void onStop() {
         super.onStop();
