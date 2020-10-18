@@ -1,4 +1,4 @@
-package com.example.litelo.ui.slideshow;
+package com.example.litelo.ui.Pdfcreate;
 
 import android.Manifest;
 import android.content.Intent;
@@ -23,9 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SlideshowFragment extends Fragment {
+public class createPdfFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private createPdfViewModel slideshowViewModel;
     private ImageView createImg,ViewPdfImg;
     private TextView createTxt,greetingTxt,viewPdfText;
     private FirebaseAuth mAuth;
@@ -38,7 +38,7 @@ public class SlideshowFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+                ViewModelProviders.of(this).get(createPdfViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
 
         ActivityCompat.requestPermissions(getActivity(),new String[]{
