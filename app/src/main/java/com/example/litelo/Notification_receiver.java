@@ -15,12 +15,7 @@ public class Notification_receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-
-        // NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-       // NotificationChannel channel=new NotificationChannel("default","Channel Name",NotificationManager.IMPORTANCE_DEFAULT);
-       //  channel.setDescription("Channel Description");
-       //  notificationManager.createNotificationChannel(channel);
-
+        //Getting notification system service
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -34,6 +29,7 @@ public class Notification_receiver extends BroadcastReceiver {
 
 
 
+         //Making notification builder
         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"LiteLoNotify")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.logo)
@@ -41,6 +37,8 @@ public class Notification_receiver extends BroadcastReceiver {
                 .setContentText("Build your resume nowwwwwww")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
+
+
 
         if (intent.getAction().equals("MY_NOTIFICATION_MESSAGE")) {
             notificationManager.notify(100,builder.build());
