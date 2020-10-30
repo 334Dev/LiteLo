@@ -153,8 +153,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(HomeActivity.this,Settings.class);
+                startActivity(intent);
                 return false;
             }
         });
@@ -162,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
 
                 return false;
             }
