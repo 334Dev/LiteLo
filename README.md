@@ -26,13 +26,20 @@ This app is an educational app built for students of MNNIT to manage their atten
 
 <img align="left" alt="Android Studio Code" width="26px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Android_Studio_icon.svg/1200px-Android_Studio_icon.svg.png" />
 <img align="left" alt="Firebase" width="30px" src="https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-512.png" />
- 
+<img align="left" alt="Adobe Xd" width="26px" src="https://th.bing.com/th/id/OIP.RQyL11tOAHuc356gv8HnngAAAA?pid=Api&rs=1" /> 
+ <br />
+ ---
+### Developers:
+
+- [Darpan Mittal][darpan]
+- fdsfs
+- edfsdfd
 
 
-<br />
 <br />
 
 
 
 [email]: mailto:oneon334@gmail.com
+[darpan]: https://github.com/darpan1107
 
