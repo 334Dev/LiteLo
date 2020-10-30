@@ -7,6 +7,23 @@
     tools:context=".ui.home.HomeFragment"
     tools:visibility="visible">
 
+    <Button
+        android:id="@+id/classAll"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/greenbutton"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Show All"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"

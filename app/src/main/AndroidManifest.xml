@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PDFViewPage"></activity>
+        <activity android:name=".ClubClasses"></activity>
+        <activity android:name=".PDFViewPage" />
         <activity android:name=".createPDF" />
-        <activity android:name=".ListShow" />
+        <activity android:name=".SubjectAttendance" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UserInfo" />
         <activity android:name=".phone_login" />

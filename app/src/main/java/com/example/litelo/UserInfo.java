@@ -144,11 +144,13 @@ public class UserInfo extends AppCompatActivity {
 
             //creating document of each subject
             for(int i=0;i<6;i++) {
+                map.put("Subject",mechClasses[i]);
                 firestore.collection("Users").document(UserUID).collection("Classes")
                         .document(mechClasses[i]).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("All Subjects added", "onSuccess: Subject Added");
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

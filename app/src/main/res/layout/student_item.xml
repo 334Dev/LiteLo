@@ -12,79 +12,125 @@
     app:cardCornerRadius="25sp"
     app:cardElevation="60sp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp">
 
         <me.tankery.lib.circularseekbar.CircularSeekBar
+            android:id="@+id/Attseekbar2"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:paddingRight="8dp"
-            app:cs_circle_style="round"
-            android:layout_marginRight="20dp"
             android:visibility="visible"
             app:cs_circle_color="#00FFFFFF"
             app:cs_circle_fill="#00FFFFFF"
             app:cs_circle_progress_color="@color/colorWhite"
             app:cs_circle_stroke_width="8dp"
-            android:id="@+id/Attseekbar2"
+            app:cs_circle_style="round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="InvalidId" />
+
         <TextView
             android:id="@+id/attText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="56dp"
-            android:layout_marginTop="40dp"
-
 
 
             android:text="90"
 
             android:textColor="@color/colorWhite"
-            android:textSize="16dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Attseekbar2"
+            app:layout_constraintEnd_toEndOf="@+id/Attseekbar2"
+            app:layout_constraintStart_toStartOf="@+id/Attseekbar2"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlCompat" />
 
         <TextView
             android:id="@+id/subject_name"
-            android:fontFamily="@font/helveticaneue_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/helveticaneue_medium"
             android:padding="2dp"
             android:text="subject"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/present_day"
-            android:fontFamily="@font/helveticaneue_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject_name"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/helveticaneue_medium"
             android:padding="2dp"
             android:text="Present days"
             android:textColor="@color/colorWhite"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subject_name" />
+
+        <TextView
+            android:id="@+id/presentNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subject_name"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/helveticaneue_medium"
+            android:padding="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/present_day"
+            app:layout_constraintStart_toEndOf="@+id/present_day"
+            app:layout_constraintTop_toTopOf="@+id/present_day" />
+
+        <TextView
+            android:id="@+id/absentNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subject_name"
+            android:layout_alignParentStart="true"
+            android:fontFamily="@font/helveticaneue_medium"
+            android:padding="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/absent_day"
+            app:layout_constraintEnd_toEndOf="@+id/presentNum"
+            app:layout_constraintStart_toStartOf="@+id/presentNum"
+            app:layout_constraintTop_toTopOf="@+id/absent_day" />
 
         <TextView
             android:id="@+id/absent_day"
-            android:fontFamily="@font/helveticaneue_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/present_day"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/helveticaneue_medium"
             android:padding="2dp"
             android:text="Absent days"
             android:textColor="@color/colorWhite"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/present_day" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,13 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.litelo.ListShow;
+import com.example.litelo.ClubClasses;
 import com.example.litelo.R;
+import com.example.litelo.SubjectAttendance;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -52,9 +53,7 @@ public class HomeFragment extends Fragment {
     private List<String> todayClass;
     private List<Double> timing;
     private ViewPager2 viewPager;
-    private ImageView loadingWhite, presentBtn, absentBtn;
-    private ProgressBar loadingBar;
-    private Button presentAll;
+    private Button presentAll,classesAll;
     private Map<String, Object> mMap;
     //SlideUp
     private CircularSeekBar SlideSeekBar;
@@ -79,6 +78,15 @@ public class HomeFragment extends Fragment {
 
 
         //Club classes
+        classesAll=root.findViewById(R.id.classAll);
+        classesAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getActivity(), ClubClasses.class);
+                startActivity(i);
+            }
+        });
+
         className=root.findViewById(R.id.className);
         disc=root.findViewById(R.id.desc);
         timeDate=root.findViewById(R.id.dateTime);
@@ -139,7 +147,7 @@ public class HomeFragment extends Fragment {
         presentAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), ListShow.class);
+                Intent intent=new Intent(getActivity(), SubjectAttendance.class);
                 startActivity(intent);
             }
         });
@@ -292,26 +300,25 @@ public class HomeFragment extends Fragment {
     //setting club classes
     private void setCcClasses() {
         firestore.collection("ClubClasses").document("CC").collection("Classes")
-                .whereEqualTo("visibility", "show").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .whereEqualTo("visibility", "show")
+                .whereGreaterThan("close",System.currentTimeMillis())
+                .orderBy("close", Query.Direction.ASCENDING)
+                .limit(2)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> snapshotsList= queryDocumentSnapshots.getDocuments();
-                int i=1;
-                for(DocumentSnapshot snapshot: snapshotsList){
-                    if(i==1) {
-                        className.setText(snapshot.getString("Topic"));
-                        disc.setText(snapshot.getString("Description"));
-                        timeDate.setText(snapshot.getString("Timing"));
+                if(queryDocumentSnapshots.isEmpty()){
+                    Log.i("ClubClasses", "onSuccess: Empty");
+                }else {
+                    List<DocumentSnapshot> snapshotsList = queryDocumentSnapshots.getDocuments();
+                    className.setText(snapshotsList.get(0).getString("Topic"));
+                    disc.setText(snapshotsList.get(0).getString("Description"));
+                    timeDate.setText(snapshotsList.get(0).getString("Timing"));
+                    if(queryDocumentSnapshots.size()==2) {
+                        className2.setText(snapshotsList.get(1).getString("Topic"));
+                        disc2.setText(snapshotsList.get(1).getString("Description"));
+                        timeDate2.setText(snapshotsList.get(1).getString("Timing"));
                     }
-                    else if(i==2){
-                        className2.setText(snapshot.getString("Topic"));
-                        disc2.setText(snapshot.getString("Description"));
-                        timeDate2.setText(snapshot.getString("Timing"));
-                    }
-                    else{
-                        break;
-                    }
-                    i=i+1;
                 }
             }
         });
