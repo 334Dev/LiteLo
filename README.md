@@ -28,7 +28,8 @@ This app is an educational app built for students of MNNIT to manage their atten
 <img align="left" alt="Firebase" width="30px" src="https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-512.png" />
 <img align="left" alt="Adobe Xd" width="26px" src="https://th.bing.com/th/id/OIP.RQyL11tOAHuc356gv8HnngAAAA?pid=Api&rs=1" /> 
  <br />
- ---
+
+
 ### Developers:
 
 - [Darpan Mittal][darpan]
