@@ -18,7 +18,6 @@
         <activity android:name=".ClubClasses"></activity>
         <activity android:name=".PDFViewPage" />
         <activity android:name=".Settings"></activity>
-        <activity android:name=".PDFViewPage" />
         <activity android:name=".createPDF" />
         <activity android:name=".SubjectAttendance" />
         <activity android:name=".MainActivity" />

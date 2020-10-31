@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -143,7 +145,8 @@ public class HomeFragment extends Fragment {
 
         setCcClasses();
 
-        getTodaysClass();
+        checkHoliday();
+
         presentAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +155,22 @@ public class HomeFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private void checkHoliday() {
+        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Calendar calendar=Calendar.getInstance();
+                String currentDate= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                List<String> holidays= (List<String>) documentSnapshot.get("holiday");
+                if(holidays.contains(currentDate)){
+                    Toast.makeText(getActivity(),"Marked as Holiday by CR",Toast.LENGTH_SHORT).show();
+                }else{
+                    getTodaysClass();
+                }
+            }
+        });
     }
 
     //Check and compare device and server date
@@ -229,8 +248,14 @@ public class HomeFragment extends Fragment {
                 group=documentSnapshot.getString("Group");
             }
         });
+
+        Calendar date= Calendar.getInstance();
+        final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+
         firestore.collection("TimeTable").document("E1").collection("Thursday")
-                .whereEqualTo("isToday",true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .whereEqualTo("isToday",true)
+                .orderBy("Time", Query.Direction.ASCENDING)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> snapshotList= queryDocumentSnapshots.getDocuments();
@@ -256,26 +281,31 @@ public class HomeFragment extends Fragment {
     }
     //setting today's class with personalized data
     private void setTodaysClass() {
-        firestore.collection("Users").document(UserID).collection("Classes").get()
+        firestore.collection("Users").document(UserID).collection("Classes")
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<DocumentSnapshot> snapshotList=queryDocumentSnapshots.getDocuments();
-                        attendanceModels=new ArrayList<>();
-                        for(DocumentSnapshot snapshot: snapshotList) {
-                                if(todayClass.contains(snapshot.getId())) {
+                        if(queryDocumentSnapshots.isEmpty()){
+                            Toast.makeText(getActivity(), "Empty",Toast.LENGTH_SHORT).show();
+                        }else {
+                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                            attendanceModels = new ArrayList<>();
+                            for (DocumentSnapshot snapshot : snapshotList) {
+                                if (todayClass.contains(snapshot.getId())) {
                                     //storing data in attendance model class
                                     attendanceModels.add(snapshot.toObject(AttendanceModel.class));
                                 }
+                            }
+                            //setting up adapter class and assigning this adapter to viewPager
+                            attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
+                            viewPager.setAdapter(attendenceAdaptor);
                         }
-                        //setting up adapter class and assigning this adapter to viewPager
-                        attendenceAdaptor= new AttendenceAdaptor(attendanceModels,timing,todayClass);
-                        viewPager.setAdapter(attendenceAdaptor);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Toast.makeText(getActivity(), "Failed to load",Toast.LENGTH_SHORT).show();
             }
         });
         //View pager basic settings
