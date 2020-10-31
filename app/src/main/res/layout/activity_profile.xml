@@ -107,6 +107,7 @@
          android:layout_marginTop="16dp"
          android:background="@drawable/whiteborder_btn"
          android:text="Delete Account"
+         android:visibility="invisible"
          android:textColor="@color/colorWhite"
          app:layout_constraintEnd_toEndOf="@+id/imageView"
          app:layout_constraintStart_toStartOf="@+id/imageView"
