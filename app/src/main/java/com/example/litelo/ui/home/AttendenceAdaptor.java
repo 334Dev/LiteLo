@@ -1,6 +1,7 @@
 package com.example.litelo.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     private TextView  attText;
 
     private ViewGroup hintViewgrp;
+    int flag;
     Context context;
     public AttendenceAdaptor(List<AttendanceModel> attendanceModels, List<Double> timing, List<String> todaysClass) {
         this.attendanceModels = attendanceModels;
@@ -93,21 +95,26 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             preBtn=view.findViewById(R.id.presentBtn);
             abeBtn=view.findViewById(R.id.absentBtn);
 
+
+
             preBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.sound);
-                    mediaPlayer.start();
-                    increaseAtt(getAdapterPosition());
+
+                        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound);
+                        mediaPlayer.start();
+                        increaseAtt(getAdapterPosition());
 
                 }
             });
             abeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MediaPlayer mediaPlayer=MediaPlayer.create(context,R.raw.failsound);
-                    mediaPlayer.start();
-                    decreaseAtt(getAdapterPosition());
+
+                        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.failsound);
+                        mediaPlayer.start();
+                        decreaseAtt(getAdapterPosition());
+
                 }
             });
         }
