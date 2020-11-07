@@ -2,7 +2,6 @@ package com.example.litelo;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,17 +16,18 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewholder> {
 
     private List<subjectModel> subjectModels;
-    private SelectedPager selectedpager;
-    public subjectAdapter(List<subjectModel> subjectModels, SelectedPager selectedPager){
+
+    private onNoteListener mOnNoteListener;
+    public subjectAdapter(List<subjectModel> subjectModels,onNoteListener onNoteListener){
         this.subjectModels=subjectModels;
-        this.selectedpager=selectedPager;
+        this.mOnNoteListener=onNoteListener;
     }
 
     @NonNull
     @Override
     public mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_item, parent, false);
-        return new subjectAdapter.mViewholder(view);
+        return new subjectAdapter.mViewholder(view,mOnNoteListener);
     }
 
     @Override
@@ -42,34 +42,21 @@ public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewhol
     public int getItemCount() {
         return subjectModels.size();
     }
-
-    public interface SelectedPager{
-        void selectedPager(subjectModel model);
-    }
-    @Override
-    public int getItemViewType(int position) {
-        return position;
+    public interface onNoteListener{
+        void onNoteClick(int position);
     }
 
-    @Override
-    public void setHasStableIds(boolean hasStableIds) {
-        super.setHasStableIds(hasStableIds);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public class mViewholder extends RecyclerView.ViewHolder{
+    public class mViewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         View view;
         TextView PresentTxt, AbsentTxt,perTxt,Subject;
         CircularSeekBar Percentage;
-
-        public mViewholder(@NonNull View itemView) {
+        onNoteListener onNotelistener;
+        public mViewholder(@NonNull View itemView, onNoteListener onNotelistener) {
             super(itemView);
             view=itemView;
+            itemView.setOnClickListener(this);
+            this.onNotelistener=onNotelistener;
         }
 
         public void setSubjectName(String subject){
@@ -87,12 +74,6 @@ public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewhol
         }
         public void setProgressBar(Integer present, Integer absent){
             Percentage=view.findViewById(R.id.Attseekbar2);
-            Percentage.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
             perTxt=view.findViewById(R.id.attText2);
             if(present+absent==0){
                 Percentage.setMax(100);
@@ -112,6 +93,11 @@ public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewhol
                     Percentage.setCircleProgressColor(Color.parseColor("#FF7597"));
                 }
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+                 onNotelistener.onNoteClick(getAdapterPosition());
         }
     }
 

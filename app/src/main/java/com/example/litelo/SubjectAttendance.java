@@ -1,5 +1,6 @@
 package com.example.litelo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectAttendance extends AppCompatActivity implements subjectAdapter.SelectedPager {
+public class SubjectAttendance extends AppCompatActivity implements subjectAdapter.onNoteListener {
     private String UserID;
     private FirebaseAuth mAuth;
     private RecyclerView subjectRecycler;
@@ -66,8 +67,11 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
         });
     }
 
+
     @Override
-    public void selectedPager(subjectModel model) {
-        Log.i("item", "selectedPager: clicked");
+    public void onNoteClick(int position) {
+
+        Intent i=new Intent(SubjectAttendance.this,AttendanceHistory.class);
+        startActivity(i);
     }
 }
