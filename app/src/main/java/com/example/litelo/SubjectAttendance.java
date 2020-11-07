@@ -16,7 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectAttendance extends AppCompatActivity implements subjectAdapter.SelectedItem {
+public class SubjectAttendance extends AppCompatActivity implements subjectAdapter.SelectedPager {
     private String UserID;
     private FirebaseAuth mAuth;
     private RecyclerView subjectRecycler;
@@ -67,7 +67,7 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
     }
 
     @Override
-    public void selectedItem(subjectModel model) {
-        //
+    public void selectedPager(subjectModel model) {
+        Log.i("item", "selectedPager: clicked");
     }
 }

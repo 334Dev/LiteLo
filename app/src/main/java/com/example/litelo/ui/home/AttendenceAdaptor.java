@@ -1,9 +1,9 @@
 package com.example.litelo.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,8 +20,13 @@ import com.example.litelo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +36,7 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mViewHolder> {
 
     private List<Double> timing;
+    private static String TAG="DateArray";
 
     private List<AttendanceModel> attendanceModels;
 
@@ -177,13 +183,19 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         }
         else  {
 
+            DocumentReference reff=firestore.collection("Users").document(UserID).collection("Classes")
+                    .document(todaysClass.get(adapterPosition));
+
+            Date todayDate = Calendar.getInstance().getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String todayString = formatter.format(todayDate);
+
             if(preStatus){
-                Map<String, Double> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("Present", present - 1);
                 map.put("Absent", absent + 1);
 
-                firestore.collection("Users").document(UserID).collection("Classes")
-                        .document(todaysClass.get(adapterPosition)).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                reff.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         setStatus(adapterPosition, UserID, false, true);
@@ -197,14 +209,39 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
                         Toast.makeText(hintViewgrp.getContext(), "Failed to update", Toast.LENGTH_LONG).show();
                     }
                 });
+
+
+                reff.update("presentArray", FieldValue.arrayRemove(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: DateRemoved");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
+                reff.update("absentArray", FieldValue.arrayUnion(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: Absent Added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
             }
             else {
-                Map<String, Double> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("Present", present);
                 map.put("Absent", absent+1);
 
-                firestore.collection("Users").document(UserID).collection("Classes")
-                        .document(todaysClass.get(adapterPosition)).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                reff.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         setStatus(adapterPosition, UserID, false, true);
@@ -215,6 +252,18 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(hintViewgrp.getContext(), "Failed to update", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                reff.update("absentArray", FieldValue.arrayUnion(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: Absent Added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
                     }
                 });
             }
@@ -237,15 +286,21 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             Toast.makeText(hintViewgrp.getContext(), "You have already updated", Toast.LENGTH_LONG).show();
         }
         else  {
+            DocumentReference reff=firestore.collection("Users").document(UserID).collection("Classes")
+                    .document(todaysClass.get(adapterPosition));
+
+            Date todayDate = Calendar.getInstance().getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String todayString = formatter.format(todayDate);
+
 
             if(abStatus){
 
-                Map<String, Double> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("Present", present + 1);
                 map.put("Absent", absent - 1);
 
-                firestore.collection("Users").document(UserID).collection("Classes")
-                        .document(todaysClass.get(adapterPosition)).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                reff.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         setStatus(adapterPosition, UserID, true, false);
@@ -259,14 +314,38 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
                         Toast.makeText(hintViewgrp.getContext(), "Failed to update", Toast.LENGTH_LONG).show();
                     }
                 });
+
+                reff.update("absentArray", FieldValue.arrayRemove(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: DateRemoved");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
+                reff.update("presentArray", FieldValue.arrayUnion(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: Present Added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
             }
             else {
-                Map<String, Double> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
                 map.put("Present", present + 1);
                 map.put("Absent", absent);
 
-                firestore.collection("Users").document(UserID).collection("Classes")
-                        .document(todaysClass.get(adapterPosition)).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                reff.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         setStatus(adapterPosition, UserID, true, false);
@@ -279,6 +358,19 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
                         Toast.makeText(hintViewgrp.getContext(), "Failed to update", Toast.LENGTH_LONG).show();
                     }
                 });
+
+                reff.update("presentArray", FieldValue.arrayUnion(todayString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "onSuccess: Present Added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+                
             }
         }
 

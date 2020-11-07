@@ -42,6 +42,7 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class HomeFragment extends Fragment {
 
+    private static final String TAG ="OfflineFirestore" ;
     private AlertDialog.Builder builder;
     private AlertDialog show;
     private HomeViewModel homeViewModel;
@@ -69,6 +70,7 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         //Firebase Instances
         firestore=FirebaseFirestore.getInstance();
+
         mAuth= FirebaseAuth.getInstance();
 
         //loading dailog
@@ -186,6 +188,17 @@ public class HomeFragment extends Fragment {
                 String ServerDate= documentSnapshot.getString("Date");
                 if(ServerDate.contentEquals(deviceDay)){
                     Log.i("DateCheck", "onSuccess: Same");
+                    firestore.disableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i(TAG, "onSuccess: Successful");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: "+e.getMessage());    
+                        }
+                    });
                 }else{
                     Log.i("DateCheck", "onSuccess: Different");
                     //if different calling method newDayChanges
@@ -326,6 +339,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "onSuccess: Back Online");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+
     }
     //setting club classes
     private void setCcClasses() {
@@ -350,6 +375,7 @@ public class HomeFragment extends Fragment {
                         timeDate2.setText(snapshotsList.get(1).getString("Timing"));
                     }
                 }
+
             }
         });
     }

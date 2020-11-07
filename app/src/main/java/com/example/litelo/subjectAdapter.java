@@ -17,10 +17,10 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewholder> {
 
     private List<subjectModel> subjectModels;
-    private subjectAdapter.SelectedItem selectedItem;
-    public subjectAdapter(List<subjectModel> subjectModels, subjectAdapter.SelectedItem selectedItem){
+    private SelectedPager selectedpager;
+    public subjectAdapter(List<subjectModel> subjectModels, SelectedPager selectedPager){
         this.subjectModels=subjectModels;
-        this.selectedItem=selectedItem;
+        this.selectedpager=selectedPager;
     }
 
     @NonNull
@@ -42,8 +42,23 @@ public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewhol
     public int getItemCount() {
         return subjectModels.size();
     }
-    public interface SelectedItem{
-        void selectedItem(subjectModel model);
+
+    public interface SelectedPager{
+        void selectedPager(subjectModel model);
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(hasStableIds);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public class mViewholder extends RecyclerView.ViewHolder{
