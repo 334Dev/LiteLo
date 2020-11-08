@@ -70,8 +70,9 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
 
     @Override
     public void onNoteClick(int position) {
-
+        String Subject=subjectModels.get(position).getDocumentId();
         Intent i=new Intent(SubjectAttendance.this,AttendanceHistory.class);
+        i.putExtra("Subject",Subject);
         startActivity(i);
     }
 }
