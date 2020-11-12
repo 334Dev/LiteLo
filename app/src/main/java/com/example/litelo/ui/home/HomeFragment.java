@@ -1,7 +1,9 @@
 package com.example.litelo.ui.home;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -58,10 +61,13 @@ public class HomeFragment extends Fragment {
     private ViewPager2 viewPager;
     private Button presentAll,classesAll;
     private Map<String, Object> mMap;
+    private String[] groupsMech, groupsChem;
     //SlideUp
     private CircularSeekBar SlideSeekBar;
     private TextView TotalAttend, TotalNotAttend, Remaining, SlidePercentage;
     private ImageView Attendplus, NotAttendplus, Attendminus, NotAttendminus;
+
+    private SharedPreferences sharedPref;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -118,18 +124,29 @@ public class HomeFragment extends Fragment {
         SlidePercentage=root.findViewById(R.id.SlidePercentage);
 
         UserID=mAuth.getCurrentUser().getUid();
-        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                group=documentSnapshot.getString("Group");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("GetGroup", "onFailure: Failed");
-            }
-        });
-        Log.i("GetGroup", "onCreateView: "+group);
+
+        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        group = sharedPref.getString(getString(R.string.group_name), "N/A");
+
+        if(group=="N/A") {
+            Log.i("SharedPref_group", "onCreateView: couldn't find Group");
+            firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    group = documentSnapshot.getString("Group");
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.group_name), group);
+                    editor.apply();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i("GetGroup", "onFailure: Failed");
+                }
+            });
+            Log.i("GetGroup", "onCreateView: " + group);
+        }
+
         mMap=new HashMap<>();
         firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -218,23 +235,45 @@ public class HomeFragment extends Fragment {
         map.put("absentStatus", false);
         map.put("presentStatus", false);
         final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
-        for(String data:mechClasses) {
-            firestore.collection("Users").document(UserID).collection("Classes").document(data)
-                    .update("absentStatus", false,"presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.i("newDayChanges", "onSuccess: newDayChanges");
-                    //after changing to false setting server day to today's day
-                    setserverDate(deviceDay);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.i("newDateChanges", "onFailure: newDayChanges");
-                }
-            });
+        final String[] chemClasses={"Chemistry","Mechanics","CS", "Physics","CS(P)","Maths"};
 
+        groupsMech= new String[]{"A1","A2","B1","B2","C1","C2","D1","D2","E1","E2"};
+        groupsChem=new String[]{"F1","F2","G1","G2","H1","H2","J1","J2","I1","I2"};
 
+        if(Arrays.asList(groupsMech).contains(group)){
+            for(String data:mechClasses) {
+                firestore.collection("Users").document(UserID).collection("Classes").document(data)
+                        .update("absentStatus", false, "presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("newDayChanges", "onSuccess: newDayChanges");
+                        //after changing to false setting server day to today's day
+                        setserverDate(deviceDay);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("newDateChanges", "onFailure: newDayChanges");
+                    }
+                });
+            }
+        }else{
+            for(String data:chemClasses) {
+                firestore.collection("Users").document(UserID).collection("Classes").document(data)
+                        .update("absentStatus", false, "presentStatus", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("newDayChanges", "onSuccess: newDayChanges");
+                        //after changing to false setting server day to today's day
+                        setserverDate(deviceDay);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("newDateChanges", "onFailure: newDayChanges");
+                    }
+                });
+            }
         }
 
     }

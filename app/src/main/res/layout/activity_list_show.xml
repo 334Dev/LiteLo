@@ -6,14 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".SubjectAttendance">
 
+    <!--  This is your template view -->
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/my_template"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subjectRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/textView15"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/my_template"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView

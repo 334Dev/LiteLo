@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,9 @@ public class AttendanceHistory extends AppCompatActivity {
     private TextView subjectName;
     private List<String> presentArray, absentArray, cancelArray;
     private DocumentReference reff;
+    private Double present,absent;
+    private Button saveBtn;
+    private View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +47,14 @@ public class AttendanceHistory extends AppCompatActivity {
         setContentView(R.layout.activity_attendance_history);
 
         calendarView=findViewById(R.id.calendarView);
+        saveBtn=findViewById(R.id.saveBtn);
+        parentLayout=findViewById(R.id.content);
 
         firestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
+
+        present=0.0;
+        absent=0.0;
 
         Intent i=getIntent();
         Subject=i.getStringExtra("Subject");
@@ -55,6 +65,8 @@ public class AttendanceHistory extends AppCompatActivity {
         calendarView.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
+
+                saveBtn.setVisibility(View.VISIBLE);
 
                 Log.i(TAG, "onDateClick: "+date.toString());
                 final int year=date.getYear();
@@ -75,105 +87,96 @@ public class AttendanceHistory extends AppCompatActivity {
 
 
                     //remove date from present array
-                    reff.update("presentArray", FieldValue.arrayRemove(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
                             presentArray.remove(clickDate);
-                            changePresent(-1);
-                            Log.i(TAG, "onSuccess: "+presentArray.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
-                        }
-                    });
+                            present=present-1;
 
-                    reff.update("absentArray", FieldValue.arrayUnion(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
                             absentArray.add(clickDate);
                             calendarView.unMarkDate(year,month,day);
                             calendarView.setMarkedStyle(MarkStyle.BACKGROUND,getColor(R.color.colorRed));
                             calendarView.markDate(year,month,day);
-                            changeAbsent(1);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
-                        }
-                    });
+                            absent=absent+1;
 
                 }else if(absentArray.contains(clickDate)){
 
-                    reff.update("absentArray", FieldValue.arrayRemove(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
                             absentArray.remove(clickDate);
-                            changeAbsent(-1);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
+                            absent=absent-1;
 
-                        }
-                    });
-
-                    reff.update("cancelArray", FieldValue.arrayUnion(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
                             cancelArray.add(clickDate);
 
                             calendarView.unMarkDate(year,month,day);
                             calendarView.setMarkedStyle(MarkStyle.BACKGROUND,getColor(R.color.colorPrimaryDark));
                             calendarView.markDate(year,month,day);
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
-                        }
-                    });
-
 
                 }else if(cancelArray.contains(clickDate)){
-                    reff.update("cancelArray", FieldValue.arrayRemove(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
 
                             cancelArray.remove(clickDate);
                             calendarView.unMarkDate(year,month,day);
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
-                        }
-                    });
 
                 }else{
-
-                    reff.update("presentArray", FieldValue.arrayUnion(clickDate)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
 
                             presentArray.add(clickDate);
                             calendarView.setMarkedStyle(MarkStyle.BACKGROUND,getColor(R.color.colorPrimary));
                             calendarView.markDate(year,month,day);
-                            changePresent(1);
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());
-                        }
-                    });
+                            present=present+1;
+
                 }
+
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeAbsent(absent);
+                changePresent(present);
+
+                firestore.collection("Users").document(UserID).collection("Classes")
+                        .document(Subject).update("cancelArray",cancelArray).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //success
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
+
+                firestore.collection("Users").document(UserID).collection("Classes")
+                        .document(Subject).update("presentArray",presentArray).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        firestore.collection("Users").document(UserID).collection("Classes")
+                                .document(Subject).update("absentArray",absentArray).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                Toast.makeText(getApplicationContext(), "Successfully saved", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(AttendanceHistory.this, SubjectAttendance.class);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i(TAG, "onFailure: "+e.getMessage());
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
 
             }
         });
@@ -192,6 +195,8 @@ public class AttendanceHistory extends AppCompatActivity {
                 presentArray= (List<String>) documentSnapshot.get("presentArray");
                 absentArray= (List<String>) documentSnapshot.get("absentArray");
                 cancelArray= (List<String>) documentSnapshot.get("cancelArray");
+                present= documentSnapshot.getDouble("Present");
+                absent= documentSnapshot.getDouble("Absent");
                 setPresentInCalender();
                 setAbsentInCalender();
                 setCancelInCalendar();
