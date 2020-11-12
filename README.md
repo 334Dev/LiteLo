@@ -32,9 +32,9 @@ This app is an educational app built for students of MNNIT to manage their atten
 
 ### Developers:
 
+- [Anant Shukla][anant]
+- [Aditya Kashyap][aditya]
 - [Darpan Mittal][darpan]
-- fdsfs
-- edfsdfd
 
 
 <br />
@@ -43,4 +43,6 @@ This app is an educational app built for students of MNNIT to manage their atten
 
 [email]: mailto:oneon334@gmail.com
 [darpan]: https://github.com/darpan1107
+[anant]: https://github.com/iamanantshukla
+[aditya]: https://github.com/Aditya99k
 
