@@ -162,10 +162,10 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
 
             Integer Time=time.intValue();
             Integer timeMax=Time+1;
-            //if(subject.charAt(subject.length()-1)==')' && subject.charAt(subject.length()-2)=='P'){
-            //    timeMax=Time+3;
-            //}
-
+            if(subject.charAt(subject.length()-1)==')' && subject.charAt(subject.length()-2)=='P'){
+                timeMax=Time+3;
+            }
+            Log.i("subjectTime", "setTime: "+subject+" "+time);
             textView=view.findViewById(R.id.editTime);
             textView.setText(Time.toString()+":00-"+timeMax.toString()+":00");
         }

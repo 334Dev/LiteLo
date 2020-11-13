@@ -46,6 +46,7 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 public class HomeFragment extends Fragment {
 
     private static final String TAG ="OfflineFirestore" ;
+    private static final String TAG2 ="DayDebug" ;
     private AlertDialog.Builder builder;
     private AlertDialog show;
     private HomeViewModel homeViewModel;
@@ -146,7 +147,6 @@ public class HomeFragment extends Fragment {
             });
             Log.i("GetGroup", "onCreateView: " + group);
         }
-        group="F1";
         getSubjectList();
 
         checkDate();
@@ -171,11 +171,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 mMap=documentSnapshot.getData();
+                Log.i(TAG2, "onSuccess: getSubjectList");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Log.i(TAG2, "onFailure: "+e.getMessage());
             }
         });
     }
@@ -208,7 +209,7 @@ public class HomeFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String ServerDate= documentSnapshot.getString("Date");
                 if(ServerDate.contentEquals(deviceDay)){
-                    Log.i("DateCheck", "onSuccess: Same");
+                    Log.i(TAG2, "onSuccess: Same- checkDate");
                     firestore.disableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -221,7 +222,7 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 }else{
-                    Log.i("DateCheck", "onSuccess: Different");
+                    Log.i(TAG2, "onSuccess: Different-checkDate");
                     //if different calling method newDayChanges
                     newDayChanges(deviceDay);
                 }
@@ -229,7 +230,7 @@ public class HomeFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Log.i(TAG2, "onFailure: "+e.getMessage());
             }
         });
     }
@@ -291,19 +292,13 @@ public class HomeFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i("setserverDate", "onSuccess: Successful");
+                Log.i("setserverDate", e.getMessage());
             }
         });
     }
     //getting today's academic classes from database
     private void getTodaysClass() {
         UserID=mAuth.getCurrentUser().getUid();
-        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                group=documentSnapshot.getString("Group");
-            }
-        });
 
         Calendar date= Calendar.getInstance();
         final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
@@ -322,6 +317,8 @@ public class HomeFragment extends Fragment {
                     todayClass.add(snapshot.getString("Subject"));
                     timing.add(snapshot.getDouble("Time"));
                 }
+
+                Log.i(TAG2, "onSuccess: "+todayClass.size()+" "+timing.size());
                 //after getting today's classes setting classes based on userProfile data
                 show.dismiss();
                 setTodaysClass();
@@ -353,6 +350,7 @@ public class HomeFragment extends Fragment {
                                     attendanceModels.add(snapshot.toObject(AttendanceModel.class));
                                 }
                             }
+                            Log.i(TAG2, "onSuccess: "+attendanceModels.size());
                             //setting up adapter class and assigning this adapter to viewPager
                             attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
                             viewPager.setAdapter(attendenceAdaptor);
@@ -374,7 +372,7 @@ public class HomeFragment extends Fragment {
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(final int position) {
-                subjectName.setText(todayClass.get(position));
+                subjectName.setText(attendanceModels.get(position).getSubject());
                 final Double present=attendanceModels.get(position).getPresent();
                 final Double absent=attendanceModels.get(position).getAbsent();
                 //calling setHint function to set up
