@@ -1,7 +1,6 @@
 package com.example.litelo.ui.home;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -126,27 +125,8 @@ public class HomeFragment extends Fragment {
 
         UserID=mAuth.getCurrentUser().getUid();
 
-        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        group = sharedPref.getString(getString(R.string.group_name), "N/A");
+        group=getActivity().getIntent().getStringExtra("Group_Name");
 
-        if(group=="N/A") {
-            Log.i("SharedPref_group", "onCreateView: couldn't find Group");
-            firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    group = documentSnapshot.getString("Group");
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.group_name), group);
-                    editor.apply();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.i("GetGroup", "onFailure: Failed");
-                }
-            });
-            Log.i("GetGroup", "onCreateView: " + group);
-        }
         getSubjectList();
 
         checkDate();

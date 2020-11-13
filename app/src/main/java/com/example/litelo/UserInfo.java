@@ -1,10 +1,10 @@
 package com.example.litelo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -98,9 +98,9 @@ public class UserInfo extends AppCompatActivity {
 
                 else if(iReg>20170000 && iReg<20210000){
 
-                    SharedPreferences sharedPref= UserInfo.this.getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(UserInfo.this);
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.group_name), Group);
+                    editor.putString("Group_Name", Group);
                     editor.apply();
 
                     Calendar date= Calendar.getInstance();
@@ -119,6 +119,7 @@ public class UserInfo extends AppCompatActivity {
                                 addClasses();
                                 Snackbar.make(parentLayout, "Welcome " + Name + "!", Snackbar.LENGTH_SHORT).show();
                                 Intent i = new Intent(UserInfo.this, HomeActivity.class);
+                                i.putExtra("Group_Name",Group);
                                 startActivity(i);
 
                                 Snackbar.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
