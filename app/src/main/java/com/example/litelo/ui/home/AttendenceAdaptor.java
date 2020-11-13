@@ -77,8 +77,9 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         Double absent=attendanceModels.get(position).getAbsent();
         Boolean presentStatus=attendanceModels.get(position).getPresentStatus();
         Boolean absentStatus=attendanceModels.get(position).getAbsentStatus();
+        String Subject=attendanceModels.get(position).getSubject();
         holder.setSeekBar(present,absent,presentStatus,absentStatus);
-        holder.setTime(time);
+        holder.setTime(time, Subject);
     }
 
 
@@ -157,10 +158,15 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             }
 
         }
-        public void setTime(Double time){
-            textView=view.findViewById(R.id.editTime);
+        public void setTime(Double time, String subject){
+
             Integer Time=time.intValue();
             Integer timeMax=Time+1;
+            //if(subject.charAt(subject.length()-1)==')' && subject.charAt(subject.length()-2)=='P'){
+            //    timeMax=Time+3;
+            //}
+
+            textView=view.findViewById(R.id.editTime);
             textView.setText(Time.toString()+":00-"+timeMax.toString()+":00");
         }
 

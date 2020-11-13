@@ -146,19 +146,8 @@ public class HomeFragment extends Fragment {
             });
             Log.i("GetGroup", "onCreateView: " + group);
         }
-
-        mMap=new HashMap<>();
-        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                mMap=documentSnapshot.getData();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+        group="F1";
+        getSubjectList();
 
         checkDate();
 
@@ -176,8 +165,23 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void getSubjectList() {
+        mMap=new HashMap<>();
+        firestore.collection("TimeTable").document(group).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                mMap=documentSnapshot.getData();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
     private void checkHoliday() {
-        firestore.collection("TimeTable").document("E1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("TimeTable").document(group).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Calendar calendar=Calendar.getInstance();
@@ -234,8 +238,8 @@ public class HomeFragment extends Fragment {
         Map<String, Object> map = new HashMap<>();
         map.put("absentStatus", false);
         map.put("presentStatus", false);
-        final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
-        final String[] chemClasses={"Chemistry","Mechanics","CS", "Physics","CS(P)","Maths"};
+        final String[] mechClasses={"Workshop","Workshop(P)","Mechanics(P)","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
+        final String[] chemClasses={"Chemistry","Chemistry(P)", "Physics","CS(P)","CS","Maths","ED","ED(P)","English(Comm.)"};
 
         groupsMech= new String[]{"A1","A2","B1","B2","C1","C2","D1","D2","E1","E2"};
         groupsChem=new String[]{"F1","F2","G1","G2","H1","H2","J1","J2","I1","I2"};
@@ -304,7 +308,7 @@ public class HomeFragment extends Fragment {
         Calendar date= Calendar.getInstance();
         final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
-        firestore.collection("TimeTable").document("E1").collection("Thursday")
+        firestore.collection("TimeTable").document(group).collection(deviceDay)
                 .whereEqualTo("isToday",true)
                 .orderBy("Time", Query.Direction.ASCENDING)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

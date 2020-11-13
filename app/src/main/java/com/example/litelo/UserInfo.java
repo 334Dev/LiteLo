@@ -111,7 +111,7 @@ public class UserInfo extends AppCompatActivity {
                     user.put("Name", Name);
                     user.put("Group", Group);
                     user.put("RegNo", Reg);
-                    user.put("Date", deviceDay);
+                    user.put("Date", "lorem");
 
                     firestore.collection("Users").document(UserUID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -168,7 +168,7 @@ public class UserInfo extends AppCompatActivity {
         //sem check
         if(Arrays.asList(groupsMech).contains(editGroup.getText().toString())) {
             //subject list
-            final String[] mechClasses={"Workshop","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
+            final String[] mechClasses={"Workshop","Workshop(P)","Mechanics(P)","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
 
 
             //creating document of each subject
@@ -190,7 +190,7 @@ public class UserInfo extends AppCompatActivity {
             }
         }else{
             //subject list
-            final String[] chemClasses={"Chemistry","Mechanics","CS", "Physics","CS(P)","Maths"};
+            final String[] chemClasses={"Chemistry","Chemistry(P)", "Physics","CS(P)","CS","Maths","ED","ED(P)","English(Comm.)"};
 
 
             //creating document of each subject

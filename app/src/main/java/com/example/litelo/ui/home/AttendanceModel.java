@@ -5,6 +5,15 @@ public class AttendanceModel {
     private Double Absent;
     private Double Present;
     private Boolean presentStatus, absentStatus;
+    private String Subject;
+
+    public String getSubject() {
+        return Subject;
+    }
+
+    public void setSubject(String Subject) {
+        this.Subject = Subject;
+    }
 
     public Boolean getPresentStatus() {
         return presentStatus;
