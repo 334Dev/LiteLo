@@ -3,6 +3,7 @@ package com.example.litelo.ui.home;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -62,11 +63,25 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     @NonNull
     @Override
     public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_model, parent, false);
         hintViewgrp=parent;
         context=parent.getContext();
-        view.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        DisplayMetrics dm=context.getResources().getDisplayMetrics();
+        int width=dm.widthPixels;
+        int height=dm.heightPixels;
+        double wi=(double)width/(double)dm.xdpi;
+        double hi=(double)height/(double)dm.ydpi;
+        double x = Math.pow(wi,2);
+        double y = Math.pow(hi,2);
+        double screenInches = Math.sqrt(x+y);
+        View view;
+        if(screenInches<5.6){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_model_small, parent, false);
+        }else{
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_model, parent, false);
+        }
+        Log.i("ScreenSize", "onCreateViewHolder: "+screenInches);
 
+        view.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return new AttendenceAdaptor.mViewHolder(view);
     }
 
@@ -190,7 +205,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         else  {
 
             DocumentReference reff=firestore.collection("Users").document(UserID).collection("Classes")
-                    .document(todaysClass.get(adapterPosition));
+                    .document(attendanceModels.get(adapterPosition).getSubject());
 
             Date todayDate = Calendar.getInstance().getTime();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -213,6 +228,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(hintViewgrp.getContext(), "Failed to update", Toast.LENGTH_LONG).show();
+                        Log.i("FailedUpdate", "onFailure: "+e.getMessage());
                     }
                 });
 
@@ -293,7 +309,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
         }
         else  {
             DocumentReference reff=firestore.collection("Users").document(UserID).collection("Classes")
-                    .document(todaysClass.get(adapterPosition));
+                    .document(attendanceModels.get(adapterPosition).getSubject());
 
             Date todayDate = Calendar.getInstance().getTime();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -385,7 +401,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     private void setStatus(int adapterPosition, String userID, Boolean preStatus, Boolean abStatus) {
 
         firestore.collection("Users").document(userID).collection("Classes")
-                .document(todaysClass.get(adapterPosition)).update("presentStatus",preStatus,
+                .document(attendanceModels.get(adapterPosition).getSubject()).update("presentStatus",preStatus,
                 "absentStatus",abStatus);
     }
 

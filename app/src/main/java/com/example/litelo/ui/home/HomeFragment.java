@@ -343,7 +343,7 @@ public class HomeFragment extends Fragment {
             }
         });
         //View pager basic settings
-        viewPager.setPadding(250,0,250,0);
+        viewPager.setPadding(150,0,150,0);
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(4);
