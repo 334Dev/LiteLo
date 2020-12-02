@@ -56,9 +56,18 @@ public class AttendanceHistory extends AppCompatActivity {
         present=0.0;
         absent=0.0;
 
+        recreate();
+
         Intent i=getIntent();
         Subject=i.getStringExtra("Subject");
         UserID=mAuth.getCurrentUser().getUid();
+
+
+        /*   Intent i1 = new Intent(AttendanceHistory.this, AttendanceHistory.class);
+                                finish();
+                                overridePendingTransition(0, 0);
+                                startActivity(i1);
+                                overridePendingTransition(0, 0);*/
 
         getCalendarDates();
 
@@ -158,9 +167,15 @@ public class AttendanceHistory extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
 
                                 Toast.makeText(getApplicationContext(), "Successfully saved", Toast.LENGTH_SHORT).show();
+
+
+
+
                                 Intent intent=new Intent(AttendanceHistory.this, SubjectAttendance.class);
                                 startActivity(intent);
                                 finish();
+
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
