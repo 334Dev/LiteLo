@@ -2,6 +2,7 @@ package com.example.litelo;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -75,6 +76,12 @@ public class subjectAdapter extends RecyclerView.Adapter<subjectAdapter.mViewhol
         public void setProgressBar(Integer present, Integer absent){
             Percentage=view.findViewById(R.id.Attseekbar2);
             perTxt=view.findViewById(R.id.attText2);
+            Percentage.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
             if(present+absent==0){
                 Percentage.setMax(100);
                 Percentage.setProgress(0);

@@ -34,7 +34,7 @@
                 android:text="9:00-10:00"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="21sp"
+                android:textSize="18sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/presentBtn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 app:layout_constraintStart_toStartOf="@+id/attSeekbar"
                 app:layout_constraintTop_toBottomOf="@+id/attSeekbar"
@@ -51,8 +51,8 @@
 
             <ImageView
                 android:id="@+id/absentBtn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 app:layout_constraintEnd_toEndOf="@+id/attSeekbar"
                 app:layout_constraintTop_toBottomOf="@+id/attSeekbar"
@@ -60,8 +60,8 @@
 
             <me.tankery.lib.circularseekbar.CircularSeekBar
                 android:id="@+id/attSeekbar"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:visibility="visible"
                 app:cs_circle_color="#00FFFFFF"
                 app:cs_circle_fill="#00FFFFFF"
@@ -84,7 +84,7 @@
                 android:text="84"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/attSeekbar"
                 app:layout_constraintEnd_toEndOf="@+id/attSeekbar"
                 app:layout_constraintStart_toStartOf="@+id/attSeekbar"
@@ -93,6 +93,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,7 @@ public class splashScreen extends AppCompatActivity {
                 if(mAuth.getCurrentUser()==null){
                     Intent i= new Intent(splashScreen.this, MainActivity.class);
                     startActivity(i);
+                    finish();
                 }
                 else {
 
@@ -73,9 +74,11 @@ public class splashScreen extends AppCompatActivity {
                                 Intent i = new Intent(splashScreen.this, HomeActivity.class);
                                 i.putExtra("Group_Name",group);
                                 startActivity(i);
+                                finish();
                             }else{
                                 Intent i = new Intent(splashScreen.this, UserInfo.class);
                                 startActivity(i);
+                                finish();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
