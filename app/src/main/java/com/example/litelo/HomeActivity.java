@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.litelo.ui.gallery.SubjectList.SHARED_PREFS;
+import static com.example.litelo.ui.gallery.SubjectList.SWITCH1;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -44,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private String UserID;
     private StorageReference storageReference;
+    public static boolean soundState;  //sound
 
 
     @Override
@@ -53,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        loadData();
 
         /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("LiteLoNotify","LiteLoNotify", NotificationManager.IMPORTANCE_DEFAULT);
@@ -208,6 +213,10 @@ public class HomeActivity extends AppCompatActivity {
         notificationManager.createNotificationChannel(channel);
 
 
+    }
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        soundState = sharedPreferences.getBoolean(SWITCH1, true);
     }
 
 }

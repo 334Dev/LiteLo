@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AttendanceHistory"></activity>
+        <activity android:name=".subjectResources"></activity>
+        <activity android:name=".AttendanceHistory" />
         <activity android:name=".ClubClasses" />
         <activity android:name=".PDFViewPage" />
         <activity android:name=".Settings" />
@@ -46,9 +47,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9915472110094523~2090670666"/>
+            android:value="ca-app-pub-9915472110094523~2090670666" />
 
         <receiver android:name=".Notification_receiver" />
     </application>

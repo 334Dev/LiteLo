@@ -4,8 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,29 +14,34 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.litelo.MainActivity;
 import com.example.litelo.R;
-import com.example.litelo.Settings;
-import com.example.litelo.ui.home.AttendenceAdaptor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import static com.example.litelo.HomeActivity.soundState;
 
 public class SubjectList extends Fragment {
 
     private subjectListModel subjectListModel;
-    private Button del,changePasswordBtn,MuteButton;
+    private Button del,changePasswordBtn;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
     private EditText passwordEditText;
     private EditText RePasswordEditText;
     private Context context;
+
+    public static SwitchCompat soundEffects;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String SWITCH1 = "switch1";  //sound
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,21 +50,15 @@ public class SubjectList extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_subjectlist, container, false);
         del=root.findViewById(R.id.buttonDeleteAccount);
         passwordEditText=root.findViewById(R.id.editTextPassword);
-        MuteButton=root.findViewById(R.id.button3);
+        soundEffects=root.findViewById(R.id.sounds_switch);
         RePasswordEditText=root.findViewById(R.id.editTextRePassword);
         changePasswordBtn=root.findViewById(R.id.setNewPassword);
         mAuth=FirebaseAuth.getInstance();
         firebaseUser=mAuth.getCurrentUser();
         context=getContext();
 
-        MuteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-            }
-        });
+        loadData();
+        soundEffects.setChecked(soundState);
 
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,5 +134,25 @@ public class SubjectList extends Fragment {
 
 
         return root;
+    }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(SWITCH1, soundEffects.isChecked());
+
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        soundState = sharedPreferences.getBoolean(SWITCH1, true);
+    }
+
+    @Override
+    public void onDestroy() {
+        saveData();
+        super.onDestroy();
     }
 }

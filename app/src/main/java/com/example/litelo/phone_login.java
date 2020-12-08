@@ -101,7 +101,7 @@ public class phone_login extends AppCompatActivity {
                         verifyAuth(credential);
 
                     }else {
-                        editOTP.setError("Valis OTP is required");
+                        editOTP.setError("Valid OTP is required");
                     }
                 }
             }

@@ -132,7 +132,7 @@ public class email_Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     DocumentSnapshot snapshot=task.getResult();
                                     if(snapshot.exists()){
-                                        Intent i= new Intent(email_Login.this, HomeActivity.class);
+                                        Intent i= new Intent(email_Login.this, splashScreen.class);
                                         startActivity(i);
                                     }
                                     else{
