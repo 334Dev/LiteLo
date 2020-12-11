@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class email_Login extends AppCompatActivity {
 
     private LinearLayout emailLinear;
-    private TextView editMail, editPassword, textLogin, logo_name,group;
+    private TextView editMail, editPassword, textLogin, logo_name,group,forgotPass;
     private ImageView logo;
     private FirebaseAuth mAuth;
     private String email,password;
@@ -54,6 +54,28 @@ public class email_Login extends AppCompatActivity {
         textLogin=findViewById(R.id.state);
         button=findViewById(R.id.button);
         group=findViewById(R.id.groupname);
+        forgotPass=findViewById(R.id.forgotPass);
+
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editMail.getText().toString().isEmpty()) {
+                    editMail.setError("Enter the email ID");
+                } else {
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(editMail.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Email sent", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Failed! verify email", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
 
         logo=findViewById(R.id.logo);
         logo_name=findViewById(R.id.logo_name);

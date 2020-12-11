@@ -8,12 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class resourceAdapter extends RecyclerView.Adapter<resourceAdapter.mViewholder> {
 
-    private String[] resourceModels;
+    private List<String> resourceModels;
 
     private onNoteListener mOnNoteListener;
-    public resourceAdapter(String[] resourceModels,onNoteListener onNoteListener){
+    public resourceAdapter(List<String> resourceModels, onNoteListener onNoteListener){
         this.resourceModels=resourceModels;
         this.mOnNoteListener=onNoteListener;
     }
@@ -27,12 +29,12 @@ public class resourceAdapter extends RecyclerView.Adapter<resourceAdapter.mViewh
 
     @Override
     public void onBindViewHolder(@NonNull mViewholder holder, int position) {
-        holder.setSubjectName(resourceModels[position]);
+        holder.setSubjectName(resourceModels.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return resourceModels.length;
+        return resourceModels.size();
     }
     public interface onNoteListener{
         void onNoteClick(int position);

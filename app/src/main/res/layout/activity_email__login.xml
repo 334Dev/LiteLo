@@ -123,12 +123,23 @@
             android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="Already registered? Login here"
-            android:transitionName="textTransition"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:transitionName="textTransition" />
+
+        <TextView
+            android:id="@+id/forgotPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:text="Forgot Password?"
+            android:fontFamily="@font/helveticaneue_med"
+            android:layout_marginBottom="32dp"
+            />
 
     </LinearLayout>
 

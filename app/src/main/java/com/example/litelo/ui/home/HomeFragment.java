@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -114,6 +115,12 @@ public class HomeFragment extends Fragment {
 
         //SlideBar
         SlideSeekBar=root.findViewById(R.id.slideSeekBar);
+        SlideSeekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         Remaining=root.findViewById(R.id.remaining);
         TotalAttend=root.findViewById(R.id.slideTotalAttend);
         TotalNotAttend=root.findViewById(R.id.slideTotalNotAttend);
@@ -385,6 +392,8 @@ public class HomeFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(queryDocumentSnapshots.isEmpty()){
                     Log.i("ClubClasses", "onSuccess: Empty");
+                    className.setText("No Meeting");
+                    className2.setText("No Meeting");
                 }else {
                     List<DocumentSnapshot> snapshotsList = queryDocumentSnapshots.getDocuments();
                     className.setText(snapshotsList.get(0).getString("Topic"));
@@ -394,6 +403,8 @@ public class HomeFragment extends Fragment {
                         className2.setText(snapshotsList.get(1).getString("Topic"));
                         disc2.setText(snapshotsList.get(1).getString("Description"));
                         timeDate2.setText(snapshotsList.get(1).getString("Timing"));
+                    }else{
+                        className2.setText("No Meeting");
                     }
                 }
 

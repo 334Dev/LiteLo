@@ -46,7 +46,7 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
         subjectRecycler.setHasFixedSize(true);
 
         MobileAds.initialize(this, "ca-app-pub-9915472110094523~2090670666");
-        AdLoader adLoader = new AdLoader.Builder(this, 	"ca-app-pub-3940256099942544/2247696110")
+        AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-9915472110094523/9933679275")
                 .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
                     @Override
                     public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {

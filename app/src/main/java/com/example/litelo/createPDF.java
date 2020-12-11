@@ -514,11 +514,11 @@ public class createPDF extends AppCompatActivity {
                         canvas.drawText(ProjectName.get(i), 8, MainY, myPaint);
                         for (int j = 0; j < 3; j++) {
                             myPaint.setTypeface(Typeface.create(String.valueOf(R.font.montserrat_medium), Typeface.NORMAL));
-                            if (i == 0) {
+                            if (j == 0) {
                                 str = "•  " + project0.get(i);
-                            } else if (i == 1) {
+                            } else if (j == 1) {
                                 str = "•  " + project1.get(i);
-                            } else if (i == 2) {
+                            } else if (j == 2) {
                                 str = "•  " + project2.get(i);
                             }
                             StaticLayout Proj = StaticLayout.Builder.obtain(str, 0, str.length() - 1, myPaint, 190).build();

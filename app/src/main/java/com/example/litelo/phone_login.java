@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.hbb20.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
@@ -115,18 +120,32 @@ public class phone_login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Snackbar.make(parentLayout, "Authentication Successful", Snackbar.LENGTH_SHORT).show();
-                    Intent sharedintent= new Intent(phone_login.this, UserInfo.class);
-                    //Transition Animation
-                    ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(phone_login.this,
-                            new android.util.Pair<View, String>(logo, "logoTransition"),
-                            new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
-                            new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"),
-                            //new Pair<View, String>(group, "groupLayoutTransition"),
-                            new Pair<View, String>(button, "buttonTransition"),
-                            new Pair<View, String>(state, "textTransition"),
-                            new Pair<View, String>(editPhone, "emailInputTransition"),
-                            new Pair<View, String>(editOTP, "passwordTransition"));
-                    startActivity(sharedintent, options.toBundle());
+
+                    String userID=mAuth.getCurrentUser().getUid();
+                    FirebaseFirestore fstore=FirebaseFirestore.getInstance();
+                    fstore.collection("Users").document(userID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if(value.exists()){
+                                Intent intent=new Intent(phone_login.this, splashScreen.class);
+                                startActivity(intent);
+                            }else{
+
+                                Intent sharedintent= new Intent(phone_login.this, UserInfo.class);
+                                //Transition Animation
+                                ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(phone_login.this,
+                                        new android.util.Pair<View, String>(logo, "logoTransition"),
+                                        new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
+                                        new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"),
+                                        //new Pair<View, String>(group, "groupLayoutTransition"),
+                                        new Pair<View, String>(button, "buttonTransition"),
+                                        new Pair<View, String>(state, "textTransition"),
+                                        new Pair<View, String>(editPhone, "emailInputTransition"),
+                                        new Pair<View, String>(editOTP, "passwordTransition"));
+                                startActivity(sharedintent, options.toBundle());
+                            }
+                        }
+                    });
 
                 }else {
                     progressBar.setVisibility(View.GONE);

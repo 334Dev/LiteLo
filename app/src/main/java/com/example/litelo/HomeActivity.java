@@ -156,23 +156,12 @@ public class HomeActivity extends AppCompatActivity {
         menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
-                //Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(HomeActivity.this,Settings.class);
-                startActivity(intent);
+                Intent i=new Intent(HomeActivity.this, userFeedback.class);
+                startActivity(i);
                 return false;
             }
         });
         menu.getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                //Toast.makeText(getApplicationContext(), "Nahi bana hai", Toast.LENGTH_SHORT).show();
-
-                return false;
-            }
-        });
-        menu.getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 

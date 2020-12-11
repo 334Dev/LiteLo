@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/listCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
@@ -19,6 +20,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/listConstraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -30,7 +32,7 @@
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTime">
+                app:layout_constraintTop_toTopOf="@+id/listConstraint">
 
                 <me.tankery.lib.circularseekbar.CircularSeekBar
                     android:id="@+id/attSeekbar"
