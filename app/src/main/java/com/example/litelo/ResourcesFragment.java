@@ -22,7 +22,6 @@ import java.util.List;
 public class ResourcesFragment extends Fragment implements resourceAdapter.onNoteListener {
     private View view;
     private RecyclerView resourceRecycler;
-    private String[] resourceModels={"Mathematics","Physics","Chemistry","Engineering Mechanics","Workshop","Computer Science"};
     private resourceAdapter adapter;
     private FirebaseFirestore fstore;
     private List<String> resourceSubject;
@@ -61,7 +60,7 @@ public class ResourcesFragment extends Fragment implements resourceAdapter.onNot
     @Override
     public void onNoteClick(int position) {
         Intent i=new Intent(getActivity(),subjectResources.class);
-        i.putExtra("Subject",resourceModels[position]);
+        i.putExtra("Subject",resourceSubject.get(position));
         startActivity(i);
     }
 }
