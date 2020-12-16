@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.litelo"
+        applicationId "com.dev334.litelo"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
