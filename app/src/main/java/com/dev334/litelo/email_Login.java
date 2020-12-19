@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -147,22 +148,38 @@ public class email_Login extends AppCompatActivity {
                         if(task.isSuccessful()){
                             //On successful Login
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
-                            String UserUID=mAuth.getCurrentUser().getUid();
-                            firestore.collection("Users").document(UserUID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    DocumentSnapshot snapshot=task.getResult();
-                                    if(snapshot.exists()){
-                                        Intent i= new Intent(email_Login.this, splashScreen.class);
-                                        startActivity(i);
+                            if(user.isEmailVerified()){
+                                Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                                String UserUID=mAuth.getCurrentUser().getUid();
+                                firestore.collection("Users").document(UserUID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        DocumentSnapshot snapshot=task.getResult();
+                                        if(snapshot.exists()){
+                                            Intent i= new Intent(email_Login.this, splashScreen.class);
+                                            startActivity(i);
+                                        }
+                                        else{
+                                            Intent sharedintent= new Intent(email_Login.this, UserInfo.class);
+                                            //Transition Animation
+                                            ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(email_Login.this,
+                                                    new android.util.Pair<View, String>(logo, "logoTransition"),
+                                                    new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
+                                                    new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"),
+                                                    new Pair<View, String>(group, "groupLayoutTransition"),
+                                                    new Pair<View, String>(button, "buttonTransition"),
+                                                    new Pair<View, String>(textLogin, "textTransition"),
+                                                    new Pair<View, String>(editMail, "emailInputTransition"),
+                                                    new Pair<View, String>(editPassword, "passwordTransition"));
+                                            startActivity(sharedintent, options.toBundle());
+                                        }
                                     }
-                                    else{
-                                        Intent i= new Intent(email_Login.this, UserInfo.class);
-                                        startActivity(i);
-                                    }
-                                }
-                            });
+                                });
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Please verify your Email", Toast.LENGTH_LONG).show();
+                            }
+
 
                         }
                         else{
@@ -181,19 +198,19 @@ public class email_Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             //onSuccessful signUp
-                            Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_LONG).show();
-                            Intent sharedintent= new Intent(email_Login.this, UserInfo.class);
-                            //Transition Animation
-                            ActivityOptions options= ActivityOptions.makeSceneTransitionAnimation(email_Login.this,
-                                    new android.util.Pair<View, String>(logo, "logoTransition"),
-                                    new android.util.Pair<View, String>(logo_name,"logoNameTransition"),
-                                    new android.util.Pair<View, String>(emailLinear,"emailLayoutTransition"),
-                                    new Pair<View, String>(group, "groupLayoutTransition"),
-                                    new Pair<View, String>(button, "buttonTransition"),
-                                    new Pair<View, String>(textLogin, "textTransition"),
-                                    new Pair<View, String>(editMail, "emailInputTransition"),
-                                    new Pair<View, String>(editPassword, "passwordTransition"));
-                            startActivity(sharedintent, options.toBundle());
+                            mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    editMail.setText("");
+                                    editPassword.setText("");
+                                    button.setText("Login");
+                                    textLogin.setText("New Here? Create Account");
+                                    userStatus=1;
+                                    Toast.makeText(getApplicationContext(), "Verification link has been sent to your email", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
                         }
                         else{
                             // OnFailure
