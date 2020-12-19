@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/navi_resources"
+            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:title="Resources"/>
+
+        <item
+            android:id="@+id/navi_notification"
+            android:icon="@drawable/ic_baseline_notifications_active_24"
+            android:title="Upcoming Activities" />
+</menu>

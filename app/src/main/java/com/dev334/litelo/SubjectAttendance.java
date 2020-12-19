@@ -8,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.ads.nativetemplates.NativeTemplateStyle;
-import com.google.android.ads.nativetemplates.TemplateView;
-import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.formats.UnifiedNativeAd;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,6 +29,7 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
     private FirebaseFirestore firestore;
     private subjectAdapter adapter;
     private List<subjectModel> subjectModels;
+    private AdView mAdView;
 
 
 
@@ -45,23 +45,15 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
         subjectRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         subjectRecycler.setHasFixedSize(true);
 
-        MobileAds.initialize(this, "ca-app-pub-9915472110094523~2090670666");
-        AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-9915472110094523/9933679275")
-                .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
-                    @Override
-                    public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
-                        NativeTemplateStyle styles = new
-                                NativeTemplateStyle.Builder().build();
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
 
-                        TemplateView template = findViewById(R.id.my_template);
-                        template.setStyles(styles);
-                        template.setNativeAd(unifiedNativeAd);
-
-                    }
-                })
-                .build();
-
-        adLoader.loadAd(new AdRequest.Builder().build());
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         firestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
@@ -99,4 +91,5 @@ public class SubjectAttendance extends AppCompatActivity implements subjectAdapt
         i.putExtra("Subject",Subject);
         startActivity(i);
     }
+
 }
