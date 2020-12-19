@@ -38,7 +38,7 @@ import java.util.Map;
 public class UserInfo extends AppCompatActivity {
 
     private TextView editName, editGroup, editReg;
-    private Button button;
+    private Button button, skipBtn;
     private String Name, Group, Reg;
     private Integer iReg;
     private FirebaseFirestore firestore;
@@ -73,6 +73,15 @@ public class UserInfo extends AppCompatActivity {
         parentLayout = findViewById(android.R.id.content);
 
         button=findViewById(R.id.button);
+        skipBtn=findViewById(R.id.skipBtn);
+
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(UserInfo.this, resHomeActivity.class);
+                startActivity(i);
+            }
+        });
 
         //get allowed groups
         groupAllowed=new ArrayList<>();

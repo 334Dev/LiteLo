@@ -36,7 +36,7 @@
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adUnitId="ca-app-pub-9915472110094523/7415093037"
+        ads:adUnitId="ca-app-pub-4511440584801683/9880725841"
         ads:adSize="BANNER"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
