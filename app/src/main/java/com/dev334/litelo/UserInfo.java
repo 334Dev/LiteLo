@@ -2,6 +2,8 @@ package com.dev334.litelo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,13 +14,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +46,7 @@ public class UserInfo extends AppCompatActivity {
     private String UserUID;
     private View parentLayout;
     private String[] groupsMech, groupsChem;
+    private List<String> groupAllowed;
     private List<String> presentArray, absentArray, cancelArray;;
 
     @Override
@@ -65,6 +73,16 @@ public class UserInfo extends AppCompatActivity {
         parentLayout = findViewById(android.R.id.content);
 
         button=findViewById(R.id.button);
+
+        //get allowed groups
+        groupAllowed=new ArrayList<>();
+
+        firestore.collection("TimeTable").document("group").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                groupAllowed= (List<String>) value.get("allowed");
+            }
+        });
 
 
         //Groups
@@ -95,7 +113,24 @@ public class UserInfo extends AppCompatActivity {
                 else if(!Arrays.asList(groups).contains(Group)){
                     editGroup.setError("InValid Group Name");
                 }
+                else if(!groupAllowed.contains(Group)){
+                    //Snackbar.make(parentLayout, "Sorry our app is currently unavailable for your group, check back later.", Snackbar.LENGTH_SHORT).show();
+                    AlertDialog.Builder alert=new AlertDialog.Builder(UserInfo.this);
+                    View view=getLayoutInflater().inflate(R.layout.resource_dialog,null);
+                    Button accessRes=view.findViewById(R.id.accessRes);
+                    alert.setView(view);
+                    accessRes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i=new Intent(UserInfo.this, resHomeActivity.class);
+                            startActivity(i);
+                        }
+                    });
+                    alert.setCancelable(true);
+                    AlertDialog show=alert.show();
+                    show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+                }
                 else if(iReg>20170000 && iReg<20210000){
 
                     SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(UserInfo.this);
@@ -169,7 +204,8 @@ public class UserInfo extends AppCompatActivity {
         //sem check
         if(Arrays.asList(groupsMech).contains(editGroup.getText().toString())) {
             //subject list
-            final String[] mechClasses={"Workshop","Workshop(P)","Mechanics(P)","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
+            final String[] mechClasses={"Physics(L)","Physics(T)","Maths(L)","Maths(T)","ELC(L)","Mechanics(L)","Mechanics(T)",
+                    "ELC(T)","Language(P)","Workshop(P)","Workshop(L)","Physics(P)","Mechanics(P)"};
 
 
             //creating document of each subject
@@ -191,7 +227,8 @@ public class UserInfo extends AppCompatActivity {
             }
         }else{
             //subject list
-            final String[] chemClasses={"Chemistry","Chemistry(P)", "Physics","CS(P)","CS","Maths","ED","ED(P)","English(Comm.)"};
+            final String[] chemClasses={"Physics(L)","Physics(T)","Maths(L)","Maths(T)","CS(L)","Chemistry(L)","Chemistry(T)",
+                    "CS(T)","CSW(L)","ED(P)","ED(L)","CS(P)","Chemistry(P)"};
 
 
             //creating document of each subject

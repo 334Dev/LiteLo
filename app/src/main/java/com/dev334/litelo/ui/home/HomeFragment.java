@@ -226,8 +226,10 @@ public class HomeFragment extends Fragment {
         Map<String, Object> map = new HashMap<>();
         map.put("absentStatus", false);
         map.put("presentStatus", false);
-        final String[] mechClasses={"Workshop","Workshop(P)","Mechanics(P)","Mechanics","Language Lab", "Physics","Physics(P)","Maths"};
-        final String[] chemClasses={"Chemistry","Chemistry(P)", "Physics","CS(P)","CS","Maths","ED","ED(P)","English(Comm.)"};
+        final String[] mechClasses={"Physics(L)","Physics(T)","Maths(L)","Maths(T)","ELC(L)","Mechanics(L)","Mechanics(T)",
+                "ELC(T)","Language(P)","Workshop(P)","Workshop(L)","Physics(P)","Mechanics(P)"};
+        final String[] chemClasses={"Physics(L)","Physics(T)","Maths(L)","Maths(T)","CS(L)","Chemistry(L)","Chemistry(T)",
+                "CS(T)","CSW(L)","ED(P)","ED(L)","CS(P)","Chemistry(P)"};
 
         groupsMech= new String[]{"A1","A2","B1","B2","C1","C2","D1","D2","E1","E2"};
         groupsChem=new String[]{"F1","F2","G1","G2","H1","H2","J1","J2","I1","I2"};
@@ -292,7 +294,7 @@ public class HomeFragment extends Fragment {
 
         firestore.collection("TimeTable").document(group).collection(deviceDay)
                 .whereEqualTo("isToday",true)
-                .orderBy("Time", Query.Direction.ASCENDING)
+                //.orderBy("Time", Query.Direction.ASCENDING)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -305,6 +307,8 @@ public class HomeFragment extends Fragment {
                     timing.add(snapshot.getDouble("Time"));
                 }
 
+                Log.i("subjectMismatch", "setTodaysClass: "+timing);
+                Log.i("subjectMismatch", "setTodaysClass: "+todayClass);
                 Log.i(TAG2, "onSuccess: "+todayClass.size()+" "+timing.size());
                 //after getting today's classes setting classes based on userProfile data
                 show.dismiss();
@@ -319,47 +323,52 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
+
     //setting today's class with personalized data
     private void setTodaysClass() {
-        firestore.collection("Users").document(UserID).collection("Classes")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots.isEmpty()){
-                            Toast.makeText(getActivity(), "Empty",Toast.LENGTH_SHORT).show();
-                        }else {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            attendanceModels = new ArrayList<>();
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                if (todayClass.contains(snapshot.getId())) {
-                                    //storing data in attendance model class
-                                    attendanceModels.add(snapshot.toObject(AttendanceModel.class));
+            firestore.collection("Users").document(UserID).collection("Classes")
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (queryDocumentSnapshots.isEmpty()) {
+                                Toast.makeText(getActivity(), "Empty", Toast.LENGTH_SHORT).show();
+                            } else {
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                attendanceModels = new ArrayList<>();
+                                for (DocumentSnapshot snapshot : snapshotList) {
+                                    if (todayClass.contains(snapshot.getId())) {
+                                        //storing data in attendance model class
+                                        attendanceModels.add(snapshot.toObject(AttendanceModel.class));
+                                    }
                                 }
+                                for (int i = 0; i < attendanceModels.size(); i++) {
+                                    Log.i("subjectMismatch", "setTodaysClass: " + attendanceModels.get(i).getSubject());
+                                }
+                                Log.i(TAG2, "onSuccess: " + attendanceModels.size());
+                                //setting up adapter class and assigning this adapter to viewPager
+                                attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
+                                viewPager.setAdapter(attendenceAdaptor);
                             }
-                            Log.i(TAG2, "onSuccess: "+attendanceModels.size());
-                            //setting up adapter class and assigning this adapter to viewPager
-                            attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
-                            viewPager.setAdapter(attendenceAdaptor);
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), "Failed to load",Toast.LENGTH_SHORT).show();
-            }
-        });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), "Failed to load", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         //View pager basic settings
         viewPager.setPadding(150,0,150,0);
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(4);
-
         //OnPageSelected
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(final int position) {
-                subjectName.setText(attendanceModels.get(position).getSubject());
+                subjectName.setText(todayClass.get(position));
                 final Double present=attendanceModels.get(position).getPresent();
                 final Double absent=attendanceModels.get(position).getAbsent();
                 //calling setHint function to set up

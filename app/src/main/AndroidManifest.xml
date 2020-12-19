@@ -15,45 +15,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.dev334.litelo.userFeedback"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name="com.dev334.litelo.subjectResources"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.AttendanceHistory"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.ClubClasses"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.PDFViewPage"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.Settings"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.createPDF"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.SubjectAttendance"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.dev334.litelo.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.dev334.litelo.UserInfo"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.dev334.litelo.phone_login"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.dev334.litelo.profileActivity"
+        <activity android:name=".resHomeActivity"></activity>
+        <activity
+            android:name=".userFeedback"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.dev334.litelo.HomeActivity"
+            android:name=".subjectResources"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AttendanceHistory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClubClasses"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PDFViewPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createPDF"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SubjectAttendance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".phone_login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".profileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.dev334.litelo.email_Login"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".email_Login"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name="com.dev334.litelo.splashScreen"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".splashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,10 +74,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.dev334.litelo.services.MyFirebaseInstanceService">
+        <service android:name=".services.MyFirebaseInstanceService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"
-                    />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -72,7 +84,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9915472110094523~2090670666" />
 
-        <receiver android:name="com.dev334.litelo.Notification_receiver" />
+        <receiver android:name=".Notification_receiver" />
     </application>
 
 </manifest>

@@ -281,4 +281,10 @@ public class AttendanceHistory extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        calendarView.getMarkedDates().removeAdd();
+    }
 }
