@@ -312,7 +312,12 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG2, "onSuccess: "+todayClass.size()+" "+timing.size());
                 //after getting today's classes setting classes based on userProfile data
                 show.dismiss();
-                setTodaysClass();
+                if(todayClass.isEmpty()){
+                    subjectName.setText("No Class");
+                }else{
+                    setTodaysClass();
+                }
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {
