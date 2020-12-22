@@ -236,14 +236,15 @@
                 android:fontFamily="@font/helveticaneu_bold"
                 android:text="Loading..."
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
+                android:textSize="@dimen/_13ssp" />
 
             <TextView
                 android:id="@+id/dateTime2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/helveticaneue_medium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
         <TextView
@@ -253,7 +254,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/helveticaneue_medium"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_10ssp" />
     </LinearLayout>
 
     <LinearLayout
@@ -284,14 +286,15 @@
                 android:fontFamily="@font/helveticaneu_bold"
                 android:text="Loading..."
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
+                android:textSize="@dimen/_13ssp" />
 
             <TextView
                 android:id="@+id/dateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/helveticaneue_medium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
         <TextView
@@ -301,7 +304,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/helveticaneue_medium"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_10ssp" />
     </LinearLayout>
 
     <TextView
@@ -311,7 +315,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/helveticaneue_medium"
-        android:text="Next CC Class"
+        android:text="Upcoming Activities"
         android:textColor="@color/colorWhite"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"

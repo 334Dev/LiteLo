@@ -11,6 +11,26 @@
     >
 
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:visibility="gone"
+        android:id="@+id/sounds_switch"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="28dp"
+        android:buttonTint="@color/colorPrimary"
+        android:checked="false"
+        android:gravity="center_vertical"
+        android:switchMinWidth="40dp"
+        android:text="Sound Effect"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:fontFamily="@font/helveticaneue_sem"
+        android:thumbTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/setNewPassword"
+        app:thumbTint="@color/colorWhite"
+        app:trackTint="@color/colorRed"
+        tools:layout_editor_absoluteX="16dp" />
+
     <Button
         android:id="@+id/buttonDeleteAccount"
         android:layout_width="180dp"
@@ -91,30 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRePassword" />
-
-    <TextView
-        android:id="@+id/textViewMute"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/helveticaneu_bold"
-        android:text="Mute App-Sound"
-        android:textColor="@color/colorWhite"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setNewPassword" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mute"
-        android:padding="8dp"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/whiteborder_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewMute"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewMute" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

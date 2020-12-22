@@ -8,9 +8,107 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1091378787756:android:1e6f07289794108293b609",
+        "android_client_info": {
+          "package_name": "com.dev334.litelo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091378787756-2r4ojv8gcktfc91f9ko4gj979fqu1642.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev334.litelo",
+            "certificate_hash": "fb73783508baea124a9d2a86d2dad2fa2acfc862"
+          }
+        },
+        {
+          "client_id": "1091378787756-585bk3ba4jrt25b3hvv88639g4066v8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev334.litelo",
+            "certificate_hash": "d0f0784af68d580e07a7f64b1aff0fb9b79dcda6"
+          }
+        },
+        {
+          "client_id": "1091378787756-7ui03f7cdrm57ggede3pqc004g4a690a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLAwSgPEaWv2Sb-imLg2ogd4HmWTm58gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091378787756-7ui03f7cdrm57ggede3pqc004g4a690a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1091378787756:android:f4df10fbc44b592c93b609",
         "android_client_info": {
           "package_name": "com.example.litelo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091378787756-4ip1d9t7089jnfcoeg3l56108d2vluud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.litelo",
+            "certificate_hash": "203746e24f91cb262427479d881ddd58b745235d"
+          }
+        },
+        {
+          "client_id": "1091378787756-7m4rpooltg3kqr0i4qkj0s2so9hrq173.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.litelo",
+            "certificate_hash": "aef2ac410474a1f4a9f0fd40aa4d49b1c4d9b08d"
+          }
+        },
+        {
+          "client_id": "1091378787756-cva940ll9v86oge4au4g0u9dku95a895.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.litelo",
+            "certificate_hash": "d0f0784af68d580e07a7f64b1aff0fb9b79dcda6"
+          }
+        },
+        {
+          "client_id": "1091378787756-7ui03f7cdrm57ggede3pqc004g4a690a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLAwSgPEaWv2Sb-imLg2ogd4HmWTm58gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091378787756-7ui03f7cdrm57ggede3pqc004g4a690a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091378787756:android:b1a514b40a3aa65493b609",
+        "android_client_info": {
+          "package_name": "com.example.litelo_admin"
         }
       },
       "oauth_client": [

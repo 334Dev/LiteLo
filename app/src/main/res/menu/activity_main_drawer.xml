@@ -11,6 +11,11 @@
             android:title="@string/menu_home" />
 
         <item
+            android:id="@+id/nav_resources"
+            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:title="Resources"/>
+
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_baseline_insert_drive_file_24"
             android:title="Resume Maker" />
@@ -19,6 +24,8 @@
             android:id="@+id/nav_subjectlist"
             android:icon="@drawable/ic_baseline_settings_24"
             android:title="Settings" />
+
+
 
     </group>
 </menu>

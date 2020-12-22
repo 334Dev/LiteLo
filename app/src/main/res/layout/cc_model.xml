@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="22dp"
         android:layout_marginEnd="48dp"
         android:orientation="horizontal"
         android:weightSum="2">
@@ -24,7 +24,7 @@
             android:fontFamily="@font/helveticaneu_bold"
             android:text="Webster"
             android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+            android:textSize="@dimen/_13ssp" />
 
         <TextView
             android:id="@+id/dateTime"
@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="14/02/2021  6:30pm  GS8"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12ssp" />
     </LinearLayout>
 
     <TextView
@@ -43,5 +44,6 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/helveticaneue_medium"
         android:text="Intriduction to Full Stack development"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/_10ssp" />
 </LinearLayout>
