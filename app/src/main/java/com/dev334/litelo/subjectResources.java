@@ -11,11 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +30,6 @@ public class subjectResources extends AppCompatActivity implements subResAdapter
     private FirebaseAuth mAuth;
     private String UserID;
     private TextView resSubName;
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +60,6 @@ public class subjectResources extends AppCompatActivity implements subResAdapter
             }
         });
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = findViewById(R.id.adView3);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
     }
 
     private void setResources() {
@@ -89,7 +73,7 @@ public class subjectResources extends AppCompatActivity implements subResAdapter
 
 
     @Override
-    public void onNoteClick(int position) {
+    public void onNoteClick(final int position) {
         String link=Links.get(position);
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(link));

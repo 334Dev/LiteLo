@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +71,7 @@ public class HomeFragment extends Fragment {
     private ImageView Attendplus, NotAttendplus, Attendminus, NotAttendminus;
 
     private SharedPreferences sharedPref;
+    private LinearLayout linear1, linear2;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -98,10 +101,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        linear1=root.findViewById(R.id.linearLayout2);
         className=root.findViewById(R.id.className);
         disc=root.findViewById(R.id.desc);
         timeDate=root.findViewById(R.id.dateTime);
 
+        linear2=root.findViewById(R.id.linearLayout3);
         className2=root.findViewById(R.id.className2);
         disc2=root.findViewById(R.id.desc2);
         timeDate2=root.findViewById(R.id.dateTime2);
@@ -181,6 +186,11 @@ public class HomeFragment extends Fragment {
                     getTodaysClass();
                 }
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
         });
     }
 
@@ -205,7 +215,7 @@ public class HomeFragment extends Fragment {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.i(TAG, "onFailure: "+e.getMessage());    
+                            Log.i(TAG, "onFailure: "+e.getMessage());
                         }
                     });
                 }else{
@@ -314,6 +324,17 @@ public class HomeFragment extends Fragment {
                 show.dismiss();
                 if(todayClass.isEmpty()){
                     subjectName.setText("No Class");
+                    firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i(TAG, "onSuccess: Network enabled");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: "+e.getMessage());
+                        }
+                    });
                 }else{
                     setTodaysClass();
                 }
@@ -349,7 +370,7 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                                 for (int i = 0; i < attendanceModels.size(); i++) {
-                                    Log.i("subjectMismatch", "setTodaysClass: " + attendanceModels.get(i).getSubject());
+                                    Log.i("subjectMismatch", "setTodayClass: " + attendanceModels.get(i).getSubject());
                                 }
                                 Log.i(TAG2, "onSuccess: " + attendanceModels.size());
                                 //setting up adapter class and assigning this adapter to viewPager
@@ -365,7 +386,7 @@ public class HomeFragment extends Fragment {
             });
 
         //View pager basic settings
-        viewPager.setPadding(150,0,150,0);
+        viewPager.setPadding(0,0,0,0);
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(4);
@@ -409,14 +430,42 @@ public class HomeFragment extends Fragment {
                     className.setText("No Meeting");
                     className2.setText("No Meeting");
                 }else {
-                    List<DocumentSnapshot> snapshotsList = queryDocumentSnapshots.getDocuments();
+                    final List<DocumentSnapshot> snapshotsList = queryDocumentSnapshots.getDocuments();
                     className.setText(snapshotsList.get(0).getString("Topic"));
                     disc.setText(snapshotsList.get(0).getString("Description"));
                     timeDate.setText(snapshotsList.get(0).getString("Timing"));
+
+                    linear1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String link=snapshotsList.get(0).getString("Link");
+                            if(link=="N/A"){
+                                Toast.makeText(getContext(),"No link provided by admin", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(link));
+                                startActivity(i);
+                            }
+                        }
+                    });
+
                     if(queryDocumentSnapshots.size()==2) {
                         className2.setText(snapshotsList.get(1).getString("Topic"));
                         disc2.setText(snapshotsList.get(1).getString("Description"));
                         timeDate2.setText(snapshotsList.get(1).getString("Timing"));
+                        linear2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String link=snapshotsList.get(1).getString("Link");
+                                if(link=="N/A"){
+                                    Toast.makeText(getContext(),"No link provided by admin", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(link));
+                                    startActivity(i);
+                                }
+                            }
+                        });
                     }else{
                         className2.setText("No Meeting");
                     }

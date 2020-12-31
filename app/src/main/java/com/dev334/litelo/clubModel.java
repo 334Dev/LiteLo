@@ -1,18 +1,31 @@
 package com.dev334.litelo;
 
 public class clubModel {
-    private String Topic, Timing, Description;
+    private String Topic;
+    private String Timing;
+    private String Description;
+
+
+    private String Link;
 
     public clubModel(){
         //empty constructor
     }
 
-    public clubModel(String topic, String timing, String description) {
+    public clubModel(String topic, String timing, String description, String link) {
         Topic = topic;
         Timing = timing;
         Description = description;
+        Link=link;
     }
 
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
     public String getTopic() {
         return Topic;
     }

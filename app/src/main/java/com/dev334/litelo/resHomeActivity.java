@@ -1,7 +1,10 @@
 package com.dev334.litelo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ public class resHomeActivity extends AppCompatActivity {
     NotificationFragment notificationFragment;
     BottomNavigationView bottomNav;
     TextView activityName;
+    private ImageView feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +29,17 @@ public class resHomeActivity extends AppCompatActivity {
         resourcesFragment=new ResourcesFragment();
         notificationFragment=new NotificationFragment();
 
+        feedback=findViewById(R.id.menuMore);
         bottomNav= findViewById(R.id.bottomNavigationView);
         activityName=findViewById(R.id.activityName);
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent i=new Intent(resHomeActivity.this, userFeedback.class);
+              startActivity(i);
+            }
+        });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,resourcesFragment).commit();
 
@@ -37,10 +50,12 @@ public class resHomeActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.navi_resources:
+                        feedback.setVisibility(View.VISIBLE);
                         activityName.setText("Resources");
                         replaceFragment(resourcesFragment);
                         break;
                     case R.id.navi_notification:
+                        feedback.setVisibility(View.INVISIBLE);
                         activityName.setText("Upcoming Activities");
                         replaceFragment(notificationFragment);
                         break;
@@ -51,6 +66,12 @@ public class resHomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void gotoMainActivity() {
+
+        Intent intent = new Intent(resHomeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void replaceFragment(Fragment fragment){

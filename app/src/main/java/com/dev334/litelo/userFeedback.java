@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +36,6 @@ public class userFeedback extends AppCompatActivity {
         Subject=findViewById(R.id.subjectText);
         Desc=findViewById(R.id.descText);
 
-        Name.setHintTextColor(getResources().getColor(R.color.colorAccent));
-        Subject.setHintTextColor(getResources().getColor(R.color.colorAccent));
-        Desc.setHintTextColor(getResources().getColor(R.color.colorAccent));
 
         send=findViewById(R.id.sendBtn);
         fstore=FirebaseFirestore.getInstance();
@@ -56,6 +54,7 @@ public class userFeedback extends AppCompatActivity {
                     map.put("Name",Name.getText().toString());
                     map.put("Subject",Subject.getText().toString());
                     map.put("Desc",Desc.getText().toString());
+                    map.put("Time", Calendar.getInstance().getTime().toString());
 
                     fstore.collection("Feedback").document().set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
