@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.dev334.litelo.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -31,6 +32,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
               showNotification(remoteMessage.getData());
           }
     }
+
 
     private void showNotification(Map<String,String>data)
     {
