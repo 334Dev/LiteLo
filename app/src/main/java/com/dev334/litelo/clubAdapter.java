@@ -13,10 +13,11 @@ import java.util.List;
 public class clubAdapter extends RecyclerView.Adapter<clubAdapter.mViewHolder> {
 
     private List<clubModel> clubModels;
-    private clubAdapter.SelectedItem selectedItem;
-    public clubAdapter(List<clubModel> clubModels, clubAdapter.SelectedItem selectedItem){
+    private ClickInterface listner;
+
+    public clubAdapter(List<clubModel> clubModels, ClickInterface listner){
         this.clubModels=clubModels;
-        this.selectedItem=selectedItem;
+        this.listner=listner;
     }
 
     @NonNull
@@ -38,8 +39,8 @@ public class clubAdapter extends RecyclerView.Adapter<clubAdapter.mViewHolder> {
         return clubModels.size();
     }
 
-    public interface SelectedItem{
-        void selectedItem(subjectModel model);
+    public interface ClickInterface {
+        void recyclerviewOnClick(int position);
     }
 
     public class mViewHolder extends RecyclerView.ViewHolder{
@@ -50,6 +51,14 @@ public class clubAdapter extends RecyclerView.Adapter<clubAdapter.mViewHolder> {
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
             view=itemView;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    listner.recyclerviewOnClick(getAdapterPosition());
+
+                }
+            });
         }
         public void setName(String name){
             className=view.findViewById(R.id.className2);

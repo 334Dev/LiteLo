@@ -1,10 +1,13 @@
 package com.dev334.litelo;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationFragment extends Fragment implements resourceAdapter.onNoteListener  {
+public class NotificationFragment extends Fragment implements upcomingAdapter.onNoteListener  {
 
     private View view;
     private RecyclerView clubRecycler;
@@ -35,7 +38,7 @@ public class NotificationFragment extends Fragment implements resourceAdapter.on
         clubRecycler=view.findViewById(R.id.notifactionRec);
 
         clubModels=new ArrayList<>();
-        clubAdapter= new upcomingAdapter(clubModels);
+        clubAdapter= new upcomingAdapter(clubModels, this);
         clubRecycler.setAdapter(clubAdapter);
         clubRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         clubRecycler.setHasFixedSize(true);
@@ -65,6 +68,14 @@ public class NotificationFragment extends Fragment implements resourceAdapter.on
 
     @Override
     public void onNoteClick(int position) {
-
+        Log.i("recyclerViewOnClick", "recyclerviewOnClick: Clicked");
+        String link=clubModels.get(position).getLink();
+        if(link=="N/A"){
+            Toast.makeText(getContext(),"No link provided by admin", Toast.LENGTH_SHORT).show();
+        }else{
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(link));
+            startActivity(i);
+        }
     }
 }

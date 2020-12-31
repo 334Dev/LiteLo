@@ -13,16 +13,17 @@ import java.util.List;
 public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.mViewholder>  {
 
     private List<clubModel> clubModels;
-
-    public upcomingAdapter(List<clubModel> clubModels){
+    private onNoteListener mOnNoteListener;
+    public upcomingAdapter(List<clubModel> clubModels, onNoteListener mOnNoteListener){
         this.clubModels=clubModels;
+        this.mOnNoteListener=mOnNoteListener;
     }
 
     @NonNull
     @Override
     public upcomingAdapter.mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cc_model, parent, false);
-        return new upcomingAdapter.mViewholder(view);
+        return new upcomingAdapter.mViewholder(view, mOnNoteListener);
     }
 
     @Override
@@ -41,12 +42,15 @@ public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.mViewh
         void onNoteClick(int position);
     }
 
-    public class mViewholder extends RecyclerView.ViewHolder{
+    public class mViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View view;
         TextView className, date, desc;
-        public mViewholder(@NonNull View itemView) {
+        onNoteListener onNoteListener;
+        public mViewholder(@NonNull View itemView, onNoteListener onNoteListener) {
             super(itemView);
             view=itemView;
+            itemView.setOnClickListener(this);
+            this.onNoteListener=onNoteListener;
         }
         public void setName(String name){
             className=view.findViewById(R.id.className2);
@@ -59,6 +63,11 @@ public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.mViewh
         public void setDate(String Date){
             date=view.findViewById(R.id.dateTime);
             date.setText(Date);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnNoteListener.onNoteClick(getAdapterPosition());
         }
     }
 }

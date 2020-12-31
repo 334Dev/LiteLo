@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class AttendanceHistory extends AppCompatActivity {
     private Double present,absent;
     private Button saveBtn;
     private View parentLayout;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,25 +51,24 @@ public class AttendanceHistory extends AppCompatActivity {
         calendarView=findViewById(R.id.calendarView);
         saveBtn=findViewById(R.id.saveBtn);
         parentLayout=findViewById(R.id.content);
+        subjectName=findViewById(R.id.textView17);
 
         firestore=FirebaseFirestore.getInstance();
+        firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "onSuccess: enabled");
+            }
+        });
         mAuth=FirebaseAuth.getInstance();
 
         present=0.0;
         absent=0.0;
 
-        recreate();
-
         Intent i=getIntent();
         Subject=i.getStringExtra("Subject");
+        subjectName.setText(Subject);
         UserID=mAuth.getCurrentUser().getUid();
-
-
-        /*   Intent i1 = new Intent(AttendanceHistory.this, AttendanceHistory.class);
-                                finish();
-                                overridePendingTransition(0, 0);
-                                startActivity(i1);
-                                overridePendingTransition(0, 0);*/
 
         getCalendarDates();
 
@@ -165,17 +166,11 @@ public class AttendanceHistory extends AppCompatActivity {
                                 .document(Subject).update("absentArray",absentArray).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
                                 Toast.makeText(getApplicationContext(), "Successfully saved", Toast.LENGTH_SHORT).show();
-
-
-
-
+                                calendarView.getMarkedDates().removeAdd();
                                 Intent intent=new Intent(AttendanceHistory.this, SubjectAttendance.class);
                                 startActivity(intent);
                                 finish();
-
-
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -210,8 +205,8 @@ public class AttendanceHistory extends AppCompatActivity {
                 presentArray= (List<String>) documentSnapshot.get("presentArray");
                 absentArray= (List<String>) documentSnapshot.get("absentArray");
                 cancelArray= (List<String>) documentSnapshot.get("cancelArray");
-                present= documentSnapshot.getDouble("Present");
-                absent= documentSnapshot.getDouble("Absent");
+                //present= documentSnapshot.getDouble("Present");
+                //absent= documentSnapshot.getDouble("Absent");
                 setPresentInCalender();
                 setAbsentInCalender();
                 setCancelInCalendar();
