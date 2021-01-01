@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
@@ -30,7 +31,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -49,12 +52,13 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG ="OfflineFirestore" ;
     private static final String TAG2 ="DayDebug" ;
+    private static final String TAG3 ="NewDatabase" ;
     private AlertDialog.Builder builder;
     private AlertDialog show;
     private HomeViewModel homeViewModel;
     private FirebaseFirestore firestore;
     private TextView className, className2, disc, disc2, timeDate, timeDate2,subjectName, subjectDesc,attText;
-    private List<AttendanceModel> attendanceModels;
+    private List<AttendanceModel> attendanceModels, attendanceModels1;
     private AttendenceAdaptor attendenceAdaptor;
     private String group;
     private String UserID;
@@ -72,6 +76,11 @@ public class HomeFragment extends Fragment {
 
     private SharedPreferences sharedPref;
     private LinearLayout linear1, linear2;
+
+    //newVariables
+    private List<String> todaySubject;
+    private List<Long> subjectTiming;
+    //private List<Number>
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -139,13 +148,15 @@ public class HomeFragment extends Fragment {
 
         group=getActivity().getIntent().getStringExtra("Group_Name");
 
+        checkHoliday1();
+
         getSubjectList();
 
-        checkDate();
+        //checkDate();
 
         setCcClasses();
 
-        checkHoliday();
+        //checkHoliday();
 
         presentAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +166,229 @@ public class HomeFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private void checkHoliday1() {
+        firestore.collection("TimeTable1").document(group).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Calendar calendar=Calendar.getInstance();
+                String currentDate= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                List<String> holidays= (List<String>) documentSnapshot.get("Holiday");
+                if(holidays.contains(currentDate)){
+                    Toast.makeText(getActivity(),"Marked as Holiday by CR",Toast.LENGTH_SHORT).show();
+                }else{
+
+                    getCheckServer();
+                    //getTodaysClass();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void getCheckServer() {
+        Calendar date= Calendar.getInstance();
+        final String deviceDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        Log.i("Date", "checkDate: "+deviceDay);
+
+        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String ServerDate= documentSnapshot.getString("Date");
+                if(ServerDate.contentEquals(deviceDay)){
+                    Log.i(TAG2, "onSuccess: Same- checkDate");
+                    firestore.disableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            samedayCode(deviceDay);
+                            Log.i(TAG, "onSuccess: Successful");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: "+e.getMessage());
+                        }
+                    });
+                }else{
+                    Log.i(TAG2, "onSuccess: Different-checkDate");
+                    //if different calling method newDayChanges
+                    newDayChanges1(deviceDay);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG2, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void samedayCode(final String deviceDay) {
+        attendanceModels = new ArrayList<>();
+        firestore.collection("Users").document(UserID).collection("Classes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()){
+                    Log.i(TAG3, "onSuccess: Empty");
+                }else {
+                    for (final DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        attendanceModels.add(snapshot.toObject(AttendanceModel.class));
+                    }
+                    getTodaysClass1(deviceDay);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG3+"newDayChange", "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void newDayChanges1(final String deviceDay) {
+        attendanceModels = new ArrayList<>();
+        firestore.collection("Users").document(UserID).collection("Classes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()){
+                    Log.i(TAG3, "onSuccess: Empty");
+                }else {
+                    for (final DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        snapshot.getReference().update("absentStatus", false, "presentStatus", false)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                attendanceModels.add(snapshot.toObject(AttendanceModel.class));
+                            }
+                        });
+                    }
+                    setserverDate1(deviceDay);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG3+"newDayChange", "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void setserverDate1(final String deviceDay) {
+        firestore.collection("Users").document(UserID).update("Date", deviceDay).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("setserverDate", "onSuccess: Successful");
+                getTodaysClass1(deviceDay);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("setserverDate", e.getMessage());
+            }
+        });
+    }
+
+    private void getTodaysClass1(String deviceDay) {
+
+        attendanceModels1=new ArrayList<>();
+        todaySubject=new ArrayList<>();
+        subjectTiming=new ArrayList<>();
+
+        firestore.collection("TimeTable1").document(group).collection("timetable")
+                .document(deviceDay).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(value.exists()){
+                    todaySubject= (List<String>) value.get("subjects");
+                    subjectTiming= (List<Long>) value.get("time");
+                    show.dismiss();
+                    if(todaySubject.isEmpty() || subjectTiming.isEmpty()){
+                        subjectName.setText("No Class");
+                        firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.i(TAG, "onSuccess: Network enabled");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i(TAG, "onFailure: "+e.getMessage());
+                            }
+                        });
+                    }else{
+                        Log.i(TAG3, "onEvent: "+attendanceModels.get(1).getSubject()+" "+todaySubject.get(1));
+                        for(int j=0;j<todaySubject.size();j++) {
+                            for (int i = 0; i < attendanceModels.size(); i++) {
+                                if (attendanceModels.get(i).getSubject().equals(todaySubject.get(j))){
+                                    Log.i(TAG3, "onEvent: model1"+todaySubject.get(j));
+                                    attendanceModels1.add(attendanceModels.get(i));
+                                }
+                            }
+                        }
+
+                        if(attendanceModels1.isEmpty()){
+                            Log.i(TAG3, "onEvent: Empty model1");
+                        }else {
+                            setTodaysClass1();
+                        }
+                    }
+                    
+
+                }else{
+                    subjectName.setText("No Class");
+                    firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i(TAG, "onSuccess: Network enabled");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i(TAG, "onFailure: "+e.getMessage());
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void setTodaysClass1() {
+
+        attendenceAdaptor = new AttendenceAdaptor(attendanceModels1, subjectTiming, todaySubject);
+        viewPager.setAdapter(attendenceAdaptor);
+        viewPager.setPadding(0,0,0,0);
+        viewPager.setClipToPadding(false);
+        viewPager.setClipChildren(false);
+        viewPager.setOffscreenPageLimit(4);
+        //OnPageSelected
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(final int position) {
+                subjectName.setText(todaySubject.get(position));
+                final Double present=attendanceModels.get(position).getPresent();
+                final Double absent=attendanceModels.get(position).getAbsent();
+                //calling setHint function to set up
+                setHint(present,absent,position);
+            }
+        });
+
+        firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "onSuccess: Back Online");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+
     }
 
     private void getSubjectList() {
@@ -374,7 +608,7 @@ public class HomeFragment extends Fragment {
                                 }
                                 Log.i(TAG2, "onSuccess: " + attendanceModels.size());
                                 //setting up adapter class and assigning this adapter to viewPager
-                                attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
+                                //attendenceAdaptor = new AttendenceAdaptor(attendanceModels, timing, todayClass);
                                 viewPager.setAdapter(attendenceAdaptor);
                             }
                         }
@@ -506,7 +740,7 @@ public class HomeFragment extends Fragment {
     //setting lower card view details
     private Double percentage=0.0,attend=0.0,notattend=0.0,SwipeAbsent, SwipePresent,totalclass=0.0,tempRemain;
     public void setSwipeUp(final Double present, Double absent,Integer position) {
-        final String subject=todayClass.get(position);
+        final String subject=todaySubject.get(position);
         Object Class= mMap.get(subject);
         totalclass=Double.parseDouble(Class.toString());
         final Double remain = totalclass - present - absent;

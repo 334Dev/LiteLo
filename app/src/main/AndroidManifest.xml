@@ -15,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".resHomeActivity"></activity>
+        <activity
+            android:name=".SubscribedClubs"
+            android:label="@string/title_activity_subscribed_clubs"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".resHomeActivity" />
         <activity
             android:name=".userFeedback"
             android:screenOrientation="portrait" />
