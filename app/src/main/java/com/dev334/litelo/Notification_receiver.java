@@ -1,5 +1,7 @@
 package com.dev334.litelo;
 
+/*This is not useful*/
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

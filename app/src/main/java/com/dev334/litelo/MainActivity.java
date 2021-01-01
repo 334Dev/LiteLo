@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-     /*   FirebaseInstanceId.getInstance().getInstanceId()
+      /* FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {

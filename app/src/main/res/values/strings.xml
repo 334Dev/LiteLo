@@ -20,5 +20,11 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    
+    <array name="Clubs">
+        <item>CC</item>
+        <item>MHM</item>
+        <item>SIMP</item>
+    </array>
 
 </resources>

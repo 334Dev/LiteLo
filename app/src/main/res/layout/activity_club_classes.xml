@@ -22,21 +22,36 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/clubRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="392dp"
+        android:layout_height="377dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/adView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Spinner
+        android:id="@+id/SubSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:entries="@array/Clubs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintTop_toBottomOf="@+id/clubRecycler" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView6"
+    <Button
+        android:id="@+id/SubButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        ads:adUnitId="ca-app-pub-4511440584801683/9880725841"
-        ads:adSize="BANNER"
+        android:layout_marginStart="162dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="76dp"
+        android:text="Subscribe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SubSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

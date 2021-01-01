@@ -24,6 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.dev334.litelo.services.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,6 +68,17 @@ public class HomeActivity extends AppCompatActivity {
         loadData();
 
 
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel mChannel=new NotificationChannel(Constants.Channel_ID,Constants.Channel_ID,NotificationManager.IMPORTANCE_HIGH);
+            mChannel.setDescription(Constants.Channel_DESCRIPTION);
+            mChannel.enableVibration(true);
+
+            mChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
 
 
@@ -199,20 +211,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void initChannels(Context context) {
-        if (Build.VERSION.SDK_INT < 26) {
-            return;
-        }
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel("default",
-                "Channel name",
-                NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("Channel description");
-        notificationManager.createNotificationChannel(channel);
 
-
-    }
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         soundState = sharedPreferences.getBoolean(SWITCH1, true);
