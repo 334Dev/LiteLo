@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -161,6 +162,12 @@ public class UserInfo extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                                 addClasses();
+
+                                //Subscribing the user to that group for notification
+
+                                FirebaseMessaging.getInstance().subscribeToTopic(Group);
+
+
                                 Snackbar.make(parentLayout, "Welcome " + Name + "!", Snackbar.LENGTH_SHORT).show();
                                 Intent i = new Intent(UserInfo.this, HomeActivity.class);
                                 i.putExtra("Group_Name",Group);

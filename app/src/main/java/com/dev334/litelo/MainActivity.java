@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -118,6 +121,23 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+      /* FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                        if(task.isSuccessful()){
+                            String token=task.getResult().getToken();
+                            Toast.makeText(MainActivity.this,token,Toast.LENGTH_SHORT).show();
+                            Log.i("Token Generated", "onComplete: Token: "+token);
+
+                        }else{
+                            Toast.makeText(MainActivity.this,"Failed Token",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });*/
 
     }
 
