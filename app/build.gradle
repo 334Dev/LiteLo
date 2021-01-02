@@ -59,6 +59,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:19.5.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'com.google.firebase:firebase-dynamic-links:19.1.1'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+
     testImplementation 'junit:junit:4.12'
     implementation 'com.hbb20:ccp:2.4.0'
     implementation 'sun.bob:mcalendarview:1.0.0'
