@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.services.Constants;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +30,7 @@ public class ClubClasses extends AppCompatActivity implements com.dev334.litelo.
     private FirebaseFirestore firestore;
     private List<clubModel> clubModels;
     private clubAdapter clubAdapter;
-    Spinner SubSpinner;
-    Button SubButton;
+    private Button floatingSubscribed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +44,16 @@ public class ClubClasses extends AppCompatActivity implements com.dev334.litelo.
         firestore=FirebaseFirestore.getInstance();
 
 
-        SubSpinner=findViewById(R.id.SubSpinner);
-
-
         createNotificationChannel();
 
-        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
+        floatingSubscribed=findViewById(R.id.fab_bell);
 
 
-        findViewById(R.id.SubButton).setOnClickListener(new View.OnClickListener() {
+        floatingSubscribed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              String topic=SubSpinner.getSelectedItem().toString();
-                FirebaseMessaging.getInstance().subscribeToTopic(topic);
-                Toast.makeText(getApplicationContext(),"Subscribed",Toast.LENGTH_SHORT).show();
+                Intent i=new Intent(ClubClasses.this, SubscribedClubs.class);
+                startActivity(i);
             }
         });
 

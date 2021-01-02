@@ -15,10 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".SubscribedClubs"
-            android:label="@string/title_activity_subscribed_clubs"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".BrowseClubContainer"></activity>
+        <activity android:name=".SubscribedClubs"></activity>
         <activity android:name=".resHomeActivity" />
         <activity
             android:name=".userFeedback"
@@ -90,15 +88,11 @@
 
         <receiver android:name=".Notification_receiver" />
 
-        <service
-            android:name=".services.MyFirebaseInstanceIdService">
+        <service android:name=".services.MyFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-
-
     </application>
 
 </manifest>
