@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ClubDetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView18"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="52dp"
+            android:src="@drawable/browse_club_greybox"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/greenbutton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/helveticaneue_med"
+            android:gravity="center_vertical"
+            android:text="Type: \nCultural"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+            app:layout_constraintStart_toEndOf="@+id/imageView16"
+            app:layout_constraintTop_toTopOf="@+id/imageView16" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helveticaneue_sem"
+            android:paddingBottom="16dp"
+            android:text="Rajasthani"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_36ssp"
+            app:layout_constraintStart_toStartOf="@+id/imageView16"
+            app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+        <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/facebook_float"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="@font/helveticaneue_sem"
+            android:text="Coordinator"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/montserrat_normal"
+            android:text="Chitransh"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/helveticaneue_med"
+            android:text="TextView"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/greenbutton"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="Subscribe"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

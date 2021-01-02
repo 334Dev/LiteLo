@@ -36,7 +36,7 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mViewHolder> {
 
-    private List<Double> timing;
+    private List<Long> timing;
     private static String TAG="DateArray";
 
     private List<AttendanceModel> attendanceModels;
@@ -52,7 +52,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     private ViewGroup hintViewgrp;
     int flag;
     Context context;
-    public AttendenceAdaptor(List<AttendanceModel> attendanceModels, List<Double> timing, List<String> todaysClass) {
+    public AttendenceAdaptor(List<AttendanceModel> attendanceModels, List<Long> timing, List<String> todaysClass) {
         this.attendanceModels = attendanceModels;
         this.timing=timing;
         this.todaysClass=todaysClass;
@@ -87,7 +87,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        Double time=timing.get(position);
+        Long time=timing.get(position);
         Double present=attendanceModels.get(position).getPresent();
         Double absent=attendanceModels.get(position).getAbsent();
         Boolean presentStatus=attendanceModels.get(position).getPresentStatus();
@@ -101,7 +101,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
     @Override
 
     public int getItemCount() {
-        return attendanceModels.size();
+        return todaysClass.size();
     }
 
     public class mViewHolder extends RecyclerView.ViewHolder{
@@ -173,7 +173,7 @@ public class AttendenceAdaptor extends RecyclerView.Adapter<AttendenceAdaptor.mV
             }
 
         }
-        public void setTime(Double time, String subject){
+        public void setTime(Long time, String subject){
 
             Integer Time=time.intValue();
             Integer timeMax=Time+1;

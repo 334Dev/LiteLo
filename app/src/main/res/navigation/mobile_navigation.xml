@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_subjectlist" />
 
     <fragment
+        android:id="@+id/nav_clubs"
+        android:name="com.dev334.litelo.BrowseClubFragment"
+        android:label="Clubs"
+        tools:layout="@layout/fragment_browse_club" />
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.dev334.litelo.ui.Pdfcreate.createPdfFragment"
         android:label="@string/menu_slideshow"
