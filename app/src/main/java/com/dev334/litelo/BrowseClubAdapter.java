@@ -70,9 +70,13 @@ public class BrowseClubAdapter extends RecyclerView.Adapter<BrowseClubAdapter.mV
         }
 
         public void setImageView(String Link){
-            Picasso.get()
-                    .load(Link)
-                    .into(LogoImg);
+            if(Link=="NA"){
+                LogoImg.setImageResource(R.drawable.ic_baseline_explore_24);
+            }else {
+                Picasso.get()
+                        .load(Link)
+                        .into(LogoImg);
+            }
         }
 
         public void setClubText(String s) {

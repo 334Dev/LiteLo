@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/helveticaneue_med"
-                    android:text="Wellfare"
+                    android:text="Welfare"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
                     android:visibility="invisible" />

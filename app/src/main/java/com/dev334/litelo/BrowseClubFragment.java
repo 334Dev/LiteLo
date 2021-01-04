@@ -224,6 +224,17 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
     public void onNoteClick(final int position) {
         final AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
         View view=getLayoutInflater().inflate(R.layout.club_dialog,null);
+
+        int pos=position;
+        if(FILTER!=1) {
+            String clubname=mClub.get(position);
+            for (int i = 0; i < club.size(); i++) {
+                if (clubname.equals(club.get(i))) {
+                    pos = i;
+                }
+            }
+        }
+
         Button facebook=view.findViewById(R.id.facbook_dialog);
         subscribe=view.findViewById(R.id.subscribe_dialog);
         ImageView clubLogoD=view.findViewById(R.id.logo_dialog);
@@ -231,47 +242,51 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         TextView clubDescD=view.findViewById(R.id.desc_dialog);
         TextView clubTypeD=view.findViewById(R.id.type_dialog);
 
-        if(link.get(position).equals("NA")){
+        if(link.get(pos).equals("NA")){
             facebook.setVisibility(View.GONE);
         }
-        if(logo.get(position).equals("NA")){
+        if(logo.get(pos).equals("NA")){
             Log.i("clubLogo", "onNoteClick: No Logo");
+            clubLogoD.setImageResource(R.drawable.ic_baseline_explore_24);
         }else{
             Picasso.get()
-                    .load(logo.get(position))
+                    .load(logo.get(pos))
                     .into(clubLogoD);
         }
 
 
-        clubNameD.setText(club.get(position));
-        clubDescD.setText(description.get(position));
-        clubTypeD.setText("Type:\n"+type.get(position));
+        clubNameD.setText(club.get(pos));
+        clubDescD.setText(description.get(pos));
+        clubTypeD.setText("Type:\n"+type.get(pos));
 
         if(subscribedClubs.isEmpty()){
+            final int finalPos3 = pos;
             subscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String topic=club.get(position);
+                    String topic=club.get(finalPos3);
                     addtoFirestore(topic);
                 }
             });
         }else{
-            if(subscribedClubsContains(club.get(position))){
+            if(subscribedClubsContains(club.get(pos))){
                 subscribe.setText("Subscribed");
                 subscribe.setBackground(getResources().getDrawable(R.drawable.black_round_button));
+                final int finalPos1 = pos;
                 subscribe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String topic=club.get(position);
+                        String topic=club.get(finalPos1);
                         removeFromFirestore(topic);
                     }
                 });
 
             }else{
+                final int finalPos = pos;
                 subscribe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String topic=club.get(position);
+                        String topic=club.get(finalPos);
                         addtoFirestore(topic);
                     }
                 });
@@ -279,10 +294,11 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         }
 
         alert.setView(view);
+        final int finalPos2 = pos;
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String FBlink=link.get(position);
+                String FBlink=link.get(finalPos2);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(FBlink));
                 startActivity(i);

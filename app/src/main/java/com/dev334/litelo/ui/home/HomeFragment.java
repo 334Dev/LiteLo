@@ -177,6 +177,7 @@ public class HomeFragment extends Fragment {
                 List<String> holidays= (List<String>) documentSnapshot.get("Holiday");
                 if(holidays.contains(currentDate)){
                     Toast.makeText(getActivity(),"Marked as Holiday by CR",Toast.LENGTH_SHORT).show();
+                    show.dismiss();
                 }else{
 
                     getCheckServer();
@@ -341,6 +342,7 @@ public class HomeFragment extends Fragment {
 
                 }else{
                     subjectName.setText("No Class");
+                    show.dismiss();
                     firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
