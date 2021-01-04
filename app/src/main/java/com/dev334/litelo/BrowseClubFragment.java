@@ -40,7 +40,7 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
     private ViewPager2 viewPager;
     private FirebaseFirestore firestore;
     private List<String> link,logo,description,club,type,mClub, mLogo;
-    private static int FILTER=1;
+    private static int FILTER=1,STATUS=1;
     private BrowseClubAdapter browseClubAdapter;
     private TextView BigClubName, allText, culturalText, technicalText, welfareText;
     private LinearLayout all,cultural,technical,welfare;
@@ -247,36 +247,38 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         clubDescD.setText(description.get(position));
         clubTypeD.setText("Type:\n"+type.get(position));
 
+
+
+
         if(subscribedClubs.isEmpty()){
-            subscribe.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String topic=club.get(position);
-                    addtoFirestore(topic);
-                }
-            });
+               STATUS=0;
         }else{
             if(subscribedClubsContains(club.get(position))){
                 subscribe.setText("Subscribed");
                 subscribe.setBackground(getResources().getDrawable(R.drawable.black_round_button));
-                subscribe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String topic=club.get(position);
-                        removeFromFirestore(topic);
-                    }
-                });
+                STATUS=1;
 
             }else{
-                subscribe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String topic=club.get(position);
-                        addtoFirestore(topic);
-                    }
-                });
+                STATUS=0;
             }
         }
+
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(STATUS==1)
+                {
+                    String topic=club.get(position);
+                    removeFromFirestore(topic);
+                    STATUS=0;
+                }
+                else{
+                    String topic=club.get(position);
+                    addtoFirestore(topic);
+                    STATUS=1;
+                }
+            }
+        });
 
         alert.setView(view);
         facebook.setOnClickListener(new View.OnClickListener() {
