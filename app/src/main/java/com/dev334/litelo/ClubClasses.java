@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.services.Constants;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -30,7 +31,7 @@ public class ClubClasses extends AppCompatActivity implements com.dev334.litelo.
     private FirebaseFirestore firestore;
     private List<clubModel> clubModels;
     private clubAdapter clubAdapter;
-    private Button floatingSubscribed;
+    private FloatingActionButton floatingSubscribed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

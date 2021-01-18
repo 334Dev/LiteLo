@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class SubscribedClubs extends AppCompatActivity implements subResAdapter.onNoteListener {
 
-    private Button floatingAdd;
+    private FloatingActionButton floatingAdd;
     private List<String> subscribedClubs;
     private FirebaseFirestore firestore;
     private FirebaseAuth mAuth;
