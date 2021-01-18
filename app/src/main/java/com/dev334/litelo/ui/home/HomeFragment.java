@@ -41,7 +41,11 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -80,6 +84,7 @@ public class HomeFragment extends Fragment {
     //newVariables
     private List<String> todaySubject;
     private List<Long> subjectTiming;
+    private Map<String, Long> ClassMap;
     //private List<Number>
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -294,8 +299,32 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void getTodaysClass1(String deviceDay) {
+    private Map<String, Long> sortByValue(final boolean order, Map<String, Long> classMap)
+    {
+        List<Map.Entry<String, Long>> list = new LinkedList<Map.Entry<String, Long>>(classMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Long>>()
+        {
+            public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2)
+            {
+                if (order)
+                {
+                    return o1.getValue().compareTo(o2.getValue());}
+                else
+                {
+                    return o2.getValue().compareTo(o1.getValue());
+                }
+            }
+        });
+        Map<String, Long> sortedMap = new LinkedHashMap<String, Long>();
+        for (Map.Entry<String, Long> entry : list)
+        {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
 
+    private void getTodaysClass1(String deviceDay) {
+        ClassMap=new HashMap<>();
         attendanceModels1=new ArrayList<>();
         todaySubject=new ArrayList<>();
         subjectTiming=new ArrayList<>();
@@ -305,7 +334,54 @@ public class HomeFragment extends Fragment {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(value.exists()){
-                    todaySubject= (List<String>) value.get("subjects");
+
+                    ClassMap= (Map<String, Long>) value.get("subjects");
+
+                    Log.i("HashMapList", "onEvent: "+ClassMap.size());
+
+                    ClassMap = sortByValue(true, ClassMap);
+                    Log.i("HashMapList", "onEvent: "+ClassMap.size()+" "+ClassMap.values());
+                    show.dismiss();
+                    if(ClassMap.isEmpty()){
+                        subjectName.setText("No Class");
+                        firestore.enableNetwork().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.i(TAG, "onSuccess: Network enabled");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i(TAG, "onFailure: "+e.getMessage());
+                            }
+                        });
+                    }else{
+
+                        for(int i=0;i<ClassMap.size();i++){
+                            subjectTiming.add((Long) ClassMap.values().toArray()[i]);
+                        }
+
+                        for(String key: ClassMap.keySet()){
+                            todaySubject.add(key);
+                        }
+
+                        for(int j=0;j<todaySubject.size();j++) {
+                            for (int i = 0; i < attendanceModels.size(); i++) {
+                                if (attendanceModels.get(i).getSubject().equals(todaySubject.get(j))){
+                                    Log.i(TAG3, "onEvent: model1"+todaySubject.get(j));
+                                    attendanceModels1.add(attendanceModels.get(i));
+                                }
+                            }
+                        }
+
+                        if(attendanceModels1.isEmpty()){
+                            Log.i(TAG3, "onEvent: Empty model1");
+                        }else {
+                            setTodaysClass1();
+                        }
+                    }
+
+                    /*todaySubject= (List<String>) value.get("subjects");
                     subjectTiming= (List<Long>) value.get("time");
                     show.dismiss();
                     if(todaySubject.isEmpty() || subjectTiming.isEmpty()){
@@ -337,7 +413,7 @@ public class HomeFragment extends Fragment {
                         }else {
                             setTodaysClass1();
                         }
-                    }
+                    }*/
                     
 
                 }else{
@@ -360,7 +436,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setTodaysClass1() {
-
+        Log.i("SizeofLists", "setTodaysClass1: "+attendanceModels1.size()+subjectTiming.size()+todaySubject.size());
         attendenceAdaptor = new AttendenceAdaptor(attendanceModels1, subjectTiming, todaySubject);
         viewPager.setAdapter(attendenceAdaptor);
         viewPager.setPadding(0,0,0,0);

@@ -87,10 +87,10 @@ public class UserInfo extends AppCompatActivity {
         //get allowed groups
         groupAllowed=new ArrayList<>();
 
-        firestore.collection("TimeTable").document("group").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        firestore.collection("TimeTable1").document("groups").addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                groupAllowed= (List<String>) value.get("allowed");
+                groupAllowed= (List<String>) value.get("group");
             }
         });
 

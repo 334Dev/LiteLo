@@ -40,7 +40,7 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
     private ViewPager2 viewPager;
     private FirebaseFirestore firestore;
     private List<String> link,logo,description,club,type,mClub, mLogo;
-    private static int FILTER=1;
+    private static int FILTER=1,STATUS=0;
     private BrowseClubAdapter browseClubAdapter;
     private TextView BigClubName, allText, culturalText, technicalText, welfareText;
     private LinearLayout all,cultural,technical,welfare;
@@ -260,38 +260,33 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         clubTypeD.setText("Type:\n"+type.get(pos));
 
         if(subscribedClubs.isEmpty()){
-            final int finalPos3 = pos;
-            subscribe.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String topic=club.get(finalPos3);
-                    addtoFirestore(topic);
-                }
-            });
+            STATUS=0;
         }else{
             if(subscribedClubsContains(club.get(pos))){
+                STATUS=1;
                 subscribe.setText("Subscribed");
                 subscribe.setBackground(getResources().getDrawable(R.drawable.black_round_button));
-                final int finalPos1 = pos;
-                subscribe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String topic=club.get(finalPos1);
-                        removeFromFirestore(topic);
-                    }
-                });
 
             }else{
-                final int finalPos = pos;
-                subscribe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String topic=club.get(finalPos);
-                        addtoFirestore(topic);
-                    }
-                });
+                STATUS=0;
             }
         }
+
+
+        final int finalPos = pos;
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String topic=club.get(finalPos);
+                if(STATUS==0) {
+                    addtoFirestore(topic);
+                    STATUS=1;
+                }else{
+                    STATUS=0;
+                    removeFromFirestore(topic);
+                }
+            }
+        });
 
         alert.setView(view);
         final int finalPos2 = pos;
