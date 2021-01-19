@@ -172,7 +172,9 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(final int position) {
-                BigClubName.setText(mClub.get(position));
+                if(position<mClub.size()) {
+                    BigClubName.setText(mClub.get(position));
+                }
             }
         });
 

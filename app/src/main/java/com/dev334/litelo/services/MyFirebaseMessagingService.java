@@ -15,5 +15,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
        //String aas=remoteMessage.getNotification().getClickAction();
 
        MyNotificationManager.getInstance(getApplicationContext()).displayNotification(title,body);
+
     }
 }

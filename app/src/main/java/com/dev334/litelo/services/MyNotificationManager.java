@@ -8,7 +8,6 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
 import com.dev334.litelo.HomeActivity;
-import com.dev334.litelo.MainActivity;
 import com.dev334.litelo.R;
 
 public class MyNotificationManager {

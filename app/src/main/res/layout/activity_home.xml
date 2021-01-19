@@ -22,5 +22,24 @@
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/colorWhite"
         app:itemTextColor="@color/colorWhite"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" >
+
+        <ImageView
+            android:id="@+id/instagram"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/instagram_icon" />
+
+        <ImageView
+            android:id="@+id/shareApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="64dp"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/ic_baseline_share_24" />
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

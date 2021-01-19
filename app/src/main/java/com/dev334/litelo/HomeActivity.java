@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,17 +24,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.dev334.litelo.services.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -56,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
     private String UserID;
     private StorageReference storageReference;
     public static boolean soundState;  //sound
+    private ImageView instagram, shareApp;
 
 
     @Override
@@ -103,12 +98,41 @@ public class HomeActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        instagram=navigationView.findViewById(R.id.instagram);
+        shareApp=navigationView.findViewById(R.id.shareApp);
+
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://instagram.com/litelo.334?igshid=1rx9e57doj5pp"));
+                startActivity(i);
+            }
+        });
+
+        shareApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Download LiteLo App");
+                i.putExtra(Intent.EXTRA_TEXT, "Download LiteLo App \n https://play.google.com/store/apps/details?id=com.dev334.litelo");
+                startActivity(Intent.createChooser(i, "Share app"));
+//                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//                Uri pdfUri = Uri.parse("https://play.google.com/store/apps/details?id=com.dev334.litelo");
+//                sharingIntent.setType("*/*");
+//                sharingIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+//                startActivity(Intent.createChooser(sharingIntent, "Share using"));
+            }
+        });
+
         //Inflate the header view
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerName = headerView.findViewById(R.id.header_Name);
         headerReg = headerView.findViewById(R.id.branch_Reg);
         headerPic = headerView.findViewById(R.id.header_Pic);
         ViewProfile = headerView.findViewById(R.id.viewProfile);
+
 
         ViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
