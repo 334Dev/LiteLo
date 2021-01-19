@@ -12,7 +12,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
        String title=remoteMessage.getNotification().getTitle();
        String body=remoteMessage.getNotification().getBody();
-      // String aas=remoteMessage.getNotification().getClickAction();
+       //String aas=remoteMessage.getNotification().getClickAction();
 
        MyNotificationManager.getInstance(getApplicationContext()).displayNotification(title,body);
     }

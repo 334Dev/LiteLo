@@ -161,7 +161,7 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         return root;
     }
 
-    private void setupViewPager(List<String> mLogo, List<String> mClub ) {
+    private void setupViewPager(List<String> mLogo, final List<String> mClub ) {
         browseClubAdapter = new BrowseClubAdapter(mLogo,mClub,this);
         viewPager.setAdapter(browseClubAdapter);
         viewPager.setPadding(0,0,250,0);
@@ -172,7 +172,7 @@ public class BrowseClubFragment extends Fragment implements BrowseClubAdapter.on
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(final int position) {
-                BigClubName.setText(club.get(position));
+                BigClubName.setText(mClub.get(position));
             }
         });
 

@@ -471,7 +471,7 @@ public class HomeFragment extends Fragment {
 
     private void getSubjectList() {
         mMap=new HashMap<>();
-        firestore.collection("TimeTable").document(group).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("TimeTable1").document(group).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 mMap=documentSnapshot.getData();
