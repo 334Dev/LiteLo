@@ -41,5 +41,14 @@
             android:layout_marginLeft="64dp"
             android:layout_marginBottom="16dp"
             app:srcCompat="@drawable/ic_baseline_share_24" />
+
+        <ImageView
+            android:id="@+id/reviewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="112dp"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/ic_baseline_star_rate_24" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,11 @@ import com.dev334.litelo.services.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.OnCompleteListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,7 +56,10 @@ public class HomeActivity extends AppCompatActivity {
     private String UserID;
     private StorageReference storageReference;
     public static boolean soundState;  //sound
-    private ImageView instagram, shareApp;
+    private ImageView instagram, shareApp,reviewButton;
+
+    ReviewManager manager;
+    ReviewInfo reviewInfo;
 
 
     @Override
@@ -100,6 +109,41 @@ public class HomeActivity extends AppCompatActivity {
 
         instagram=navigationView.findViewById(R.id.instagram);
         shareApp=navigationView.findViewById(R.id.shareApp);
+        reviewButton=navigationView.findViewById(R.id.reviewButton);
+
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manager= ReviewManagerFactory.create(HomeActivity.this);
+                Task<ReviewInfo> request=manager.requestReviewFlow();
+
+
+                request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ReviewInfo> task) {
+                        if(task.isSuccessful())
+                        {
+                            reviewInfo=task.getResult();
+                            Task<Void> flow=manager.launchReviewFlow(HomeActivity.this,reviewInfo);
+                            flow.addOnSuccessListener(new com.google.android.play.core.tasks.OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+
+                                }
+                            });
+
+                        }else
+                        {
+                            Toast.makeText(HomeActivity.this,"Some Error Occured",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+
 
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override

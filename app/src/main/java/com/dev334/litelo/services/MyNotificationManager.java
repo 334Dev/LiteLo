@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
@@ -27,7 +28,7 @@ public class MyNotificationManager {
         return  mInstance;
     }
 
-    public void displayNotification(String title,String body){
+    public void displayNotification(String title, String body){
 
         NotificationCompat.Builder mBuilder=new NotificationCompat.Builder(mCtx,Constants.Channel_ID)
                 .setSmallIcon(R.drawable.logo_green)
@@ -35,8 +36,12 @@ public class MyNotificationManager {
                 .setContentText(body);
 
         Intent intent=new Intent(mCtx, HomeActivity.class);
+       //  Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/"));
+       // String u="https://www.google.com/";
 
-        PendingIntent pendingIntent=PendingIntent.getActivity(mCtx,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        PendingIntent pendingIntent=PendingIntent.getActivity(mCtx,0,intent,0);
 
         mBuilder.setContentIntent(pendingIntent);
         NotificationManager mNotificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
