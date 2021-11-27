@@ -248,14 +248,14 @@ public class loginFragment extends Fragment {
         }
     }
     private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        final AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            checkProfileCreated();
+                            checkGoogleEmail();
                         } else {
                             // If sign in fails, display a message to the user.
                             Snackbar.make(parentLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
@@ -265,6 +265,25 @@ public class loginFragment extends Fragment {
                         // ...
                     }
                 });
+    }
+
+    private void checkGoogleEmail(){
+        Email=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if(!Email.endsWith("@mnnit.ac.in")){
+            mAuth.getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(getContext(), "Use college Gsuit ID", Toast.LENGTH_SHORT);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Error Signing in", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            checkProfileCreated();
+        }
     }
 
 }
