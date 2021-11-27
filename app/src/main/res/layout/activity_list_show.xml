@@ -27,7 +27,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/helveticaneue_med"
         android:text="Subject-wise Attendance"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -49,7 +49,7 @@ import java.util.concurrent.Executor;
 public class loginFragment extends Fragment {
 
     private View view;
-    private Button Login, GoogleSignUp;
+    private Button Login, phoneAuth;
     private TextView EditEmail, EditPassword;
     private TextView ForgotPwd, NewUser;
     private String Email,Password;
@@ -63,8 +63,6 @@ public class loginFragment extends Fragment {
     ArrayList<String> interest;
     private static String TAG="LoginFragmentLog";
 
-    private GoogleSignInOptions gso;
-    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +81,7 @@ public class loginFragment extends Fragment {
         mAuth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
 
-        GoogleSignUp=view.findViewById(R.id.GoogleSignUpLogin);
+        phoneAuth=view.findViewById(R.id.phoneAuthBtn);
         ForgotPwd=view.findViewById(R.id.ForgetPasswordLogin);
         NewUser=view.findViewById(R.id.LoginTextSignup);
         EditEmail= view.findViewById(R.id.editEmailLogin);
@@ -97,20 +95,6 @@ public class loginFragment extends Fragment {
 
         parentLayout=view.findViewById(R.id.LoginFragmentLayout);
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
-
-        GoogleSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoogleSignIn();
-            }
-        });
-
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +106,13 @@ public class loginFragment extends Fragment {
                 }else {
                     loading.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+
+        phoneAuth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((LoginActivity)getActivity()).openPhoneAuth();
             }
         });
 
@@ -160,11 +151,6 @@ public class loginFragment extends Fragment {
     public static void setSnackBar(View root, String snackTitle) {
         Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_SHORT);
         snackbar.show();
-    }
-
-    private void GoogleSignIn(){
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void SignInUser() {
@@ -224,65 +210,6 @@ public class loginFragment extends Fragment {
             } else {
                 return true;
             }
-        }
-    }
-
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Log.i("GoogleFail", "onActivityResult: "+e.getMessage());
-                // Google Sign In failed, update UI appropriately
-                Snackbar.make(parentLayout, "Google Sign in Failed", Snackbar.LENGTH_SHORT).show();
-            }
-        }
-    }
-    private void firebaseAuthWithGoogle(String idToken) {
-        final AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            checkGoogleEmail();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Snackbar.make(parentLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-
-                        }
-
-                        // ...
-                    }
-                });
-    }
-
-    private void checkGoogleEmail(){
-        Email=FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        if(!Email.endsWith("@mnnit.ac.in")){
-            mAuth.getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Toast.makeText(getContext(), "Use college Gsuit ID", Toast.LENGTH_SHORT);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "Error Signing in", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else{
-            checkProfileCreated();
         }
     }
 

@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 
 import com.dev334.litelo.R;
-import com.dev334.litelo.phone_login;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -26,6 +25,10 @@ public class phoneAuthFragment extends Fragment {
     private Button Generate;
     private View view;
     private String code,phone;
+
+    private String verificationId;
+    private PhoneAuthProvider.ForceResendingToken token;
+    private Boolean verificationInProgress=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class phoneAuthFragment extends Fragment {
     }
 
     private void requestOTP(String phoneNo) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNo, 60L, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNo, 60L, TimeUnit.SECONDS, getActivity(), new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {

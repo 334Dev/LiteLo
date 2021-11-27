@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/subject_hw"
+    android:background="@color/Grey"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/helveticaneu_bold"
             android:text="Webster"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="@dimen/_13ssp" />
 
         <TextView
@@ -44,6 +44,6 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/helveticaneue_medium"
         android:text="Intriduction to Full Stack development"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="@dimen/_10ssp" />
 </LinearLayout>

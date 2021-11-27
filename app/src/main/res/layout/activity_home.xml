@@ -20,8 +20,8 @@
         android:layout_gravity="start"
         android:background="@color/Grey"
         android:fitsSystemWindows="true"
-        app:itemIconTint="@color/colorWhite"
-        app:itemTextColor="@color/colorWhite"
+        app:itemIconTint="@color/Text"
+        app:itemTextColor="@color/Text"
         app:menu="@menu/activity_main_drawer" >
 
         <ImageView
@@ -30,8 +30,7 @@
             android:layout_height="24dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/instagram_icon" />
+            android:layout_marginBottom="16dp" />
 
         <ImageView
             android:id="@+id/shareApp"
@@ -39,8 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="64dp"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/ic_baseline_share_24" />
+            android:layout_marginBottom="16dp"/>
 
         <ImageView
             android:id="@+id/reviewButton"
@@ -48,7 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="112dp"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/ic_baseline_star_rate_24" />
+            android:layout_marginBottom="16dp" />
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

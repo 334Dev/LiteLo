@@ -17,7 +17,7 @@
         android:paddingEnd="8dp"
         android:text="Show All"
         android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="14sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
             app:layout_constraintEnd_toEndOf="@+id/slideSeekBar"
@@ -53,7 +53,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="16dp"
             android:text="Not Attend"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/slideTotalNotAttend"
@@ -70,7 +70,7 @@
             app:cs_circle_fill="#00FFFFFF"
 
 
-            app:cs_circle_progress_color="@color/colorWhite"
+            app:cs_circle_progress_color="@color/Text"
             app:cs_circle_stroke_width="8dp"
             app:cs_circle_style="round"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="Attend"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
             app:layout_constraintEnd_toStartOf="@+id/slideSeekBar"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="Not Attend"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/slideSeekBar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Remaining "
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.465"
@@ -165,7 +165,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Attend:"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="0"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
             app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -189,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
             android:text="0"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
             app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="0"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView6"
             app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -235,7 +235,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/helveticaneu_bold"
                 android:text="Loading..."
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/Text"
                 android:textSize="@dimen/_13ssp" />
 
             <TextView
@@ -254,7 +254,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/helveticaneue_medium"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="@dimen/_10ssp" />
     </LinearLayout>
 
@@ -285,7 +285,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/helveticaneu_bold"
                 android:text="Loading..."
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/Text"
                 android:textSize="@dimen/_13ssp" />
 
             <TextView
@@ -304,7 +304,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/helveticaneue_medium"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="@dimen/_10ssp" />
     </LinearLayout>
 
@@ -316,7 +316,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/helveticaneue_medium"
         android:text="Upcoming Activities"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -329,7 +329,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/helveticaneue_medium"
         android:text="Today's Class"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
@@ -355,7 +355,7 @@
         android:paddingEnd="8dp"
         android:text="Show All"
         android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="14sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
@@ -380,7 +380,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="Maths"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="20dp" />
 
         <TextView
@@ -391,7 +391,7 @@
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/helveticaneue_medium"
             android:text="You can miss the next class"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/Text"
             android:textSize="16sp" />
     </LinearLayout>
 

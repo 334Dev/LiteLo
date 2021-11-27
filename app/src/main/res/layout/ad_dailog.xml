@@ -38,7 +38,7 @@
                 style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:indeterminateTint="@color/colorWhite"
+                android:indeterminateTint="@color/Text"
                 android:visibility="visible" />
 
             <Button
@@ -46,10 +46,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/greenbutton"
+                android:background="@color/colorPrimary"
                 android:fontFamily="@font/helveticaneue_sem"
                 android:text="open pdf"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/White"
                 android:textSize="@dimen/_18ssp" />
         </LinearLayout>
 

@@ -10,19 +10,46 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/email_vector.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_back.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/greybutton.xml" value="0.2169230769230769" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_app_logo.xml" value="0.2169230769230769" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_send_24_theme.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_icons8_google.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_logo_red.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/whiteborder_btn.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/whitebutton.xml" value="0.2169230769230769" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_browse_club_container.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_club_classes.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_list_show.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_res_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_settings.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_splash_screen.xml" value="0.18" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_subscribed_clubs.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_user_feedback.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_user_info.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/ad_dailog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/browseclub_model.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/cc_model.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/club_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_browse_club.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_club_details.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_create_profile.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_email_verification.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home_end.xml" value="0.17685185185185184" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login_home.xml" value="0.14" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_signup.xml" value="0.20416666666666666" />
       </map>
     </option>

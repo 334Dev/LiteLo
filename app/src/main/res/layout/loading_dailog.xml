@@ -24,7 +24,7 @@
         android:fontFamily="@font/helveticaneue_light"
         android:text="Loading"
         android:textAlignment="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

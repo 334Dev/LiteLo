@@ -14,5 +14,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_green" />
+        app:srcCompat="@drawable/ic_app_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

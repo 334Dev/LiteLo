@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".UI.Login.emailVerifyFragment">
+    tools:context=".Login.emailVerifyFragment">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/verifcationDone"
@@ -16,13 +16,13 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         android:alpha="1"
-        android:background="@color/red_500"
+        android:background="@color/colorPrimary"
         android:fontFamily="@font/poppinsmedium"
         android:gravity="center"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:text="Done"
-        android:textColor="@color/white"
+        android:textColor="@color/White"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
             android:layout_marginEnd="32dp"
             android:text="We have already sent you verification email, please check it"
             android:textAlignment="center"
-            android:textColor="@color/hint"
+            android:textColor="@color/Hint"
             android:textSize="16sp" />
     </LinearLayout>
 

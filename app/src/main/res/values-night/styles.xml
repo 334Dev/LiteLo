@@ -3,12 +3,11 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/Background</item>
-        <item name="Grey">@color/Grey</item>
+        <item name="colorPrimaryDark">@color/background</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:navigationBarColor">@color/Background</item>
-        <item name="android:windowBackground">@color/Background</item>
-        <item name="android:colorBackground">@color/Background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

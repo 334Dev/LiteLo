@@ -25,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/helveticaneue_sem"
         android:text="Subject"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/Text"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

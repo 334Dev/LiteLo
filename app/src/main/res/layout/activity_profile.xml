@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/background"
     tools:context=".profileActivity">
 
      <ImageView
@@ -15,7 +15,7 @@
          android:layout_marginTop="16dp"
          app:layout_constraintStart_toStartOf="parent"
          app:layout_constraintTop_toBottomOf="@+id/profile_regNo"
-         app:srcCompat="@drawable/white_roundline" />
+         app:srcCompat="@drawable/ic_app_logo" />
 
      <TextView
          android:id="@+id/textView11"
@@ -24,7 +24,7 @@
          android:layout_marginTop="16dp"
          android:fontFamily="@font/helveticaneue_medium"
          android:text="Reg No."
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="22dp"
          app:layout_constraintEnd_toEndOf="@+id/imageView4"
          app:layout_constraintStart_toStartOf="@+id/imageView4"
@@ -36,7 +36,7 @@
          android:layout_height="140dp"
          android:layout_centerHorizontal="true"
          android:layout_marginTop="48dp"
-         android:src="@drawable/avatar"
+         android:src="@drawable/ic_app_logo"
          app:layout_constraintEnd_toEndOf="parent"
          app:layout_constraintStart_toStartOf="parent"
          app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +52,7 @@
          android:text="Loading..."
          android:textAlignment="center"
 
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="28dp"
          app:layout_constraintEnd_toEndOf="parent"
          app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
          android:fontFamily="@font/helveticaneue_medium"
          android:text="Loading..."
 
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="24dp"
          app:layout_constraintEnd_toEndOf="@+id/imageView4"
          app:layout_constraintStart_toStartOf="@+id/imageView4"
@@ -84,7 +84,7 @@
          android:fontFamily="@font/helveticaneue_medium"
 
          android:text="Loading..."
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="24dp"
          app:layout_constraintEnd_toEndOf="@+id/imageView3"
          app:layout_constraintStart_toStartOf="@+id/imageView3"
@@ -98,17 +98,17 @@
          app:layout_constraintEnd_toEndOf="@+id/profile_name"
          app:layout_constraintStart_toStartOf="@+id/profile_name"
          app:layout_constraintTop_toBottomOf="@+id/profile_name"
-         app:srcCompat="@drawable/green_roundline" />
+         app:srcCompat="@drawable/ic_app_logo" />
 
      <Button
          android:id="@+id/button2"
          android:layout_width="140dp"
          android:layout_height="28dp"
          android:layout_marginTop="16dp"
-         android:background="@drawable/whiteborder_btn"
+         android:background="@drawable/ic_app_logo"
          android:text="Delete Account"
          android:visibility="invisible"
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          app:layout_constraintEnd_toEndOf="@+id/imageView"
          app:layout_constraintStart_toStartOf="@+id/imageView"
          app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -120,7 +120,7 @@
          android:layout_marginTop="16dp"
          android:fontFamily="@font/helveticaneue_medium"
          android:text="Group"
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="22dp"
          app:layout_constraintEnd_toEndOf="@+id/imageView3"
          app:layout_constraintStart_toStartOf="@+id/imageView3"
@@ -134,17 +134,17 @@
          android:layout_marginEnd="42dp"
          app:layout_constraintEnd_toEndOf="parent"
          app:layout_constraintTop_toBottomOf="@+id/profile_Grp"
-         app:srcCompat="@drawable/white_roundline" />
+         app:srcCompat="@drawable/ic_app_logo" />
 
      <Button
          android:id="@+id/logout_profile"
          android:layout_width="150dp"
          android:layout_height="50dp"
          android:layout_marginBottom="72dp"
-         android:background="@drawable/whiteborder_btn"
+         android:background="@drawable/ic_app_logo"
          android:fontFamily="@font/helveticaneu_bold"
          android:text="Logout"
-         android:textColor="@color/colorWhite"
+         android:textColor="@color/Text"
          android:textSize="24sp"
          app:layout_constraintBottom_toBottomOf="parent"
          app:layout_constraintEnd_toEndOf="parent"
