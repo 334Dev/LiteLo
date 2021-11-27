@@ -13,12 +13,16 @@ import android.widget.Toast;
 
 
 import com.dev334.litelo.R;
+import com.dev334.litelo.phone_login;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
 public class phoneAuthFragment extends Fragment {
 
-    private TextView editPhone, editCode;
+    private TextView editPhone, editCode,state;
     private Button Generate;
     private View view;
     private String code,phone;
@@ -37,6 +41,7 @@ public class phoneAuthFragment extends Fragment {
 
         editCode=view.findViewById(R.id.countryCodePhone);
         editPhone=view.findViewById(R.id.PhoneNumber);
+        state=view.findViewById(R.id.textView47);
         Generate=view.findViewById(R.id.GenerateOTPBtn);
 
         Generate.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +66,36 @@ public class phoneAuthFragment extends Fragment {
     }
 
     private void requestOTP(String phoneNo) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNo, 60L, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
+            @Override
+            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                super.onCodeSent(s, forceResendingToken);
+                state.setText("OTP sent");
+                editCode.setVisibility(View.VISIBLE);
+                verificationId =  s;
+                token = forceResendingToken;
+                Generate.setText("Verify");
+                verificationInProgress = true;
+            }
+
+            @Override
+            public void onCodeAutoRetrievalTimeOut(String s) {
+                super.onCodeAutoRetrievalTimeOut(s);
+            }
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+
+                Toast.makeText(getContext(), "Cannot create acount" + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 }
