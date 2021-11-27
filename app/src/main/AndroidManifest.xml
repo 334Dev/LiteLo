@@ -15,38 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BrowseClubContainer"></activity>
-        <activity android:name=".SubscribedClubs"></activity>
-        <activity android:name=".resHomeActivity" />
         <activity
             android:name=".userFeedback"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".subjectResources"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AttendanceHistory"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ClubClasses"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PDFViewPage"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Settings"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".createPDF"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SubjectAttendance"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UserInfo"
             android:screenOrientation="portrait" />
         <activity
             android:name=".phone_login"
@@ -59,9 +35,6 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".email_Login"
-            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"

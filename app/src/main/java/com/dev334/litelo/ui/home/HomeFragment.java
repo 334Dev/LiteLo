@@ -26,7 +26,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.dev334.litelo.ClubClasses;
 import com.dev334.litelo.R;
-import com.dev334.litelo.SubjectAttendance;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

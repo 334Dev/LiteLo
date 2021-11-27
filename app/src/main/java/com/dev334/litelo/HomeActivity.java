@@ -24,6 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.services.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,8 +43,6 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.dev334.litelo.ui.gallery.SubjectList.SHARED_PREFS;
-import static com.dev334.litelo.ui.gallery.SubjectList.SWITCH1;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -69,11 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        loadData();
-
-
-
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NotificationChannel mChannel=new NotificationChannel(Constants.Channel_ID,Constants.Channel_ID,NotificationManager.IMPORTANCE_HIGH);
@@ -85,18 +79,10 @@ public class HomeActivity extends AppCompatActivity {
         }
 
 
-
-        /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel=new NotificationChannel("LiteLoNotify","LiteLoNotify", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager= getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-
-        }*/
-
         //checking whether login or not
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser().getUid().isEmpty()) {
-            Intent i = new Intent(HomeActivity.this, MainActivity.class);
+            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(i);
         } else {
             UserID = mAuth.getCurrentUser().getUid();
@@ -266,7 +252,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void gotoMainActivity() {
-        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -276,13 +262,6 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-
-
-    public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        soundState = sharedPreferences.getBoolean(SWITCH1, true);
     }
 
 }
