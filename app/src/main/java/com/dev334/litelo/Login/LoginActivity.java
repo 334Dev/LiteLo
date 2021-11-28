@@ -9,13 +9,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev334.litelo.Database.TinyDB;
+import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.Login.loginHomeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.ArrayList;
@@ -62,10 +68,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if(FRAGMENT==0){
             replaceFragment(loginHome);
+        }else if(FRAGMENT==2){
+            replaceFragment(CreateProfileFragment);
         }else{
             replaceFragment(loginFrag);
         }
-
     }
 
     public void openLogin(){

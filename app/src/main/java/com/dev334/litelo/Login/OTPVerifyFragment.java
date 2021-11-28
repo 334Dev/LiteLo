@@ -171,11 +171,15 @@ public class OTPVerifyFragment extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         loading.setVisibility(View.INVISIBLE);
                         if(task.isSuccessful()){
-                            Log.i(TAG, "onComplete: "+task.toString());
-                            Intent i = new Intent(getActivity(), HomeActivity.class);
-                            startActivity(i);
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()) {
+                                Intent i = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(i);
+                            }else{
+                                ((LoginActivity)getActivity()).openCreateProfile();
+                            }
                         }else{
-                            ((LoginActivity)getActivity()).openCreateProfile();
+                            Log.i(TAG, "onComplete: "+task.getException());
                         }
                     }
                 });

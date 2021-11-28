@@ -14,6 +14,7 @@ import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import static com.dev334.litelo.Login.signUpFragment.setSnackBar;
 
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Login.LoginActivity;
@@ -76,7 +77,7 @@ public class createProfileFragment extends Fragment {
                 else if(RegNo.isEmpty()){
                     EditReg.setError("Write Your Registration No.");
                 }
-                else if(Integer.parseInt(RegNo) < 2017000 || Integer.parseInt(RegNo) > 2022000){
+                else if(Integer.parseInt(RegNo) < 20170000 || Integer.parseInt(RegNo) > 20220000){
                     EditReg.setError("Invalid Registration No.");
                 }
                 else{
@@ -88,17 +89,17 @@ public class createProfileFragment extends Fragment {
                         @Override
                         public void onSuccess(Void aVoid) {
 
-                            Snackbar.make(parentLayout, "Welcome " + FullName + "!", Snackbar.LENGTH_SHORT).show();
+                            setSnackBar(parentLayout, "Welcome " + FullName + "!");
                             Intent i = new Intent(getContext(), HomeActivity.class);
                             startActivity(i);
 
-                            Snackbar.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
+                            //.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Snackbar.make(parentLayout, "Error occurred in connecting to server", Snackbar.LENGTH_SHORT).show();
+                            setSnackBar(parentLayout, "An error occurred");
                         }
                     });
                 }

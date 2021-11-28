@@ -23,7 +23,6 @@ public class splashScreen extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
-    private String group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,37 +56,17 @@ public class splashScreen extends AppCompatActivity {
 
                     String UserID=mAuth.getCurrentUser().getUid();
 
-                    firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            group=documentSnapshot.getString("Group");
-                            Log.i("Group_Name", "onSuccess: "+group);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i("Group_Name", "onFailure: "+e.getMessage());
-                        }
-                    });
-
-
-                    firestore.collection("Users").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    firestore.collection("NewUsers").document(UserID).
+                    get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if(documentSnapshot.exists()){
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                if(prefs.getBoolean("locked", false)){
-                                    //
-                                }else{
-                                    FirebaseMessaging.getInstance().subscribeToTopic(group);
-                                    prefs.edit().putBoolean("subscribed", true).apply();
-                                }
                                 Intent i = new Intent(splashScreen.this, HomeActivity.class);
-                                i.putExtra("Group_Name",group);
                                 startActivity(i);
                                 finish();
                             }else{
                                 Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                                i.putExtra("FRAGMENT", 2);
                                 startActivity(i);
                                 finish();
                             }
