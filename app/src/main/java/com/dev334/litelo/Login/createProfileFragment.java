@@ -15,25 +15,33 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.Database.TinyDB;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class createProfileFragment extends Fragment {
 
     private View view;
     private TinyDB tinyDB;
-    private String PhoneNo,Username,Organisation,Facebook, Instagram;
-    private TextView EditName,EditFB,EditInsta,EditInterest;
-    private TextView EditOrg;
+    private String FullName,RegNo;
+    private TextView EditName,EditReg;
     private Button btnCreate;
-    private ArrayList<String> Organisations,userInterest;
-    private static String TAG="CreateProfile";
-    private String uInterest;
-    private ArrayAdapter<String> adapter;
+    private FirebaseFirestore firestore;
+    private FirebaseAuth mAuth;
+    private String UserUID;
+    private View parentLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,51 +55,52 @@ public class createProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_create_profile, container, false);
 
+        parentLayout = view.findViewById(android.R.id.content);
         EditName=view.findViewById(R.id.EditName);
-        EditOrg=view.findViewById(R.id.EditOrg);
-        EditFB=view.findViewById(R.id.EditFacebook);
-        EditInsta=view.findViewById(R.id.EditInsta);
+        EditReg=view.findViewById(R.id.EditReg);
         btnCreate=view.findViewById(R.id.btnCreate);
-        EditInterest=view.findViewById(R.id.EditInterest);
-
-
-        Organisations=new ArrayList<>();
-        userInterest=new ArrayList<>();
+        mAuth=FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        UserUID = mAuth.getUid();
         tinyDB=new TinyDB(getContext());
-        userInterest=tinyDB.getListString("UserInterest");
-        setupText();
-        PhoneNo=tinyDB.getString("PhoneNumber");
-
-        adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, Organisations);
-
-        EditOrg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        EditInterest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Username=EditName.getText().toString();
-                Organisation=EditOrg.getText().toString();
-                Facebook=EditFB.getText().toString();
-                Instagram=EditInsta.getText().toString();
+                FullName=EditName.getText().toString();
+                RegNo=EditReg.getText().toString();
 
-                if(check()){
-                    ((LoginActivity)getActivity()).setProfileData(Username, Organisation, Facebook, Instagram, userInterest);
-                    ((LoginActivity)getActivity()).openPhoneAuth();
+                if(FullName.isEmpty()){
+                    EditName.setError("Write the Name");
+                }
+                else if(RegNo.isEmpty()){
+                    EditReg.setError("Write Your Registration No.");
+                }
+                else if(Integer.parseInt(RegNo) < 2017000 || Integer.parseInt(RegNo) > 2022000){
+                    EditReg.setError("Invalid Registration No.");
+                }
+                else{
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("Name", FullName);
+                    user.put("Group", RegNo);
+
+                    firestore.collection("NewUsers").document(UserUID).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Snackbar.make(parentLayout, "Welcome " + FullName + "!", Snackbar.LENGTH_SHORT).show();
+                            Intent i = new Intent(getContext(), HomeActivity.class);
+                            startActivity(i);
+
+                            Snackbar.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Snackbar.make(parentLayout, "Error occurred in connecting to server", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
@@ -99,59 +108,5 @@ public class createProfileFragment extends Fragment {
         return view;
     }
 
-    private void setupText() {
-
-        uInterest="";
-        for(int i=0;i<userInterest.size();i++){
-            uInterest=uInterest+userInterest.get(i)+" | ";
-        }
-        EditInterest.setText(uInterest);
-    }
-
-
-
-    private boolean check() {
-        if(Username.isEmpty()){
-            return false;
-        }else if(Organisation.isEmpty()){
-            return false;
-        }else{
-            if(Organisations.contains(Organisation)){
-                if(!Instagram.isEmpty()){
-                    if(!URLUtil.isValidUrl(Instagram)){
-                        EditInsta.setError("Enter valid URL or else leave empty");
-                        return false;
-                    }else{
-                        if(!Instagram.contains("instagram") || !Instagram.toLowerCase().contains("instagram")){
-                            EditInsta.setError("Enter valid URL or else leave empty");
-                            return false;
-                        }
-                    }
-                }
-                if(!Facebook.isEmpty()){
-                    if(!URLUtil.isValidUrl(Facebook)){
-                        EditFB.setError("Enter valid URL or else leave empty");
-                        return false;
-                    }else{
-                        if(!Facebook.contains("facebook") || !Facebook.toLowerCase().contains("facebook")){
-                            EditFB.setError("Enter valid URL or else leave empty");
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }else{
-                return false;
-            }
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        EditOrg.setText(tinyDB.getString("Organisation"));
-        userInterest=tinyDB.getListString("UserInterest");
-        setupText();
-    }
     
 }
