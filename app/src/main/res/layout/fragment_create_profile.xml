@@ -57,7 +57,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="48dp"
             android:fontFamily="@font/poppinsregular"
-            android:text="Use your orginal name so that your colleagues can find you"
+            android:text="Just a last step before you begin..."
             android:textColor="@color/Hint"
             android:textSize="16sp" />
 
@@ -72,7 +72,7 @@
             android:drawablePadding="8dp"
             android:ems="10"
             android:fontFamily="@font/poppinsregular"
-            android:hint="Name*"
+            android:hint="Full Name*"
             android:inputType="textPersonName"
             android:paddingStart="16dp"
             android:paddingTop="12dp"
@@ -83,7 +83,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/EditOrg"
+            android:id="@+id/EditReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -94,8 +94,9 @@
             android:drawablePadding="8dp"
             android:focusableInTouchMode="false"
             android:fontFamily="@font/poppinsregular"
-            android:hint="Organisation*"
+            android:hint="Registration number*"
             android:paddingStart="16dp"
+            android:inputType="number"
             android:paddingTop="12dp"
             android:paddingEnd="16dp"
             android:paddingBottom="12dp"
@@ -103,72 +104,7 @@
             android:textColorHint="@color/Hint"
             android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/EditFacebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_facebook_24_sec"
-            android:drawablePadding="8dp"
-            android:ems="10"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="Facebook "
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/Hint"
-            android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/EditInsta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_app_logo"
-            android:drawablePadding="8dp"
-            android:ems="10"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="Instagram "
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/Hint"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/EditInterest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/primary_outline_textbox"
-            android:drawableLeft="@drawable/ic_baseline_sports_esports_24"
-            android:drawablePadding="8dp"
-            android:ems="10"
-            android:focusableInTouchMode="false"
-            android:fontFamily="@font/poppinsregular"
-            android:hint="Interest"
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/Text"
-            android:textColorHint="@color/Hint"
-            android:textSize="16sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
