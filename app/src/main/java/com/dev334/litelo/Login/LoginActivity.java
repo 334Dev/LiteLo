@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.R;
 import com.dev334.litelo.Login.loginHomeFragment;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private OTPVerifyFragment otpFragment;
     private createProfileFragment CreateProfileFragment;
     private String PhoneNo,Username,Organisation,Facebook, Instagram;
+    private PhoneAuthProvider.ForceResendingToken mResendToken;
     private ArrayList<String> Organisations,userInterest;
     private TinyDB tinyDB;
     private TextView loginTxt;
@@ -86,9 +88,10 @@ public class LoginActivity extends AppCompatActivity {
         replaceFragment(otpFragment);
     }
 
-    public void setPhoneNo(String phone, String verifyID){
+    public void setPhoneNo(String phone, String verifyID, PhoneAuthProvider.ForceResendingToken rToken){
         phoneNo=phone;
         verificationID=verifyID;
+        mResendToken=rToken;
     }
 
     public void openCreateProfile(){

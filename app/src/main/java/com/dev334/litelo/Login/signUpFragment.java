@@ -34,7 +34,7 @@ import java.util.Map;
 public class signUpFragment extends Fragment {
 
     private View view;
-    private Button SignUp, GoogleSignUp;
+    private Button SignUp, PhoneSignUp;
     private TextView EditEmail, EditPassword, Login;
     private String Email,Password;
     private FirebaseAuth mAuth;
@@ -54,7 +54,7 @@ public class signUpFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_signup, container, false);
 
-        GoogleSignUp=view.findViewById(R.id.GoogleSignUp);
+        PhoneSignUp=view.findViewById(R.id.phoneAuthBtn);
 
         EditEmail= view.findViewById(R.id.editEmailSignup);
         EditPassword=view.findViewById(R.id.editPasswordSignUp);
@@ -67,6 +67,13 @@ public class signUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((LoginActivity)getActivity()).openLogin();
+            }
+        });
+
+        PhoneSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((LoginActivity)getActivity()).openPhoneAuth();
             }
         });
 
@@ -84,14 +91,6 @@ public class signUpFragment extends Fragment {
                 if(check(Email,Password)){
                     signUpUser();
                 }
-            }
-        });
-
-
-        GoogleSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
