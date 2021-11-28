@@ -34,7 +34,7 @@ public class Notification_receiver extends BroadcastReceiver {
          //Making notification builder
         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"LiteLoNotify")
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.ic_app_logo)
                 .setContentTitle("Hello mnnitians")
                 .setContentText("Build your resume nowwwwwww")
                 .setAutoCancel(true)

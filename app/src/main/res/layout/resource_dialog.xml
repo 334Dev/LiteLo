@@ -36,12 +36,12 @@
                 android:id="@+id/accessRes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/greenbutton"
+                android:background="@color/colorPrimary"
                 android:fontFamily="@font/helveticaneue_sem"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="ACCESS RESOURCES"
-                android:textColor="@color/Text" />
+                android:textColor="@color/White" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

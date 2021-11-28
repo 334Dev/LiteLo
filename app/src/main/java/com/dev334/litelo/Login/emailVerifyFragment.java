@@ -12,10 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import com.dev334.litelo.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class emailVerifyFragment extends Fragment {
 
@@ -24,6 +30,7 @@ public class emailVerifyFragment extends Fragment {
     private ConstraintLayout parentLayout;
     private static String TAG="EmailVerifyLOG";
     private ProgressBar loading;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class emailVerifyFragment extends Fragment {
         loading=view.findViewById(R.id.VerificationLoading);
 
         loading.setVisibility(View.INVISIBLE);
+        mAuth=FirebaseAuth.getInstance();
 
 
         Done.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +66,17 @@ public class emailVerifyFragment extends Fragment {
     private void SignInUser() {
         String Email=((LoginActivity)getActivity()).getSignUpEmail();
         String Password=((LoginActivity)getActivity()).getSignUpPassword();
-
+        mAuth.signInWithEmailAndPassword(Email, Password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        ((LoginActivity)getActivity()).openCreateProfile();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Login Failed", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dev334.litelo.Login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,7 +84,7 @@ public class profileActivity extends AppCompatActivity {
              @Override
              public void onClick(View view) {
                  mAuth.signOut();
-                 Intent i= new Intent(profileActivity.this,MainActivity.class);
+                 Intent i= new Intent(profileActivity.this, LoginActivity.class);
                  startActivity(i);
                  finish();
              }

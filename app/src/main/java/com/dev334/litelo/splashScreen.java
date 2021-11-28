@@ -10,6 +10,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dev334.litelo.Login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +49,7 @@ public class splashScreen extends AppCompatActivity {
             public void run() {
 
                 if(mAuth.getCurrentUser()==null){
-                    Intent i= new Intent(splashScreen.this, MainActivity.class);
+                    Intent i= new Intent(splashScreen.this, LoginActivity.class);
                     startActivity(i);
                     finish();
                 }
@@ -86,7 +87,7 @@ public class splashScreen extends AppCompatActivity {
                                 startActivity(i);
                                 finish();
                             }else{
-                                Intent i = new Intent(splashScreen.this, UserInfo.class);
+                                Intent i = new Intent(splashScreen.this, LoginActivity.class);
                                 startActivity(i);
                                 finish();
                             }

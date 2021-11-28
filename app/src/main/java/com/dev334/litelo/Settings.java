@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dev334.litelo.Login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,7 +88,7 @@ public class Settings extends AppCompatActivity {
                                 if(task.isSuccessful())
                                 {
                                     Toast.makeText(getApplicationContext(),"Account Deleted",Toast.LENGTH_LONG).show();
-                                    Intent intent=new Intent(Settings.this,MainActivity.class);
+                                    Intent intent=new Intent(Settings.this, LoginActivity.class);
                                     startActivity(intent);
                                 }
                                 else

@@ -21,6 +21,7 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_icons8_google.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_logo_red.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/primary_outline_textbox.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/progress.xml" value="0.1414715719063545" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/whiteborder_btn.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/whitebutton.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_browse_club_container.xml" value="0.13243243243243244" />
@@ -47,10 +48,19 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_email_verification.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home_end.xml" value="0.17685185185185184" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login.xml" value="0.14" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login_home.xml" value="0.14" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.20416666666666666" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_signup.xml" value="0.20416666666666666" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_notification.xml" value="0.18" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.16" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_phone_auth_fagment.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_signup.xml" value="0.12" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/nav_header_main.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/resource_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/bottom_navigation_items.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/home.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

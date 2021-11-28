@@ -20,7 +20,12 @@ import com.dev334.litelo.Database.TinyDB;
 
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,10 +37,11 @@ public class signUpFragment extends Fragment {
     private Button SignUp, GoogleSignUp;
     private TextView EditEmail, EditPassword, Login;
     private String Email,Password;
-    private int RC_SIGN_IN=101;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
     private ProgressBar loading;
     private ConstraintLayout parentLayout;
-    private ArrayList<String> interest;
+    private String TAG="SignUpFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,14 +61,14 @@ public class signUpFragment extends Fragment {
         loading=view.findViewById(R.id.SignUpLoading);
         Login=view.findViewById(R.id.LoginTextSignup);
 
+        mAuth = FirebaseAuth.getInstance();
+
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((LoginActivity)getActivity()).openLogin();
             }
         });
-
-        interest=new ArrayList<>();
 
         loading.setVisibility(View.INVISIBLE);
         SignUp=view.findViewById(R.id.SignUpButton);
@@ -76,7 +82,7 @@ public class signUpFragment extends Fragment {
                 Email=EditEmail.getText().toString();
                 Password=EditPassword.getText().toString();
                 if(check(Email,Password)){
-
+                    signUpUser();
                 }
             }
         });
@@ -90,6 +96,45 @@ public class signUpFragment extends Fragment {
         });
 
         return view;
+    }
+
+
+    public static void setSnackBar(View root, String snackTitle) {
+        Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
+    private void signUpUser(){
+
+        mAuth.createUserWithEmailAndPassword(Email, Password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        sendVerificationEmail();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                setSnackBar(parentLayout, "Signup failed");
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void sendVerificationEmail(){
+        mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                setSnackBar(parentLayout, "Email Sent");
+                ((LoginActivity)getActivity()).openVerifyEmail();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                setSnackBar(parentLayout,"Failed to send verification email");
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
     }
 
     private boolean check(String email, String password) {

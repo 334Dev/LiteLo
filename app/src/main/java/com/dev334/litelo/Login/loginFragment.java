@@ -1,5 +1,7 @@
 package com.dev334.litelo.Login;
 
+import static com.dev334.litelo.Login.signUpFragment.setSnackBar;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -148,11 +150,6 @@ public class loginFragment extends Fragment {
         return view;
     }
 
-    public static void setSnackBar(View root, String snackTitle) {
-        Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_SHORT);
-        snackbar.show();
-    }
-
     private void SignInUser() {
 
         mAuth.signInWithEmailAndPassword(Email, Password)
@@ -164,13 +161,15 @@ public class loginFragment extends Fragment {
                             checkProfileCreated();
                         }else{
                             //email verify fragment
+                            loading.setVisibility(View.INVISIBLE);
                             ((LoginActivity)getActivity()).openVerifyEmail();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Login Failed", Toast.LENGTH_LONG).show();
+                loading.setVisibility(View.INVISIBLE);
+                setSnackBar(parentLayout, "Login Failed");
             }
         });
 
@@ -178,10 +177,11 @@ public class loginFragment extends Fragment {
 
     private void checkProfileCreated() {
         String UserUID=mAuth.getCurrentUser().getUid();
-        firestore.collection("Users").document(UserUID).get()
+        firestore.collection("NewUsers").document(UserUID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        loading.setVisibility(View.INVISIBLE);
                         if(task.isSuccessful()){
                             Intent i = new Intent(getActivity(), HomeActivity.class);
                             startActivity(i);

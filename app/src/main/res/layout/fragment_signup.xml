@@ -5,7 +5,7 @@
     android:id="@+id/signUpFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Login.signUpFragment">
+    tools:context=".Login.signUpFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout13"
@@ -56,7 +56,7 @@
             android:paddingRight="16dp"
             android:paddingBottom="10dp"
             android:textColor="@color/Text"
-            android:textColorHint="@color/GreyPrimary"
+            android:textColorHint="@color/Hint"
             android:textSize="16sp" />
 
         <EditText
@@ -78,7 +78,7 @@
             android:paddingRight="16dp"
             android:paddingBottom="12dp"
             android:textColor="@color/Text"
-            android:textColorHint="@color/GreyPrimary"
+            android:textColorHint="@color/Hint"
             android:textSize="16sp" />
 
 
@@ -93,17 +93,17 @@
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/GoogleSignUp"
+            android:id="@+id/phoneAuthBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="48dp"
-            android:background="@color/GreyPrimary"
-            android:drawableLeft="@drawable/ic_icons8_google"
+            android:background="@color/Hint"
+            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
-            android:text="Countinue with Google"
+            android:text="Continue with Phone"
             android:textAllCaps="false"
             android:textColor="@color/Text" />
 
@@ -132,7 +132,7 @@
 
     <ProgressBar
         android:id="@+id/SignUpLoading"
-        style="?android:attr/progressBarStyle"
+        android:theme="@style/ProgressBarStyle"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintBottom_toTopOf="@+id/SignUpButton"

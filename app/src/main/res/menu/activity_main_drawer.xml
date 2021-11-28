@@ -12,16 +12,16 @@
 
         <item
             android:id="@+id/nav_resources"
-            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:icon="@drawable/ic_app_logo"
             android:title="Resources"/>
         <item
             android:id="@+id/nav_clubs"
-            android:icon="@drawable/ic_baseline_explore_24"
+            android:icon="@drawable/ic_app_logo"
             android:title="Clubs"/>
 
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_baseline_insert_drive_file_24"
+            android:icon="@drawable/ic_app_logo"
             android:title="Resume Maker" />
 
         <item
