@@ -16,11 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Login.LoginActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Login.LoginActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".HomeActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".Settings"
@@ -42,15 +44,16 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="example.com"
-                    android:scheme="https"/>
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-
 
 
         <service android:name=".services.MyFirebaseMessagingService">
