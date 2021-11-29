@@ -7,31 +7,21 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.dev334.litelo.ui.home.HomeFragment"
+        android:name="com.dev334.litelo.UI.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/nav_subjectlist"
-        android:name="com.dev334.litelo.ui.gallery.SubjectList"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_subjectlist" />
 
-    <fragment
-        android:id="@+id/nav_clubs"
-        android:name="com.dev334.litelo.BrowseClubFragment"
-        android:label="Clubs"
-        tools:layout="@layout/fragment_browse_club" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.dev334.litelo.ui.Pdfcreate.createPdfFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_resources"
         android:name="com.dev334.litelo.ResourcesFragment"
         android:label="Resources"
         tools:layout="@layout/fragment_resources" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.dev334.litelo.UI.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings"/>
 
 </navigation>

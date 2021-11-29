@@ -2,6 +2,7 @@ package com.dev334.litelo.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import static com.dev334.litelo.Login.signUpFragment.setSnackBar;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -70,7 +71,14 @@ public class emailVerifyFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        ((LoginActivity)getActivity()).openCreateProfile();
+                        FirebaseUser user=mAuth.getCurrentUser();
+                        if(user.isEmailVerified()){
+                            ((LoginActivity)getActivity()).openCreateProfile();
+                        }else{
+                            //email verify fragment
+                            loading.setVisibility(View.INVISIBLE);
+                            setSnackBar(parentLayout, "Verify your email");
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

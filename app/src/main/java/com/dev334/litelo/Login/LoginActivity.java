@@ -70,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             replaceFragment(loginHome);
         }else if(FRAGMENT==2){
             replaceFragment(CreateProfileFragment);
+        }else if(FRAGMENT==1){
+            replaceFragment(loginFrag);
         }else{
             replaceFragment(loginFrag);
         }

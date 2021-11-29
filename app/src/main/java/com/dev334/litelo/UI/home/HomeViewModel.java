@@ -1,4 +1,4 @@
-package com.dev334.litelo.ui.home;
+package com.dev334.litelo.UI.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

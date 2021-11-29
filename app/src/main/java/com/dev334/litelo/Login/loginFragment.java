@@ -162,6 +162,7 @@ public class loginFragment extends Fragment {
                         }else{
                             //email verify fragment
                             loading.setVisibility(View.INVISIBLE);
+                            ((LoginActivity)getActivity()).setSignUpCredentials(Email, Password);
                             ((LoginActivity)getActivity()).openVerifyEmail();
                         }
                     }

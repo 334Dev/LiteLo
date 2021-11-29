@@ -14,6 +14,7 @@ import com.dev334.litelo.Login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -55,29 +56,36 @@ public class splashScreen extends AppCompatActivity {
                 else {
 
                     String UserID=mAuth.getCurrentUser().getUid();
-
-                    firestore.collection("NewUsers").document(UserID).
-                    get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if(documentSnapshot.exists()){
-                                Intent i = new Intent(splashScreen.this, HomeActivity.class);
-                                startActivity(i);
-                                finish();
-                            }else{
-                                Intent i = new Intent(splashScreen.this, LoginActivity.class);
-                                i.putExtra("FRAGMENT", 2);
-                                startActivity(i);
-                                finish();
+                    FirebaseUser user=mAuth.getCurrentUser();
+                    if(!user.isEmailVerified()){
+                        Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                        i.putExtra("FRAGMENT", 1);
+                        startActivity(i);
+                        finish();
+                    }
+                    else {
+                        firestore.collection("NewUsers").document(UserID).
+                                get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
+                                    Intent i = new Intent(splashScreen.this, HomeActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                                    i.putExtra("FRAGMENT", 2);
+                                    startActivity(i);
+                                    finish();
+                                }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i("Check Details", "onFailure: "+e.getMessage());
-                        }
-                    });
-
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i("Check Details", "onFailure: " + e.getMessage());
+                            }
+                        });
+                    }
                 }
             }
         },500);

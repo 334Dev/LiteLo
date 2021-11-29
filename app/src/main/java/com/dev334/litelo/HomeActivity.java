@@ -54,11 +54,8 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private String UserID;
     private StorageReference storageReference;
-    public static boolean soundState;  //sound
-    private ImageView instagram, shareApp,reviewButton;
 
-    ReviewManager manager;
-    ReviewInfo reviewInfo;
+    private String TAG="HomeActivityLog";
 
 
     @Override
@@ -81,112 +78,18 @@ public class HomeActivity extends AppCompatActivity {
 
         //checking whether login or not
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser().getUid().isEmpty()) {
-            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-            startActivity(i);
-        } else {
-            UserID = mAuth.getCurrentUser().getUid();
-        }
+        UserID=mAuth.getCurrentUser().getUid();
+
         //Firestore instance
         firestore = FirebaseFirestore.getInstance();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        instagram=navigationView.findViewById(R.id.instagram);
-        shareApp=navigationView.findViewById(R.id.shareApp);
-        reviewButton=navigationView.findViewById(R.id.reviewButton);
-
-        reviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                manager= ReviewManagerFactory.create(HomeActivity.this);
-                Task<ReviewInfo> request=manager.requestReviewFlow();
-
-
-                request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
-                    @Override
-                    public void onComplete(@NonNull Task<ReviewInfo> task) {
-                        if(task.isSuccessful())
-                        {
-                            reviewInfo=task.getResult();
-                            Task<Void> flow=manager.launchReviewFlow(HomeActivity.this,reviewInfo);
-                            flow.addOnSuccessListener(new com.google.android.play.core.tasks.OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void result) {
-
-                                }
-                            });
-
-                        }else
-                        {
-                            Toast.makeText(HomeActivity.this,"Some Error Occured",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
-            }
-        });
-
-
-
-        instagram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://instagram.com/litelo.334?igshid=1rx9e57doj5pp"));
-                startActivity(i);
-            }
-        });
-
-        shareApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_SUBJECT, "Download LiteLo App");
-                i.putExtra(Intent.EXTRA_TEXT, "Download LiteLo App \n https://play.google.com/store/apps/details?id=com.dev334.litelo");
-                startActivity(Intent.createChooser(i, "Share app"));
-//                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//                Uri pdfUri = Uri.parse("https://play.google.com/store/apps/details?id=com.dev334.litelo");
-//                sharingIntent.setType("*/*");
-//                sharingIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
-//                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-            }
-        });
-
         //Inflate the header view
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerName = headerView.findViewById(R.id.header_Name);
         headerReg = headerView.findViewById(R.id.branch_Reg);
-        headerPic = headerView.findViewById(R.id.header_Pic);
-        ViewProfile = headerView.findViewById(R.id.viewProfile);
-
-
-        ViewProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(HomeActivity.this, profileActivity.class);
-                startActivity(i);
-
-            }
-        });
-        storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileRef = storageReference.child("users/" + mAuth.getCurrentUser().getUid() + "/profile.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(headerPic);
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("Profile Img Chcg", "onFailure: dsgfdhgfnhgmhgm");
-            }
-        });
 
 
         //headerView Text
@@ -196,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_subjectlist, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_settings)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -209,16 +112,14 @@ public class HomeActivity extends AppCompatActivity {
     private void setHeaderViewText() {
         //Taking User Data from firebaseFirestore
 
-        firestore.collection("Users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("NewUsers").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String name = documentSnapshot.getString("Name");
-                String group = documentSnapshot.getString("Group");
-                String reg = documentSnapshot.getString("RegNo");
+                String reg = documentSnapshot.getString("Group");
 
                 headerName.setText(name);
-                String regtxt = group + ", " + reg;
-                headerReg.setText(regtxt);
+                headerReg.setText(reg);
 
             }
         });

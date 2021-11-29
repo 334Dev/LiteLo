@@ -124,6 +124,7 @@ public class signUpFragment extends Fragment {
         mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                ((LoginActivity)getActivity()).setSignUpCredentials(Email, Password);
                 setSnackBar(parentLayout, "Email Sent");
                 ((LoginActivity)getActivity()).openVerifyEmail();
             }

@@ -1,4 +1,4 @@
-package com.dev334.litelo.ui.settings;
+package com.dev334.litelo.UI.settings;
 
 import android.os.Bundle;
 

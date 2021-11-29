@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -42,7 +43,7 @@ public class createProfileFragment extends Fragment {
     private FirebaseFirestore firestore;
     private FirebaseAuth mAuth;
     private String UserUID;
-    private View parentLayout;
+    private ConstraintLayout parentLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class createProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_create_profile, container, false);
 
-        parentLayout = view.findViewById(android.R.id.content);
+        parentLayout = view.findViewById(R.id.createProfileFragmentLayout);
         EditName=view.findViewById(R.id.EditName);
         EditReg=view.findViewById(R.id.EditReg);
         btnCreate=view.findViewById(R.id.btnCreate);
