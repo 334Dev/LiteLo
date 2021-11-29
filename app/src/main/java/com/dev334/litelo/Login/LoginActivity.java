@@ -1,32 +1,19 @@
 package com.dev334.litelo.Login;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev334.litelo.Database.TinyDB;
-import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
-import com.dev334.litelo.Login.loginHomeFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -150,48 +137,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void createProfile() {
-        ArrayList<Map<String, Object>> Friends=new ArrayList<>();
-        Map<String, Object> fMap=new HashMap<>();
-        fMap.put("username", Username);
-        fMap.put("profilePic", "");
-
-        Friends.add(fMap);
-
-        ArrayList<String> ReqSent=new ArrayList<>();
-        ReqSent.add("DefaultUser");
-
-        ArrayList<String> ReqReceived=new ArrayList<>();
-        ReqSent.add("ReqReceived");
-
-        ArrayList<String> searchTag=new ArrayList<>();
-        String tag="";
-        for(int i=0;i<Username.length();i++){
-            tag=tag+Username.toLowerCase().charAt(i);
-            searchTag.add(tag);
-        }
-
-        Map<String, Object> map=new HashMap<>();
-        map.put("Username", Username);
-        map.put("Organisation", Organisation);
-        map.put("Facebook", Facebook);
-        map.put("Instagram", Instagram);
-        map.put("Bio","");
-        map.put("ProfilePic","");
-        map.put("PhoneNumber", PhoneNo);
-        map.put("Interest", userInterest);
-        map.put("Friends", Friends);
-        map.put("ReqSent", ReqSent);
-        map.put("ReqReceived", ReqReceived);
-        map.put("SecretCrush", true);
-        map.put("Search", searchTag);
-        tinyDB.putObject("UserProfile", map);
-    }
-
-    public void setProfileData(String username, String organisation, String facebook, String instagram, ArrayList<String> userInterest) {
-        Username=username;
-        Organisation=organisation;
-        Facebook=facebook;
-        Instagram=instagram;
-        this.userInterest=userInterest;
+        //not required currently
     }
 }
