@@ -61,10 +61,21 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/home.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_list_show.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_login.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/cc_model.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_create_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_login_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_notification.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/resource_grid.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
