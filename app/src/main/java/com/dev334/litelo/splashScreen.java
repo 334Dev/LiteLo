@@ -57,7 +57,32 @@ public class splashScreen extends AppCompatActivity {
 
                     String UserID=mAuth.getCurrentUser().getUid();
                     FirebaseUser user=mAuth.getCurrentUser();
-                    if(!user.isEmailVerified()){
+
+                    if(!user.getPhoneNumber().isEmpty()){
+                        firestore.collection("NewUsers").document(UserID).
+                                get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
+                                    Intent i = new Intent(splashScreen.this, HomeActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                                    i.putExtra("FRAGMENT", 2);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i("Check Details", "onFailure: " + e.getMessage());
+                            }
+                        });
+                    }
+
+                    else if(!user.isEmailVerified()){
                         Intent i = new Intent(splashScreen.this, LoginActivity.class);
                         i.putExtra("FRAGMENT", 1);
                         startActivity(i);

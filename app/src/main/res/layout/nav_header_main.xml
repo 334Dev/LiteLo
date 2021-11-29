@@ -14,9 +14,9 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:weightSum="3">
 
@@ -24,20 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="32dp"
-            android:weightSum="2"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_app_logo"/>
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LiteLo"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/poppinssemibold"
+                android:text="LiteLo"
                 android:textColor="@color/Text"
-                />
+                android:textSize="24sp" />
 
         </LinearLayout>
 

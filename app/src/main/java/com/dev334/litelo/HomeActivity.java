@@ -91,7 +91,6 @@ public class HomeActivity extends AppCompatActivity {
         headerName = headerView.findViewById(R.id.header_Name);
         headerReg = headerView.findViewById(R.id.branch_Reg);
 
-
         //headerView Text
         setHeaderViewText();
 
@@ -124,6 +123,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     @Override
