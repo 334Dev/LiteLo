@@ -32,15 +32,17 @@ import java.util.Map;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface{
+public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface{
 
     private static final String TAG ="HomeFragment" ;
     private HomeViewModel homeViewModel;
-    private List<EventModel> Events;
+    private List<EventModel> Events, filterEvents;
     private RecyclerView todayRecycler;
     private RecyclerView branchRecycler;
     private todayAdapter AdapterToday;
     private branchAdapter AdapterBranch;
+    private filterAdapter AdapterFilter;
+    private RecyclerView filterRecycler;
     private List<Map<String,String>> branchList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         //Firebase Instances
 
         Events=new ArrayList<>();
+        filterEvents = new ArrayList<>();
         branchList =new ArrayList<>();
         Map<String,String> map=new HashMap<>();
         map.put("Name","Cyberquest");
@@ -69,11 +72,22 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         branchRecycler=root.findViewById(R.id.recyclerView2);
+        filterRecycler=root.findViewById(R.id.filterEventRecycler);
+        filterRecycler.setNestedScrollingEnabled(false);
         setupBranchRecycler();
         setupTodayRecycler();
+        setupFilterRecycler();
 
         return root;
     }
+
+    private void setupFilterRecycler() {
+        AdapterFilter= new filterAdapter(Events,this);
+        filterRecycler.setAdapter(AdapterFilter);
+        filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        filterRecycler.setHasFixedSize(true);
+    }
+
     private void setupBranchRecycler() {
 
         AdapterBranch= new branchAdapter(branchList,this);
@@ -96,6 +110,11 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void branchviewOnClick(int position) {
+
+    }
+
+    @Override
+    public void filterViewOnClick(int position) {
 
     }
 }
