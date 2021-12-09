@@ -9,13 +9,17 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/buttomrect.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/email_vector.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_back.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_primary.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/greybutton.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_app_logo.xml" value="0.2169230769230769" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_avishkar_triangle.xml" value="0.14290540540540542" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_calendar_today_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.14290540540540542" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_send_24_theme.xml" value="0.1" />
@@ -45,6 +49,7 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/browseclub_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/cc_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/club_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_card_rectangle.xml" value="0.2" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_browse_club.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_club_details.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_create_profile.xml" value="0.18" />
@@ -61,6 +66,7 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_splash.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/nav_header_main.xml" value="0.14" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/resource_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/today_event_card.xml" value="0.16" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/bottom_navigation_items.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/menu/home.xml" value="0.13243243243243244" />
@@ -76,5 +82,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.16" />
+      </ProjectState>
+    </option>
   </component>
 </project>

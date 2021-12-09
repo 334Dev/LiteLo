@@ -11,12 +11,14 @@ import android.view.View;
 
 import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.Login.LoginActivity;
+import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.UI.home.HomeFragment;
 import com.dev334.litelo.UI.settings.SettingsFragment;
 import com.dev334.litelo.UI.splashScreen.SplashFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements PassDataInterface {
@@ -25,7 +27,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private SettingsFragment settingsFragment;
     private SplashFragment splashFragment;
     private ChipNavigationBar bottomNavigation;
-    private ArrayList<Map<String, Object>> Events;
+    private List<EventModel> Events;
     private String TAG="HomeActivity";
 
     @Override
@@ -37,6 +39,8 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         settingsFragment=new SettingsFragment();
         splashFragment=new SplashFragment(this);
         bottomNavigation=findViewById(R.id.bottom_navigation_bar);
+
+        Events=new ArrayList<>();
 
         if(savedInstanceState==null){
             bottomNavigation.setVisibility(View.INVISIBLE);
@@ -85,11 +89,11 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     }
 
     @Override
-    public void PassTodayEvents(ArrayList<Map<String, Object>> Events) {
+    public void PassTodayEvents(List<EventModel> Events) {
         this.Events=Events;
     }
 
-    public ArrayList<Map<String, Object>> getEvents(){
+    public List<EventModel> getEvents(){
         return Events;
     }
 

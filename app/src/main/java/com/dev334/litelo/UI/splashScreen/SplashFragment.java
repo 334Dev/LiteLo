@@ -16,6 +16,7 @@ import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.splashScreen;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,7 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SplashFragment extends Fragment {
 
@@ -43,7 +47,8 @@ public class SplashFragment extends Fragment {
     private FirebaseFirestore firestore;
     private String todayString;
     private String TAG="SplashFragment";
-    private ArrayList<Map<String, Object>> Events;
+    private List<EventModel> Events;
+    private List<Map<String, Object>> EventMap;
 
 
     @Override
@@ -63,7 +68,7 @@ public class SplashFragment extends Fragment {
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         todayString = formatter.format(todayDate);
-
+        EventMap=new ArrayList<>();
         Events=new ArrayList<>();
 
         //handler to delay
@@ -131,12 +136,14 @@ public class SplashFragment extends Fragment {
     }
 
     private void fetchData() {
-        firestore.collection("Events").document(todayString)
+        String test = "2021-11-29";
+        firestore.collection("Events").document(test)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.i(TAG, "onSuccess: "+documentSnapshot);
-                Events= (ArrayList<Map<String, Object>>) documentSnapshot.get("Events");
+                EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
+                Events=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
+                Log.i(TAG, "onSuccess: "+Events.get(0).getName());
                 passDataInterface.PassTodayEvents(Events);
                 ((HomeActivity)getActivity()).setHomeFragment();
             }
@@ -147,4 +154,13 @@ public class SplashFragment extends Fragment {
             }
         });
     }
+
+    Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {
+        @Override
+        public EventModel apply(Map<String, Object> stringObjectMap) {
+            EventModel event = new EventModel(stringObjectMap);
+            return event;
+        }
+    };
+
 }
