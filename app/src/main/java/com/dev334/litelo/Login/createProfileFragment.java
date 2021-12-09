@@ -87,8 +87,6 @@ public class createProfileFragment extends Fragment {
                             Intent i = new Intent(getContext(), HomeActivity.class);
                             startActivity(i);
 
-                            //.make(parentLayout, "An error occurred", Snackbar.LENGTH_SHORT).show();
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
