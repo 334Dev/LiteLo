@@ -48,6 +48,10 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
         Events=new ArrayList<>();
         Events=((HomeActivity)getActivity()).getEvents();
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         setupTodayRecycler();
 
@@ -58,7 +62,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
         AdapterToday= new todayAdapter(Events,this);
         todayRecycler.setAdapter(AdapterToday);
-        todayRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        todayRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
         todayRecycler.setHasFixedSize(true);
     }
 

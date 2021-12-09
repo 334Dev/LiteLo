@@ -25,14 +25,15 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
     @NonNull
     @Override
     public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_rectangle, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_square, parent, false);
         return new todayAdapter.mViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         holder.setEventName(eventModelList.get(position).getName());
-        holder.setEventDate("  "+eventModelList.get(position).getDate());
+        holder.setEventTime("6:30 pm");
+        holder.setEventParent(eventModelList.get(position).getParent());
         holder.setEventLocation(" "+eventModelList.get(position).getLink());
     }
 
@@ -59,16 +60,20 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
         }
 
         public void setEventName(String Event){
-            TextView event=view.findViewById(R.id.r_eventcard_event);
+            TextView event=view.findViewById(R.id.s_eventcard_event);
             event.setText(Event);
         }
         public void setEventLocation(String Location){
-            TextView event=view.findViewById(R.id.r_eventcard_location);
+            TextView event=view.findViewById(R.id.s_eventcard_location);
             event.setText(Location);
         }
-        public void setEventDate(String Date){
-            TextView event=view.findViewById(R.id.r_eventcard_date);
+        public void setEventTime(String Date){
+            TextView event=view.findViewById(R.id.s_eventcard_time);
             event.setText(Date);
+        }
+        public void setEventParent(String Parent){
+            TextView parent=view.findViewById(R.id.s_eventcard_parent);
+            parent.setText(Parent);
         }
 
     }
