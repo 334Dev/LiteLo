@@ -15,22 +15,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.resourceAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements todayAdapter.ClickInterface{
 
     private static final String TAG ="HomeFragment" ;
     private HomeViewModel homeViewModel;
+    private List<EventModel> Events;
+    private RecyclerView todayRecycler;
+    private todayAdapter AdapterToday;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,11 +46,28 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         //Firebase Instances
 
-        Log.i(TAG, "onCreateView: "+ ((HomeActivity)getActivity()).getEvents());
+        Events=new ArrayList<>();
+        Events=((HomeActivity)getActivity()).getEvents();
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
+        Events.add(Events.get(0));
+        todayRecycler=root.findViewById(R.id.todayEventRecycler);
+        setupTodayRecycler();
 
         return root;
     }
 
+    private void setupTodayRecycler() {
 
+        AdapterToday= new todayAdapter(Events,this);
+        todayRecycler.setAdapter(AdapterToday);
+        todayRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+        todayRecycler.setHasFixedSize(true);
+    }
 
+    @Override
+    public void recyclerviewOnClick(int position) {
+
+    }
 }
