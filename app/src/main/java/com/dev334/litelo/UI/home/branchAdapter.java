@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolder>{
-    private List<Map<String,String>> branchList;
+    private List<Map<String,Object>> branchList;
     private ClickInterface Listener;
-    public branchAdapter(List<Map<String,String>> branchList, ClickInterface Listener){
+    public branchAdapter(List<Map<String,Object>> branchList, ClickInterface Listener){
         this.branchList=branchList;
         this.Listener=Listener;
     }
@@ -31,7 +31,7 @@ public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        holder.setBranch(branchList.get(position).get("Name"),"xyz");
+        holder.setBranch((String) branchList.get(position).get("Name"), (Integer) branchList.get(position).get("Img"));
     }
 
     @Override
@@ -56,8 +56,9 @@ public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolde
             });
         }
 
-        public void setBranch(String branchName,String img){
+        public void setBranch(String branchName,Integer img){
             ImageView imageView = view.findViewById(R.id.branchCard_logo);
+            imageView.setImageResource(img);
             TextView textView = view.findViewById(R.id.branchCard_name);
             textView.setText(branchName);
         }

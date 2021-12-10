@@ -45,6 +45,7 @@
             android:textColor="@color/Hint"
             android:textSize="16sp" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,20 +55,32 @@
             android:orientation="horizontal"
             android:weightSum="4">
 
-            <EditText
+
+
+            <com.chaos.view.PinView
                 android:id="@+id/EditOTPTxt"
+                app:itemCount="6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/primary_outline_textbox"
+
                 android:ems="10"
                 android:hint="Enter OTP"
-                android:inputType="textPersonName"
+                android:inputType="phone"
                 android:padding="14dp"
                 android:phoneNumber="true"
                 android:textColor="@color/Text"
-                android:textColorHint="@color/Hint" />
+                android:textColorHint="@color/Hint"
+                app:lineColor="@color/colorSecondary"
+                app:itemRadius="5dp"
+                style="@style/PinWidget.PinView"
+                android:cursorVisible="true"
+                app:cursorColor="@color/colorPrimary"
+                app:hideLineWhenFilled="true"
+
+                ></com.chaos.view.PinView>
+            
         </LinearLayout>
     </LinearLayout>
 
