@@ -32,7 +32,8 @@ public class filterAdapter extends RecyclerView.Adapter<filterAdapter.mViewHolde
         holder.setEventName(eventModelList.get(position).getName());
         holder.setEventTime("6:30 pm");
         holder.setEventParent(eventModelList.get(position).getParent());
-        holder.setEventLocation(eventModelList.get(position).getLink());
+        //holder.setEventLocation(eventModelList.get(position).getLink());
+        holder.setEventLocation("MS Teams");
     }
 
     @Override

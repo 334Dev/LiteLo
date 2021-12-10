@@ -1,9 +1,11 @@
 package com.dev334.litelo.UI.home;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -28,6 +30,8 @@ import com.dev334.litelo.R;
 import com.dev334.litelo.resourceAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,6 +149,8 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
         View view=getLayoutInflater().inflate(R.layout.event_dailog,null);
         TextView link=view.findViewById(R.id.textView19);
+        TextView event=view.findViewById(R.id.event_dialog_name);
+        event.setText(Events.get(position).getName());
         TextView website=view.findViewById(R.id.textView20);
         website.setMovementMethod(LinkMovementMethod.getInstance());
         alert.setView(view);
@@ -153,7 +159,9 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Uri uri = Uri.parse(Events.get(position).getLink()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
 
