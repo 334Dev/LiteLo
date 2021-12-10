@@ -1,11 +1,18 @@
 package com.dev334.litelo.UI.home;
 
+import static android.content.Intent.ACTION_EDIT;
+import static android.content.Intent.ACTION_INSERT;
+
+import android.content.Context;
+import android.content.Intent;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,16 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dev334.litelo.R;
 import com.dev334.litelo.clubAdapter;
 
+import java.util.Calendar;
 import java.util.List;
 
 
 public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>{
     private List<EventModel> eventModelList;
     private ClickInterface Listener;
-    public todayAdapter(List<EventModel> eventModelList, ClickInterface Listener){
+    private Context context;
+
+    public todayAdapter(List<EventModel> eventModelList, ClickInterface Listener,Context context){
         this.eventModelList=eventModelList;
         this.Listener=Listener;
+        this.context=context;
     }
+
 
     @NonNull
     @Override
@@ -62,6 +74,36 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
                 public void onClick(View view) {
                     //add to calender
                     EventModel currentEvent=eventModelList.get(getAdapterPosition());
+
+                    String fulldate= currentEvent.getDate();
+                    String eventdate=fulldate.substring(0,2);
+                    Integer eventdateint=Integer.parseInt(eventdate);
+
+                    Calendar beginTime = Calendar.getInstance();
+
+                    beginTime.set(2021, 12, eventdateint, 10, 00);
+                    Calendar endTime = Calendar.getInstance();
+                    endTime.set(2021, 12, eventdateint, 18, 00);
+
+                    Intent intent = new Intent(Intent.ACTION_INSERT)
+                             .setData(CalendarContract.Events.CONTENT_URI)
+                             .putExtra(CalendarContract.Events.TITLE,currentEvent.getName().toString())
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,beginTime.getTimeInMillis())
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime.getTimeInMillis())
+                             .putExtra(CalendarContract.Events.DESCRIPTION,currentEvent.getParent().toString())
+                             .putExtra(CalendarContract.Events.EVENT_LOCATION, currentEvent.getLink().toString());
+
+                              context.startActivity(intent);
+
+                 /*   if(intent.resolveActivity(context.getPackageManager())!=null)
+                    {
+
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Not supported",Toast.LENGTH_SHORT).show();
+                    }*/
+
                 }
             });
 
