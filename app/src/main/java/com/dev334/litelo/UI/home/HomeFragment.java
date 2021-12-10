@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private branchAdapter AdapterBranch;
     private filterAdapter AdapterFilter;
     private RecyclerView filterRecycler;
-    private List<Map<String,String>> branchList;
+    private List<Map<String,Object>> branchList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -54,21 +54,49 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Events=new ArrayList<>();
         filterEvents = new ArrayList<>();
         branchList =new ArrayList<>();
-        Map<String,String> map=new HashMap<>();
-        map.put("Name","Cyberquest");
+
+
+        String[] branch_names = new String[]{
+              "Cyberquest","Oligopoly","Techno Art","Rasayans","Kreedomania","Monopoly","Nirmaan","Astrowing","Powersurge","Mecrocosm","Robomania",
+                "Aerodynamix","Genesis","Electromania","Gnosiomania"
+        };
+
+        Integer[] branch_logo=new Integer[]{
+                R.drawable.ic_branch_logo_cyberquest_01,
+                R.drawable.ic_branch_logo_oligopoly_01,
+                R.drawable.ic_branch_logo_technoart_01,
+                R.drawable.ic_branch_logo_rasayan_01,
+                R.drawable.ic_branch_logo_kreedomania_01,
+                R.drawable.ic_branch_logo_monopoly_01,
+                R.drawable.ic_nirmaan,
+                R.drawable.ic_branh_logo_aero_01,
+                R.drawable.ic_branch_logo_powersurge_01,
+                R.drawable.ic_branch_logo_01,
+                R.drawable.ic_branch_logo_robo_01,
+                R.drawable.ic_branh_logo_aero_01,
+                R.drawable.ic_genesis,
+                R.drawable.ic_branch_logo_electromania_01,
+                R.drawable.ic_branch_logo_gnosomania_01,
+
+
+        };
+
+        for(int i=0;i<15;i++)
+        {
+              Map<String,Object> map=new HashMap<>();
+              map.put("Name",branch_names[i]);
+              map.put("Img",branch_logo[i]);
+              branchList.add(map);
+
+        }
+
         Events=((HomeActivity)getActivity()).getEvents();
         Events.add(Events.get(0));
         Events.add(Events.get(0));
         Events.add(Events.get(0));
         Events.add(Events.get(0));
 
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
+
 
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         branchRecycler=root.findViewById(R.id.recyclerView2);
