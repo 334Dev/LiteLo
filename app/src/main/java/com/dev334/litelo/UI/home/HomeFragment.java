@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.dev334.litelo.BranchActivity;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.resourceAdapter;
@@ -178,7 +179,8 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void branchviewOnClick(int position) {
-
+       Intent intent=new Intent(getActivity(), BranchActivity.class);
+       startActivity(intent);
     }
 
     @Override

@@ -99,5 +99,6 @@ dependencies {
 
     //otp
     implementation 'com.chaos.view:pinview:1.4.3'
+    implementation 'com.github.vipulasri:timelineview:1.1.5'
 
 }
