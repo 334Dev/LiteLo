@@ -47,8 +47,8 @@ public class SplashFragment extends Fragment {
     private FirebaseFirestore firestore;
     private String todayString;
     private String TAG="SplashFragment";
-    private List<EventModel> Events;
-    private List<Map<String, Object>> EventMap;
+    private List<EventModel> Events, TomorrowEvents;
+    private List<Map<String, Object>> EventMap, tEventMap;
 
 
     @Override
@@ -70,6 +70,7 @@ public class SplashFragment extends Fragment {
         todayString = formatter.format(todayDate);
         EventMap=new ArrayList<>();
         Events=new ArrayList<>();
+        TomorrowEvents=new ArrayList<>();
 
         //handler to delay
         Handler mHandler= new Handler();
@@ -91,7 +92,7 @@ public class SplashFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
-                                    fetchData();
+                                    fetchDataToday();
                                 } else {
                                     ((HomeActivity)getActivity()).openLoginActivity(2);
                                 }
@@ -113,7 +114,7 @@ public class SplashFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
-                                    fetchData();
+                                    fetchDataToday();
 
                                 } else {
                                     ((HomeActivity)getActivity()).openLoginActivity(2);
@@ -135,7 +136,7 @@ public class SplashFragment extends Fragment {
         return root;
     }
 
-    private void fetchData() {
+    private void fetchDataToday() {
         String test = "2021-11-29";
         firestore.collection("Events").document(test)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -145,6 +146,26 @@ public class SplashFragment extends Fragment {
                 Events=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
                 Log.i(TAG, "onSuccess: "+Events.get(0).getName());
                 passDataInterface.PassTodayEvents(Events);
+                fetchDataTomorrow();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void fetchDataTomorrow() {
+        String test = "2021-11-29";
+        firestore.collection("Events").document(test)
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                tEventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
+                TomorrowEvents=tEventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
+                Log.i(TAG, "onSuccess: "+TomorrowEvents.get(0).getName());
+                passDataInterface.PassTomorrowEvents(TomorrowEvents);
                 ((HomeActivity)getActivity()).setHomeFragment();
             }
         }).addOnFailureListener(new OnFailureListener() {

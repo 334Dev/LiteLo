@@ -8,4 +8,5 @@ import java.util.Map;
 
 public interface PassDataInterface {
     void PassTodayEvents(List<EventModel> Events);
+    void PassTomorrowEvents(List<EventModel> Events);
 }

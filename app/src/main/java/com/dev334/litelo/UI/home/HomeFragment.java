@@ -62,6 +62,13 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Events.add(Events.get(0));
         Events.add(Events.get(0));
 
+        filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
+        filterEvents.add(filterEvents.get(0));
+        filterEvents.add(filterEvents.get(0));
+        filterEvents.add(filterEvents.get(0));
+        filterEvents.add(filterEvents.get(0));
+
+
         branchList.add(map);
         branchList.add(map);
         branchList.add(map);
@@ -82,7 +89,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     }
 
     private void setupFilterRecycler() {
-        AdapterFilter= new filterAdapter(Events,this);
+        AdapterFilter= new filterAdapter(filterEvents,this);
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);

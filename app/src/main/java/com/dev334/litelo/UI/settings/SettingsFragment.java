@@ -31,7 +31,7 @@ public class SettingsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private LinearLayout logout, deleteAcc, changePass, feedback, about;
+    private LinearLayout logout, deleteAcc, changePass, feedback, about, share;
     private FirebaseAuth mAuth;
     private static String TAG="SettingsFragmentLog";
 
@@ -46,6 +46,8 @@ public class SettingsFragment extends Fragment {
         changePass=root.findViewById(R.id.settings_changePass);
         feedback=root.findViewById(R.id.settings_feedback);
         about=root.findViewById(R.id.settings_about);
+        share=root.findViewById(R.id.settings_share);
+
         mAuth=FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser().getEmail().isEmpty()){
@@ -85,6 +87,17 @@ public class SettingsFragment extends Fragment {
                 //Change Password
                 Intent i = new Intent(getActivity(), ChangePassword.class);
                 startActivity(i);
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Download LiteLo App");
+                i.putExtra(Intent.EXTRA_TEXT, "Download LiteLo App \n https://play.google.com/store/apps/details?id=com.dev334.litelo");
+                startActivity(Intent.createChooser(i, "Share app"));
             }
         });
 

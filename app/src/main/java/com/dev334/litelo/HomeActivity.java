@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private SettingsFragment settingsFragment;
     private SplashFragment splashFragment;
     private ChipNavigationBar bottomNavigation;
-    private List<EventModel> Events;
+    private List<EventModel> Events, TomorrowEvents;
     private String TAG="HomeActivity";
 
     @Override
@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         bottomNavigation=findViewById(R.id.bottom_navigation_bar);
 
         Events=new ArrayList<>();
+        TomorrowEvents=new ArrayList<>();
 
         if(savedInstanceState==null){
             bottomNavigation.setVisibility(View.INVISIBLE);
@@ -93,8 +94,17 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         this.Events=Events;
     }
 
+    @Override
+    public void PassTomorrowEvents(List<EventModel> Events) {
+        TomorrowEvents=Events;
+    }
+
     public List<EventModel> getEvents(){
         return Events;
+    }
+
+    public List<EventModel> getTomorrowEvents(){
+        return TomorrowEvents;
     }
 
     public void openLoginActivity(int n) {
