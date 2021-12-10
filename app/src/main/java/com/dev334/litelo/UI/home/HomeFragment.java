@@ -2,6 +2,8 @@ package com.dev334.litelo.UI.home;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -54,28 +57,54 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Events=new ArrayList<>();
         filterEvents = new ArrayList<>();
         branchList =new ArrayList<>();
-        Map<String,String> map=new HashMap<>();
-        map.put("Name","Cyberquest");
+
+
+        String[] branch_names = new String[]{
+              "Cyberquest","Oligopoly","Techno Art","Rasayans","Kreedomania","Monopoly","Nirmaan","Astrowing","Powersurge","Mecrocosm","Robomania",
+                "Aerodynamix","Genesis","Electromania","Gnosiomania"
+        };
+
+        Integer[] branch_logo=new Integer[]{
+                R.drawable.ic_branch_logo_cyberquest_01,
+                R.drawable.ic_branch_logo_oligopoly_01,
+                R.drawable.ic_branch_logo_technoart_01,
+                R.drawable.ic_branch_logo_rasayan_01,
+                R.drawable.ic_branch_logo_kreedomania_01,
+                R.drawable.ic_branch_logo_monopoly_01,
+                R.drawable.ic_nirmaan,
+                R.drawable.ic_branh_logo_aero_01,
+                R.drawable.ic_branch_logo_powersurge_01,
+                R.drawable.ic_branch_logo_01,
+                R.drawable.ic_branch_logo_robo_01,
+                R.drawable.ic_branh_logo_aero_01,
+                R.drawable.ic_genesis,
+                R.drawable.ic_branch_logo_electromania_01,
+                R.drawable.ic_branch_logo_gnosomania_01,
+
+
+        };
+
+        for(int i=0;i<15;i++)
+        {
+              Map<String,Object> map=new HashMap<>();
+              map.put("Name",branch_names[i]);
+              map.put("Img",branch_logo[i]);
+              branchList.add(map);
+
+        }
+
         Events=((HomeActivity)getActivity()).getEvents();
         Events.add(Events.get(0));
         Events.add(Events.get(0));
         Events.add(Events.get(0));
         Events.add(Events.get(0));
 
+
         filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
         filterEvents.add(filterEvents.get(0));
         filterEvents.add(filterEvents.get(0));
         filterEvents.add(filterEvents.get(0));
         filterEvents.add(filterEvents.get(0));
-
-
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
-        branchList.add(map);
 
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         branchRecycler=root.findViewById(R.id.recyclerView2);
@@ -112,7 +141,29 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void recyclerviewOnClick(int position) {
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.event_dailog,null);
+        TextView link=view.findViewById(R.id.textView19);
+        TextView website=view.findViewById(R.id.textView20);
+        alert.setView(view);
+        AlertDialog show=alert.show();
 
+        link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        website.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
