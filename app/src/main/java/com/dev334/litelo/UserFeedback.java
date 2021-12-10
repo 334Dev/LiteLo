@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class userFeedback extends AppCompatActivity {
+public class UserFeedback extends AppCompatActivity {
 
     private TextView Name, Subject, Desc;
     private Button send;
