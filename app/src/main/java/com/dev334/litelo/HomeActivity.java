@@ -13,6 +13,7 @@ import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.UI.home.HomeFragment;
+import com.dev334.litelo.UI.notification.NotificationFragment;
 import com.dev334.litelo.UI.settings.SettingsFragment;
 import com.dev334.litelo.UI.splashScreen.SplashFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
 
     private HomeFragment homeFragment;
     private SettingsFragment settingsFragment;
+    private NotificationFragment notificationFragment;
     private SplashFragment splashFragment;
     private ChipNavigationBar bottomNavigation;
     private List<EventModel> Events, TomorrowEvents;
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
 
         homeFragment=new HomeFragment();
         settingsFragment=new SettingsFragment();
+        notificationFragment=new NotificationFragment();
         splashFragment=new SplashFragment(this);
         bottomNavigation=findViewById(R.id.bottom_navigation_bar);
 
@@ -56,8 +59,8 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
                     case R.id.nav_settings:
                         replaceFragment(settingsFragment);
                         break;
-                    case R.id.nav_profile:
-                        replaceFragment(settingsFragment);
+                    case R.id.nav_notification:
+                        replaceFragment(notificationFragment);
                         break;
                     default:
                         replaceFragment(homeFragment);

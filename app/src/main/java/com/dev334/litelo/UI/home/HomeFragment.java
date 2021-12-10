@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private branchAdapter AdapterBranch;
     private filterAdapter AdapterFilter;
     private RecyclerView filterRecycler;
-    private List<Map<String,String>> branchList;
+    private List<Map<String,Object>> branchList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =

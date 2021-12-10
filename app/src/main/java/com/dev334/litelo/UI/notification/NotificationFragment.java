@@ -1,4 +1,4 @@
-package com.dev334.litelo;
+package com.dev334.litelo.UI.notification;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dev334.litelo.R;
+import com.dev334.litelo.clubModel;
+import com.dev334.litelo.upcomingAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationFragment extends Fragment implements upcomingAdapter.onNoteListener  {
+public class NotificationFragment extends Fragment implements upcomingAdapter.onNoteListener {
 
     private View view;
     private RecyclerView clubRecycler;

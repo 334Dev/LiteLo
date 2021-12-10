@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_resources" />
     <fragment
         android:id="@+id/navi_notification"
-        android:name="com.dev334.litelo.NotificationFragment"
+        android:name="com.dev334.litelo.UI.notification.NotificationFragment"
         android:label="Upcoming Activities"
         tools:layout="@layout/fragment_notification" />
 </navigation>
