@@ -1,8 +1,10 @@
 package com.dev334.litelo.UI.home;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,9 +51,20 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
 
     public class mViewHolder extends RecyclerView.ViewHolder{
         View view;
+        ImageView addCalender;
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
             view=itemView;
+            addCalender=view.findViewById(R.id.s_eventcard_calender);
+
+            addCalender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //add to calender
+                    EventModel currentEvent=eventModelList.get(getAdapterPosition());
+                }
+            });
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
