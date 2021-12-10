@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsregular"
                 android:gravity="left"
-                android:text="Website"
+                android:text="@string/hyperlink"
                 android:textColor="@color/Text"
                 android:padding="4dp"
                 android:textSize="18sp" />

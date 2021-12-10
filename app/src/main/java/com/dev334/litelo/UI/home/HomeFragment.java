@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         View view=getLayoutInflater().inflate(R.layout.event_dailog,null);
         TextView link=view.findViewById(R.id.textView19);
         TextView website=view.findViewById(R.id.textView20);
+        website.setMovementMethod(LinkMovementMethod.getInstance());
         alert.setView(view);
         AlertDialog show=alert.show();
 
