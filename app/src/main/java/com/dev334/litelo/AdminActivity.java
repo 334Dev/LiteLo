@@ -2,8 +2,11 @@ package com.dev334.litelo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,7 +15,10 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -25,10 +31,13 @@ import com.squareup.okhttp.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private CardView addEvent, removeEvent, sendNotification;
     private String branch;
@@ -36,6 +45,10 @@ public class AdminActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private String fcmUrl="https://fcm.googleapis.com/fcm/send";
 
+    TextView eName, eDate, eTime, eDesc, eLink, eCord1, eCord1P, eCord2, eCord2P;
+    Button DoneBtn,PickDate,PickTime;
+   
+    int hour,min;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,23 +108,75 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void showAddEventCard() {
-        AlertDialog.Builder alert=new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder alert=new AlertDialog.Builder(AdminActivity.this);
         View view=getLayoutInflater().inflate(R.layout.dialog_add_event,null);
 
-        TextView eName, eDate, eTime, eDesc, eLink, eCord1, eCord1P, eCord2, eCord2P;
-        Button DoneBtn;
+
 
         eName=view.findViewById(R.id.addEvent_Name);
+        eDate=view.findViewById(R.id.addEvent_date);
+        eTime=view.findViewById(R.id.addEvent_time);
+        eDesc=view.findViewById(R.id.addEvent_Desc);
+        eLink=view.findViewById(R.id.addEvent_Link);
+        eCord1=view.findViewById(R.id.addEvent_c1);
+        eCord1P=view.findViewById(R.id.addEvent_c1p);
+        eCord2=view.findViewById(R.id.addEvent_c2);
+        eCord2P=view.findViewById(R.id.addEvent_c2p);
         DoneBtn=view.findViewById(R.id.addEvent_Btn);
-
+        PickDate=view.findViewById(R.id.addEvent_Date);
+        PickTime=view.findViewById(R.id.addEvent_Time);
+        ImageView closeAlert=view.findViewById(R.id.addEvent_close);
 
         alert.setView(view);
         AlertDialog show=alert.show();
 
+         PickDate.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 DialogFragment datePicker= new DatePickerFragment();
+                 datePicker.show(getSupportFragmentManager(), "class date picker");
+
+             }
+         });
+
+         PickTime.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 TimePickerDialog.OnTimeSetListener onTimeSetListener=new TimePickerDialog.OnTimeSetListener() {
+                     @Override
+                     public void onTimeSet(TimePicker timePicker, int selectedhour, int selectedmin) {
+
+                         hour=selectedhour;
+                         min=selectedmin;
+
+                       eTime.setText(String.format(Locale.getDefault(),"%02d:%02d",hour,min));
+
+                     }
+                 };
+                 TimePickerDialog timePickerDialog =new TimePickerDialog(AdminActivity.this,onTimeSetListener,hour,min,true);
+                 timePickerDialog.show();
+
+             }
+         });
+
         DoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
-                //done
+
+
+ 
+
+
+            }
+        });
+
+
+        closeAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+                alert.dismiss();
+
             }
         });
 
@@ -161,5 +226,14 @@ public class AdminActivity extends AppCompatActivity {
 
 
     }
-    
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String currentDate= DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        eDate.setText(currentDate);
+    }
 }

@@ -82,12 +82,14 @@
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/drawable/ic_december_addsvg_01.xml" value="0.2703125" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/drawable/ic_genesis.xml" value="0.2703125" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/drawable/ic_nirmaan.xml" value="0.2703125" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_admin.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_list_show.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_login.xml" value="0.16893115942028986" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/cc_model.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/dialog_add_event.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/event_card_square.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_create_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
@@ -95,6 +97,7 @@
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_login_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_notification.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_signup.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/resource_grid.xml" value="0.25416666666666665" />
       </map>
