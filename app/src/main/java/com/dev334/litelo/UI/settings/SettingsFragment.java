@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dev334.litelo.AdminActivity;
 import com.dev334.litelo.ChangePassword;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
@@ -31,7 +32,7 @@ public class SettingsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private LinearLayout logout, deleteAcc, changePass, feedback, about, share;
+    private LinearLayout logout, deleteAcc, changePass, feedback, about, share,admin;
     private FirebaseAuth mAuth;
     private static String TAG="SettingsFragmentLog";
 
@@ -47,7 +48,7 @@ public class SettingsFragment extends Fragment {
         feedback=root.findViewById(R.id.settings_feedback);
         about=root.findViewById(R.id.settings_about);
         share=root.findViewById(R.id.settings_share);
-
+        admin=root.findViewById(R.id.settings_admin);
         mAuth=FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser().getEmail().isEmpty()){
@@ -98,6 +99,14 @@ public class SettingsFragment extends Fragment {
                 i.putExtra(Intent.EXTRA_SUBJECT, "Download LiteLo App");
                 i.putExtra(Intent.EXTRA_TEXT, "Download LiteLo App \n https://play.google.com/store/apps/details?id=com.dev334.litelo");
                 startActivity(Intent.createChooser(i, "Share app"));
+            }
+        });
+
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getContext(), AdminActivity.class);
+                startActivity(i);
             }
         });
 
