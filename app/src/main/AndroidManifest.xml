@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BranchActivity"></activity>
         <activity
             android:name=".AdminActivity"
             android:exported="false" />
