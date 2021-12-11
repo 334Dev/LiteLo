@@ -180,6 +180,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     @Override
     public void branchviewOnClick(int position) {
        Intent intent=new Intent(getActivity(), BranchActivity.class);
+
        startActivity(intent);
     }
 

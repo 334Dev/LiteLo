@@ -29,12 +29,13 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
 
     @Override
     public void onBindViewHolder(@NonNull eventAdapter.TimeLineViewHolder holder, int position) {
-        holder.setDetails(eventModelList.get(position).getName(),eventModelList.get(position).getDate());
+        holder.setDetails(eventModelList.get(position).getName(),
+                eventModelList.get(position).getDate());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return eventModelList.size();
     }
 
     public interface ClickInterface {
@@ -61,8 +62,8 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
             });
         }
         public void setDetails(String name,String date){
-            TextView nameText = itemView.findViewById(R.id.eventName_textView);
-            TextView dateText = itemView.findViewById(R.id.time_textView);
+            TextView nameText = itemView.findViewById(R.id.text_timeline_title);
+            TextView dateText = itemView.findViewById(R.id.text_timeline_date);
             nameText.setText(name);
             dateText.setText(date);
         }
