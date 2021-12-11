@@ -14,8 +14,8 @@ import java.util.List;
 
 public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineViewHolder> {
     private List<EventModel> eventModelList;
-    private todayAdapter.ClickInterface Listener;
-    public eventAdapter(List<EventModel> eventModelList, todayAdapter.ClickInterface Listener){
+    private eventAdapter.ClickInterface Listener;
+    public eventAdapter(List<EventModel> eventModelList, eventAdapter.ClickInterface Listener){
         this.eventModelList=eventModelList;
         this.Listener=Listener;
     }
@@ -37,6 +37,10 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
         return 0;
     }
 
+    public interface ClickInterface {
+        void eventViewOnClick(int position);
+    }
+
     @Override
     public int getItemViewType(int position) {
         return TimelineView.getTimeLineViewType(position, getItemCount());
@@ -49,6 +53,12 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
             super(itemView);
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Listener.eventViewOnClick(getAdapterPosition());
+                }
+            });
         }
         public void setDetails(String name,String date){
             TextView nameText = itemView.findViewById(R.id.eventName_textView);
