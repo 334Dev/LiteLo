@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BranchActivity"></activity>
         <activity
+            android:name=".AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePassword"
             android:exported="false" />
         <activity

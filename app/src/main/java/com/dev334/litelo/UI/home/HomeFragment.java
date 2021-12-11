@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     }
     private void setupTodayRecycler() {
 
-        AdapterToday= new todayAdapter(Events,this);
+        AdapterToday= new todayAdapter(Events,this,getContext());
         todayRecycler.setAdapter(AdapterToday);
         todayRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         todayRecycler.setHasFixedSize(true);

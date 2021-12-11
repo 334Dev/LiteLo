@@ -102,6 +102,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/grey_filled_box"
             android:orientation="horizontal"
+            android:layout_marginBottom="12dp"
             android:padding="12dp">
 
             <ImageView
@@ -117,6 +118,31 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/poppinsregular"
                 android:text="  Share"
+                android:textColor="@color/Text"
+                android:textSize="@dimen/_13ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_admin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/grey_filled_box"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/imageView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_admin_panel_settings_24" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppinsregular"
+                android:text="  Admin"
                 android:textColor="@color/Text"
                 android:textSize="@dimen/_13ssp" />
         </LinearLayout>
