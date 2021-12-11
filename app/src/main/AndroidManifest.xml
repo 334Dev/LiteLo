@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChangePassword"
             android:exported="false" />
         <activity
@@ -54,9 +57,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".UserFeedback"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".UserFeedback"
+            android:screenOrientation="portrait" />
 
         <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
