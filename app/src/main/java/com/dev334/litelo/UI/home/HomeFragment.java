@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
@@ -48,10 +49,10 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private List<EventModel> Events, filterEvents;
     private RecyclerView todayRecycler;
     private RecyclerView branchRecycler;
+    private RecyclerView filterRecycler;
     private todayAdapter AdapterToday;
     private branchAdapter AdapterBranch;
     private filterAdapter AdapterFilter;
-    private RecyclerView filterRecycler;
     private List<Map<String,Object>> branchList;
 
     public HomeFragment(){
@@ -191,6 +192,25 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void filterViewOnClick(int position) {
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.event_full_detail,null);
+        alert.setView(view);
+        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone;
 
+        evtName=view.findViewById(R.id.event_name_full);
+        evtDesc=view.findViewById(R.id.event_desc_full);
+        cord1Name=view.findViewById(R.id.coordinator_name_full);
+        cord2Name=view.findViewById(R.id.coordinator_name_full2);
+        cord1Phone=view.findViewById(R.id.coordinator_number_full);
+        cord2Phone=view.findViewById(R.id.coordinator_number_full2);
+
+        evtName.setText(Events.get(position).getName());
+        evtDesc.setText(Events.get(position).getDesc());
+        Map<String,String> mp = Events.get(position).getCoordinator();
+
+
+        AlertDialog show=alert.show();
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }

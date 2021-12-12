@@ -82,7 +82,7 @@ public class SettingsFragment extends Fragment {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Developed by Dev334",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Developed by Dev334",Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
                 View view=getLayoutInflater().inflate(R.layout.contact_us_dailog,null);
                 alert.setView(view);
