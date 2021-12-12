@@ -22,4 +22,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="hyperlink"><a href="https://avishkar.mnnit.ac.in/events/">Visit our Website</a></string>
 
+    <string-array name="Filter">
+        <item>Tomorrow</item>
+        <item>Today</item>
+        <item>Pick a Date</item>
+    </string-array>
+
 </resources>

@@ -48,12 +48,14 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/browseclub_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/cc_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/club_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/dropdown_item_filter.xml" value="0.1361111111111111" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_dailog.xml" value="0.1361111111111111" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_detail_card.xml" value="0.2" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_browse_club.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_club_details.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_create_profile.xml" value="0.18" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_email_verification.xml" value="0.15" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home.xml" value="0.14" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_home_end.xml" value="0.17685185185185184" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login.xml" value="0.14" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_login_home.xml" value="0.14" />

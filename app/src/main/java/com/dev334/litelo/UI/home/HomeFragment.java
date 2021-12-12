@@ -1,6 +1,7 @@
 package com.dev334.litelo.UI.home;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,13 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,22 +33,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dev334.litelo.BranchActivity;
+import com.dev334.litelo.DatePickerFragment;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.resourceAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface{
+public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface
+, DatePickerDialog.OnDateSetListener
+{
 
     private static final String TAG ="HomeFragment" ;
     private HomeViewModel homeViewModel;
@@ -53,6 +70,9 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private filterAdapter AdapterFilter;
     private RecyclerView filterRecycler;
     private List<Map<String,Object>> branchList;
+    private Spinner filterSpinner;
+    private List<EventModel> fEvents;
+    private List<Map<String, Object>> EventMap;
 
     public HomeFragment(){
         //empty constructor
@@ -68,6 +88,13 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Events=new ArrayList<>();
         filterEvents = new ArrayList<>();
         branchList =new ArrayList<>();
+        filterSpinner=root.findViewById(R.id.spinner2);
+        fEvents=new ArrayList<>();
+        EventMap=new ArrayList<>();
+
+        String[] filter= getResources().getStringArray(R.array.Filter);
+        ArrayAdapter arrayAdapter=new ArrayAdapter(getContext(), R.layout.dropdown_item_filter, filter);
+        filterSpinner.setAdapter(arrayAdapter);
 
 
         String[] branch_names = new String[]{
@@ -107,8 +134,6 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Events=((HomeActivity)getActivity()).getEvents();
         Events.add(Events.get(0));
         Events.add(Events.get(0));
-        Events.add(Events.get(0));
-        Events.add(Events.get(0));
 
 
         filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
@@ -123,12 +148,81 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         filterRecycler.setNestedScrollingEnabled(false);
         setupBranchRecycler();
         setupTodayRecycler();
-        setupFilterRecycler();
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==0){
+                    setupFilterTomorrowRecycler();
+                }else if(i==1){
+                    setupFilterTodayRecycler();
+                }else{
+                    Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
+
+                    DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
+                            cal.get(Calendar.YEAR),
+                            cal.get(Calendar.MONTH),
+                            cal.get(Calendar.DAY_OF_MONTH));
+                    datePicker.setCancelable(false);
+                    datePicker.setTitle("Select the date");
+                    datePicker.show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                setupFilterTomorrowRecycler();
+            }
+        });
 
         return root;
     }
 
-    private void setupFilterRecycler() {
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            selectedMonth=selectedMonth+1;
+            String date=selectedYear+"-"+selectedMonth+"-"+selectedDay;
+
+            FirebaseFirestore firestore=FirebaseFirestore.getInstance();
+            firestore.collection("Events").document(date).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()){
+                        EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
+                        fEvents=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
+                        setupFilterDateRecycler();
+                    }else{
+                        //no event on that day
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i(TAG, "onFailure: "+e.getMessage());
+                }
+            });
+
+        }
+    };
+
+    private void setupFilterDateRecycler() {
+        AdapterFilter= new filterAdapter(fEvents,this);
+        filterRecycler.setAdapter(AdapterFilter);
+        filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        filterRecycler.setHasFixedSize(true);
+    }
+
+    private void setupFilterTodayRecycler() {
+        AdapterFilter= new filterAdapter(Events,this);
+        filterRecycler.setAdapter(AdapterFilter);
+        filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        filterRecycler.setHasFixedSize(true);
+    }
+
+    private void setupFilterTomorrowRecycler() {
         AdapterFilter= new filterAdapter(filterEvents,this);
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -193,4 +287,20 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     public void filterViewOnClick(int position) {
 
     }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month=month+1;
+        Log.i("DateSelectedAdmin", "onDateSet: "+year+" "+month+" "+dayOfMonth);
+        String date=year+"-"+month+"-"+dayOfMonth;
+    }
+
+    Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {
+        @Override
+        public EventModel apply(Map<String, Object> stringObjectMap) {
+            EventModel event = new EventModel(stringObjectMap);
+            return event;
+        }
+    };
+
 }
