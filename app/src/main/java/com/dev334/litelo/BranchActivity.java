@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -61,6 +62,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
                 Events=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
+                sortEventModelList(Events);
                 Log.i(TAG, "onSuccess: "+Events.get(0).getName());
                 setUpRecycler();
             }
@@ -68,6 +70,31 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void sortEventModelList(List<EventModel> events) {
+        events.sort(new Comparator<EventModel>() {
+            @Override
+            public int compare(EventModel e1, EventModel e2) {
+                Integer h1=Integer.parseInt(e1.getTime().substring(0,2));
+                Integer h2=Integer.parseInt(e2.getTime().substring(0,2));
+
+                if(h1>h2){
+                    return 1;
+                }else if(h1<h2){
+                    return 0;
+                }
+
+                Integer m1=Integer.parseInt(e1.getTime().substring(3));
+                Integer m2=Integer.parseInt(e2.getTime().substring(3));
+                if(m1>=m2){
+                    return 1;
+                }else{
+                    return 0;
+                }
+
             }
         });
     }

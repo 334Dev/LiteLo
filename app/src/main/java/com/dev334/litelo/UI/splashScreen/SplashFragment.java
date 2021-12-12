@@ -25,10 +25,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +54,7 @@ public class SplashFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private String todayString;
+    private String tomorrowString;
     private String TAG="SplashFragment";
     private List<EventModel> Events, TomorrowEvents;
     private List<Map<String, Object>> EventMap, tEventMap;
@@ -64,9 +69,16 @@ public class SplashFragment extends Fragment {
         mAuth= FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
 
-        Date todayDate = Calendar.getInstance().getTime();
+        Calendar c=Calendar.getInstance();
+        Date todayDate = c.getTime();
+        c.add(Calendar.DAY_OF_YEAR,1);
+        Date tomorrowDate = c.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         todayString = formatter.format(todayDate);
+        tomorrowString=formatter.format(tomorrowDate);
+
+        Log.i(TAG, "onCreateView: "+todayString+" "+tomorrowString);
+
         EventMap=new ArrayList<>();
         Events=new ArrayList<>();
         TomorrowEvents=new ArrayList<>();
@@ -91,6 +103,7 @@ public class SplashFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
+                                    FirebaseMessaging.getInstance().subscribeToTopic("Avishkar");
                                     fetchDataToday();
                                 } else {
                                     ((HomeActivity)getActivity()).openLoginActivity(2);
@@ -113,6 +126,7 @@ public class SplashFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
+                                    FirebaseMessaging.getInstance().subscribeToTopic("Avishkar");
                                     fetchDataToday();
 
                                 } else {
@@ -136,8 +150,7 @@ public class SplashFragment extends Fragment {
     }
 
     private void fetchDataToday() {
-        String test = "2021-12-19";
-        firestore.collection("Events").document(test)
+        firestore.collection("Events").document(todayString)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -157,7 +170,7 @@ public class SplashFragment extends Fragment {
 
     private void fetchDataTomorrow() {
         String test = "2021-12-19";
-        firestore.collection("Events").document(test)
+        firestore.collection("Events").document(tomorrowString)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

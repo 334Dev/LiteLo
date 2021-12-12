@@ -47,6 +47,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private Spinner filterSpinner;
     private List<EventModel> fEvents;
     private List<Map<String, Object>> EventMap;
-
+    private List<String> filter;
     public HomeFragment(){
         //empty constructor
     }
@@ -93,8 +94,12 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         filterSpinner=root.findViewById(R.id.spinner2);
         fEvents=new ArrayList<>();
         EventMap=new ArrayList<>();
+        filter=new ArrayList<>();
 
-        String[] filter= getResources().getStringArray(R.array.Filter);
+        filter.add("Tomorrow");
+        filter.add("Today");
+        filter.add("Pick a Date");
+
         ArrayAdapter arrayAdapter=new ArrayAdapter(getContext(), R.layout.dropdown_item_filter, filter);
         filterSpinner.setAdapter(arrayAdapter);
 
@@ -134,15 +139,18 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         }
 
         Events=((HomeActivity)getActivity()).getEvents();
-        Events.add(Events.get(0));
-        Events.add(Events.get(0));
+
+        if(Events.isEmpty()){
+            root.findViewById(R.id.noevent_msg).setVisibility(View.VISIBLE);
+        }else if(Events.size()>1){
+            sortEventModelList(Events);
+        }
 
 
         filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
-        filterEvents.add(filterEvents.get(0));
-        filterEvents.add(filterEvents.get(0));
-        filterEvents.add(filterEvents.get(0));
-        filterEvents.add(filterEvents.get(0));
+        if(filterEvents.size()>1){
+            sortEventModelList(filterEvents);
+        }
 
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         branchRecycler=root.findViewById(R.id.recyclerView2);
@@ -158,9 +166,11 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
                     setupFilterTomorrowRecycler();
                 }else if(i==1){
                     setupFilterTodayRecycler();
-                }else{
+                }else if(i==2){
                     Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
-
+                    if(filter.size()==4) {
+                        filter.remove(3);
+                    }
                     DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
                             cal.get(Calendar.YEAR),
                             cal.get(Calendar.MONTH),
@@ -180,6 +190,31 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         return root;
     }
 
+    private void sortEventModelList(List<EventModel> events) {
+        events.sort(new Comparator<EventModel>() {
+            @Override
+            public int compare(EventModel e1, EventModel e2) {
+                Integer h1=Integer.parseInt(e1.getTime().substring(0,2));
+                Integer h2=Integer.parseInt(e2.getTime().substring(0,2));
+
+                if(h1>h2){
+                    return 1;
+                }else if(h1<h2){
+                    return 0;
+                }
+
+                Integer m1=Integer.parseInt(e1.getTime().substring(3));
+                Integer m2=Integer.parseInt(e2.getTime().substring(3));
+                if(m1>=m2){
+                    return 1;
+                }else{
+                    return 0;
+                }
+
+            }
+        });
+    }
+
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
@@ -187,18 +222,19 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
                               int selectedMonth, int selectedDay) {
             selectedMonth=selectedMonth+1;
             String date=selectedYear+"-"+selectedMonth+"-"+selectedDay;
-
+            filter.add(date);
+            filterSpinner.setSelection(3);
             FirebaseFirestore firestore=FirebaseFirestore.getInstance();
             firestore.collection("Events").document(date).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    fEvents.clear();
                     if(documentSnapshot.exists()){
                         EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
                         fEvents=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
                         setupFilterDateRecycler();
-                    }else{
-                        //no event on that day
                     }
+                    setupFilterDateRecycler();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -300,9 +336,9 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord1Phone=view.findViewById(R.id.coordinator_number_full);
         cord2Phone=view.findViewById(R.id.coordinator_number_full2);
         linkMain =view.findViewById(R.id.website_link_full);
-        evtName.setText(Events.get(position).getName());
-        evtDesc.setText(Events.get(position).getDesc());
-        Map<String,String> mp = Events.get(position).getCoordinator();
+        evtName.setText(filterEvents.get(position).getName());
+        evtDesc.setText(filterEvents.get(position).getDesc());
+        Map<String,String> mp = filterEvents.get(position).getCoordinator();
         ArrayList<String> names=new ArrayList<>();
         ArrayList<String> phones=new ArrayList<>();
         for (Map.Entry<String, String> entry : mp.entrySet()) {
@@ -319,7 +355,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         linkMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(Events.get(position).getLink()); // missing 'http://' will cause crashed
+                Uri uri = Uri.parse(filterEvents.get(position).getLink()); // missing 'http://' will cause crashed
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
