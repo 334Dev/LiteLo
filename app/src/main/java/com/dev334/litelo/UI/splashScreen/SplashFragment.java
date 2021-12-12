@@ -154,9 +154,11 @@ public class SplashFragment extends Fragment {
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
-                Events=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
-                Log.i(TAG, "onSuccess: "+Events.get(0).getName());
+                if(documentSnapshot.exists()) {
+                    EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                    Log.i(TAG, "onSuccess: " + Events.get(0).getName());
+                }
                 passDataInterface.PassTodayEvents(Events);
                 fetchDataTomorrow();
             }
@@ -174,9 +176,11 @@ public class SplashFragment extends Fragment {
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                tEventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
-                TomorrowEvents=tEventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
-                Log.i(TAG, "onSuccess: "+TomorrowEvents.get(0).getName());
+                if(documentSnapshot.exists()) {
+                    tEventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    TomorrowEvents = tEventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                    Log.i(TAG, "onSuccess: " + TomorrowEvents.get(0).getName());
+                }
                 passDataInterface.PassTomorrowEvents(TomorrowEvents);
                 ((HomeActivity)getActivity()).setHomeFragment();
             }

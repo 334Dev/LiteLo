@@ -40,7 +40,7 @@ public class filterAdapter extends RecyclerView.Adapter<filterAdapter.mViewHolde
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         holder.setEventName(eventModelList.get(position).getName());
-        holder.setEventTime("6:30 pm");
+        holder.setEventTime(eventModelList.get(position).getTime());
         holder.setEventParent(eventModelList.get(position).getParent());
         //holder.setEventLocation(eventModelList.get(position).getLink());
         holder.setEventLocation("MS Teams");
