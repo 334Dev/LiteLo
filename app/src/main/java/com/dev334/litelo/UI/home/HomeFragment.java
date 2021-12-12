@@ -53,6 +53,11 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private filterAdapter AdapterFilter;
     private RecyclerView filterRecycler;
     private List<Map<String,Object>> branchList;
+
+    public HomeFragment(){
+        //empty constructor
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =

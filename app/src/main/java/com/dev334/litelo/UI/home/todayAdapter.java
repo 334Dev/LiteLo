@@ -46,9 +46,8 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         holder.setEventName(eventModelList.get(position).getName());
-        holder.setEventTime("6:30 pm");
+        holder.setEventTime(eventModelList.get(position).getTime());
         holder.setEventParent(eventModelList.get(position).getParent());
-        //holder.setEventLocation(" "+eventModelList.get(position).getLink());
         holder.setEventLocation("MS Teams");
     }
 
@@ -75,15 +74,23 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
                     //add to calender
                     EventModel currentEvent=eventModelList.get(getAdapterPosition());
 
-                    String fulldate= currentEvent.getDate();
-                    String eventdate=fulldate.substring(0,2);
-                    Integer eventdateint=Integer.parseInt(eventdate);
+                    String date= currentEvent.getDate();
+                    String eDate=date.substring(8);
+                    String eMonth=date.substring(5,7);
+                    Integer eMonthInt=Integer.parseInt(eMonth);
+                    Integer eDateInt=Integer.parseInt(eDate);
+                    String time=currentEvent.getTime();
+                    String eHour=time.substring(0,2);
+                    String eMin=time.substring(3);
+                    Integer eHourInt=Integer.parseInt(eHour);
+                    Integer eMinInt=Integer.parseInt(eMin);
 
                     Calendar beginTime = Calendar.getInstance();
+                    Log.i("AddCalenderLog", "onClick: "+eDateInt);
 
-                    beginTime.set(2021, 12, eventdateint, 10, 00);
+                    beginTime.set(2021, 11, eDateInt, eHourInt, eMinInt);
                     Calendar endTime = Calendar.getInstance();
-                    endTime.set(2021, 12, eventdateint, 18, 00);
+                    endTime.set(2021, 11, eDateInt, 23, 00);
 
                     Intent intent = new Intent(Intent.ACTION_INSERT)
                              .setData(CalendarContract.Events.CONTENT_URI)
@@ -94,15 +101,6 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
                              .putExtra(CalendarContract.Events.EVENT_LOCATION, currentEvent.getLink().toString());
 
                               context.startActivity(intent);
-
-                 /*   if(intent.resolveActivity(context.getPackageManager())!=null)
-                    {
-
-                    }
-                    else
-                    {
-                        Toast.makeText(context,"Not supported",Toast.LENGTH_SHORT).show();
-                    }*/
 
                 }
             });

@@ -1,5 +1,6 @@
 package com.dev334.litelo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
@@ -13,18 +14,25 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -32,33 +40,42 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private CardView addEvent, removeEvent, sendNotification;
+    private LinearLayout addEvent, removeEvent, sendNotification;
     private String branch;
 
     private RequestQueue mQueue;
     private String fcmUrl="https://fcm.googleapis.com/fcm/send";
 
-    TextView eName, eDate, eTime, eDesc, eLink, eCord1, eCord1P, eCord2, eCord2P;
-    Button DoneBtn,PickDate,PickTime;
+    private TextView eName, eDate, eTime, eDesc, eLink, eCord1, eCord1P, eCord2, eCord2P;
+    private Button DoneBtn,PickDate,PickTime;
+    private List<Map<String, Object>> events;
+    private Map<String, Object> fMap;
+    private FirebaseFirestore firestore;
+    private static String TAG="AdminActivityLog";
+    private Map<String, Object> map;
    
     int hour,min;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        addEvent=findViewById(R.id.addEvent);
-        removeEvent=findViewById(R.id.removeEvent);
-        sendNotification=findViewById(R.id.sendNotification);
+        addEvent=findViewById(R.id.admin_addEvent);
+        removeEvent=findViewById(R.id.admin_removeEvent);
+        sendNotification=findViewById(R.id.admin_notification);
+        firestore=FirebaseFirestore.getInstance();
         
         //branch name
         branch="Cyberquest";
+        events=new ArrayList<>();
 
         mQueue= Volley.newRequestQueue(this);
 
@@ -79,39 +96,43 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         sendNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert=new AlertDialog.Builder(getApplicationContext());
-                View view=getLayoutInflater().inflate(R.layout.dialog_send_notification,null);
-
-                TextView EditDesc= view.findViewById(R.id.notificationDesc);
-                Button sendBtn=view.findViewById(R.id.sendNotiBtn);
-
-                alert.setView(view);
-                AlertDialog show=alert.show();
-
-                sendBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View vi) {
-                        if(EditDesc.getText().toString().isEmpty()){
-                            EditDesc.setError("Empty Description");
-                        }else{
-                            //send Notification
-                            sendNotification(EditDesc.getText().toString());
-                        }
-                    }
-                });
-
-                alert.setCancelable(true);
-                show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Log.i(TAG, "onClick: sendNotification");
+                showNotificationDialog();
             }
         });
 
     }
 
+    private void showNotificationDialog() {
+        AlertDialog.Builder alert=new AlertDialog.Builder(AdminActivity.this);
+        View view=getLayoutInflater().inflate(R.layout.dialog_send_notification,null);
+
+        TextView EditDesc= view.findViewById(R.id.notificationDesc);
+        Button sendBtn=view.findViewById(R.id.sendNotiBtn);
+
+        alert.setView(view);
+        AlertDialog show=alert.show();
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+                if(EditDesc.getText().toString().isEmpty()){
+                    EditDesc.setError("Empty Description");
+                }else{
+                    //send Notification
+                    sendNotification(EditDesc.getText().toString());
+                }
+                show.dismiss();
+            }
+        });
+
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
     private void showAddEventCard() {
         AlertDialog.Builder alert=new AlertDialog.Builder(AdminActivity.this);
         View view=getLayoutInflater().inflate(R.layout.dialog_add_event,null);
-
-
 
         eName=view.findViewById(R.id.addEvent_Name);
         eDate=view.findViewById(R.id.addEvent_date);
@@ -162,9 +183,53 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         DoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
+                String Name=eName.getText().toString();
+                String Date=eDate.getText().toString();
+                String Link=eLink.getText().toString();
+                String Desc=eDesc.getText().toString();
+                String Time=eTime.getText().toString();
+                String cord1=eCord1.getText().toString();
+                String cord2=eCord2.getText().toString();
+                String cord1P=eCord1P.getText().toString();
+                String cord2P=eCord2P.getText().toString();
+
+                //add Data to firebase;
+                map=new HashMap<>();
+                fMap=new HashMap<>();
+                map.put("Name", Name);
+                map.put("Date", Date);
+                map.put("Time", Time);
+                map.put("Desc", Desc);
+                map.put("Link", Link);
+                map.put("Parent", branch);
+                Map<String, Object> cMap=new HashMap<>();
+                cMap.put(cord1, cord1P);
+                cMap.put(cord2, cord2P);
+
+                map.put("Coordinator", cMap);
+
+                Log.i(TAG, "onClick: "+map);
+                firestore.collection("Events").document(Date).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()){
+                            events=(List<Map<String, Object>>) documentSnapshot.get("Events");
+                        }
+                        assert events != null;
+                        events.add(map);
+                        Log.i(TAG, "onSuccess: "+events);
+                        fMap.put("Events", events);
+                        addEventDate(Date);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
 
 
- 
+                //show.dismiss();
 
 
             }
@@ -175,13 +240,65 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             @Override
             public void onClick(View view) {
                 
-                alert.dismiss();
+                show.dismiss();
 
             }
         });
 
         alert.setCancelable(true);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    private void addEventDate(String date) {
+        firestore.collection("Events").document(date).set(fMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i(TAG, "onSuccess: added");
+                addEventParent();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void addEventParent() {
+        events.clear();
+        fMap.clear();
+        firestore.collection("Events").document(branch).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()) {
+                    events = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                }
+                events.add(map);
+                fMap.put("Events", events);
+                addEventToParent();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
+    }
+
+    private void addEventToParent() {
+        firestore.collection("Events").document(branch).set(fMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //Done
+                        Toast.makeText(AdminActivity.this, "Event added", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: "+e.getMessage());
+            }
+        });
     }
 
     private void sendNotification(String descText) {
@@ -229,11 +346,9 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDate= DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        eDate.setText(currentDate);
+        month=month+1;
+        Log.i("DateSelectedAdmin", "onDateSet: "+year+" "+month+" "+dayOfMonth);
+        String date=year+"-"+month+"-"+dayOfMonth;
+        eDate.setText(date);
     }
 }

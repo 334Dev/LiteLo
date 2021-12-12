@@ -51,7 +51,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     }
 
     private void fetchDataToday() {
-        String test = "2021-11-29";
+        String test = "2021-12-19";
         firestore.collection("Events").document(test)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

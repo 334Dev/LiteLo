@@ -43,6 +43,10 @@ public class SplashFragment extends Fragment {
         this.passDataInterface=passDataInterface;
     }
 
+    public SplashFragment() {
+        // doesn't do anything special
+    }
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private String todayString;
@@ -137,7 +141,7 @@ public class SplashFragment extends Fragment {
     }
 
     private void fetchDataToday() {
-        String test = "2021-11-29";
+        String test = "2021-12-19";
         firestore.collection("Events").document(test)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -157,7 +161,7 @@ public class SplashFragment extends Fragment {
     }
 
     private void fetchDataTomorrow() {
-        String test = "2021-11-29";
+        String test = "2021-12-19";
         firestore.collection("Events").document(test)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
