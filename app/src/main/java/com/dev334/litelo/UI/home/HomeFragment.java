@@ -211,21 +211,21 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     };
 
     private void setupFilterDateRecycler() {
-        AdapterFilter= new filterAdapter(fEvents,this);
+        AdapterFilter= new filterAdapter(fEvents,this,getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
     }
 
     private void setupFilterTodayRecycler() {
-        AdapterFilter= new filterAdapter(Events,this);
+        AdapterFilter= new filterAdapter(Events,this,getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
     }
 
     private void setupFilterTomorrowRecycler() {
-        AdapterFilter= new filterAdapter(filterEvents,this);
+        AdapterFilter= new filterAdapter(filterEvents,this,getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
