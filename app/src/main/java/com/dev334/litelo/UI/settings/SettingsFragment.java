@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.dev334.litelo.AdminActivity;
 import com.dev334.litelo.ChangePassword;
+import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
@@ -38,6 +39,7 @@ public class SettingsFragment extends Fragment {
     private LinearLayout logout, deleteAcc, changePass, feedback, about, share,admin;
     private FirebaseAuth mAuth;
     private static String TAG="SettingsFragmentLog";
+    private TinyDB tinyDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,7 @@ public class SettingsFragment extends Fragment {
         share=root.findViewById(R.id.settings_share);
         admin=root.findViewById(R.id.settings_admin);
         mAuth=FirebaseAuth.getInstance();
+        tinyDB=new TinyDB(getActivity());
 
         if(mAuth.getCurrentUser().getEmail().isEmpty()){
             changePass.setVisibility(View.GONE);
@@ -121,8 +124,14 @@ public class SettingsFragment extends Fragment {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getContext(), AdminActivity.class);
-                startActivity(i);
+                Boolean admin=tinyDB.getBoolean("Admin");
+                if(admin) {
+                    Intent i = new Intent(getContext(), AdminActivity.class);
+                    i.putExtra("Branch", tinyDB.getString("Branch"));
+                    startActivity(i);
+                }else{
+                    Toast.makeText(getContext(), "Access Denied", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -150,6 +159,7 @@ public class SettingsFragment extends Fragment {
                     public void onFailure(@NonNull Exception e) {
                         //setSnackBar(scrollView, "Try After logging in again");
                         Log.i(TAG, "onFailure: "+e.getMessage());
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

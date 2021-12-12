@@ -32,11 +32,14 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     private FirebaseFirestore firestore;
     private List<Map<String, Object>> EventMap;
     private static String TAG="branchActivityLog";
+    private String Branch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch);
+
+        Branch=getIntent().getStringExtra("Branch");
 
         firestore=FirebaseFirestore.getInstance();
         EventMap=new ArrayList<>();
@@ -52,7 +55,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
 
     private void fetchDataToday() {
         String test = "2021-12-19";
-        firestore.collection("Events").document(test)
+        firestore.collection("Events").document(Branch)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

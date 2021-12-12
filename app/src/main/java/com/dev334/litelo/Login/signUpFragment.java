@@ -25,10 +25,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class signUpFragment extends Fragment {
@@ -42,6 +45,7 @@ public class signUpFragment extends Fragment {
     private ProgressBar loading;
     private ConstraintLayout parentLayout;
     private String TAG="SignUpFragment";
+    private TinyDB tinyDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,11 +59,12 @@ public class signUpFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         PhoneSignUp=view.findViewById(R.id.phoneAuthBtn);
-
+        tinyDB=new TinyDB(getActivity());
         EditEmail= view.findViewById(R.id.editEmailSignup);
         EditPassword=view.findViewById(R.id.editPasswordSignUp);
         loading=view.findViewById(R.id.SignUpLoading);
         Login=view.findViewById(R.id.LoginTextSignup);
+        firestore=FirebaseFirestore.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -89,12 +94,36 @@ public class signUpFragment extends Fragment {
                 Email=EditEmail.getText().toString();
                 Password=EditPassword.getText().toString();
                 if(check(Email,Password)){
-                    signUpUser();
+                    isAdmin(Email);
                 }
             }
         });
 
         return view;
+    }
+
+    private void isAdmin(String email) {
+        firestore.collection("Admin").whereEqualTo("Email", email)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> docs=queryDocumentSnapshots.getDocuments();
+                if(docs.isEmpty()){
+                    tinyDB.putBoolean("Admin", false);
+                }else{
+                    tinyDB.putBoolean("Admin", true);
+                    tinyDB.putString("Branch", docs.get(0).get("Branch").toString());
+                }
+                signUpUser();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                tinyDB.putBoolean("Admin", false);
+                Log.i(TAG, "onFailure: "+e.getMessage());
+                setSnackBar(parentLayout, "Signup failed");
+            }
+        });
     }
 
 
