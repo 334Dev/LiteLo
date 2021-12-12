@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
@@ -65,6 +66,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private List<EventModel> Events, filterEvents;
     private RecyclerView todayRecycler;
     private RecyclerView branchRecycler;
+
     private todayAdapter AdapterToday;
     private branchAdapter AdapterBranch;
     private filterAdapter AdapterFilter;
@@ -285,7 +287,46 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void filterViewOnClick(int position) {
+        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+        View view=getLayoutInflater().inflate(R.layout.event_full_detail,null);
+        alert.setView(view);
+        AlertDialog show=alert.show();
 
+        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain;
+        evtName=view.findViewById(R.id.event_name_full);
+        evtDesc=view.findViewById(R.id.event_desc_full);
+        cord1Name=view.findViewById(R.id.coordinator_name_full);
+        cord2Name=view.findViewById(R.id.coordinator_name_full2);
+        cord1Phone=view.findViewById(R.id.coordinator_number_full);
+        cord2Phone=view.findViewById(R.id.coordinator_number_full2);
+        linkMain =view.findViewById(R.id.website_link_full);
+        evtName.setText(Events.get(position).getName());
+        evtDesc.setText(Events.get(position).getDesc());
+        Map<String,String> mp = Events.get(position).getCoordinator();
+        ArrayList<String> names=new ArrayList<>();
+        ArrayList<String> phones=new ArrayList<>();
+        for (Map.Entry<String, String> entry : mp.entrySet()) {
+            names.add(entry.getKey());
+            phones.add(entry.getValue());
+        }
+
+        cord1Name.setText(names.get(0));
+        cord2Name.setText(names.get(1));
+        cord1Phone.setText(phones.get(0));
+        cord2Phone.setText(phones.get(1));
+
+
+        linkMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(Events.get(position).getLink()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+        alert.setCancelable(true);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override

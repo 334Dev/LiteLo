@@ -9,10 +9,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,19 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DeleteAccount();
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(),"Developed by Dev334",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
+                View view=getLayoutInflater().inflate(R.layout.contact_us_dailog,null);
+                alert.setView(view);
+                AlertDialog show=alert.show();
+                alert.setCancelable(true);
+                show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
         });
 
