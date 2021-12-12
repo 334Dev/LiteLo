@@ -300,9 +300,9 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord1Phone=view.findViewById(R.id.coordinator_number_full);
         cord2Phone=view.findViewById(R.id.coordinator_number_full2);
         linkMain =view.findViewById(R.id.website_link_full);
-        evtName.setText(Events.get(position).getName());
-        evtDesc.setText(Events.get(position).getDesc());
-        Map<String,String> mp = Events.get(position).getCoordinator();
+        evtName.setText(filterEvents.get(position).getName());
+        evtDesc.setText(filterEvents.get(position).getDesc());
+        Map<String,String> mp = filterEvents.get(position).getCoordinator();
         ArrayList<String> names=new ArrayList<>();
         ArrayList<String> phones=new ArrayList<>();
         for (Map.Entry<String, String> entry : mp.entrySet()) {

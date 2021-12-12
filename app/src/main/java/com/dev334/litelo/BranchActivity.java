@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.UI.home.eventAdapter;
@@ -59,10 +60,12 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
-                Events=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
-                Log.i(TAG, "onSuccess: "+Events.get(0).getName());
-                setUpRecycler();
+                if(documentSnapshot.exists()) {
+                    EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                    Log.i(TAG, "onSuccess: " + Events.get(0).getName());
+                    setUpRecycler();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
