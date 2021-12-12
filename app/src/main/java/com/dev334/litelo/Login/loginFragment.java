@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -92,7 +95,7 @@ public class loginFragment extends Fragment {
                 Email=EditEmail.getText().toString();
                 Password=EditPassword.getText().toString();
                 if(check(Email,Password)) {
-                    SignInUser();
+                    isAdmin(Email);
                 }else {
                     loading.setVisibility(View.INVISIBLE);
                 }
@@ -136,6 +139,30 @@ public class loginFragment extends Fragment {
         });
 
         return view;
+    }
+    private void isAdmin(String email) {
+        firestore.collection("Admin").whereEqualTo("Email", email)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> docs=queryDocumentSnapshots.getDocuments();
+                if(docs.isEmpty()){
+                    tinyDB.putBoolean("Admin", false);
+                }else{
+                    tinyDB.putBoolean("Admin", true);
+                    tinyDB.putString("Branch", docs.get(0).get("Branch").toString());
+                }
+                SignInUser();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                tinyDB.putBoolean("Admin", false);
+                Log.i(TAG, "onFailure: "+e.getMessage());
+                loading.setVisibility(View.INVISIBLE);
+                setSnackBar(parentLayout, "Login Failed");
+            }
+        });
     }
 
     private void SignInUser() {

@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     @Override
     public void branchviewOnClick(int position) {
        Intent intent=new Intent(getActivity(), BranchActivity.class);
-
+       intent.putExtra("Branch", String.valueOf(branchList.get(position).get("Name")));
        startActivity(intent);
     }
 
