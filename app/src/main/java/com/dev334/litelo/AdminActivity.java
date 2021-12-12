@@ -49,7 +49,7 @@ import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private LinearLayout addEvent, removeEvent, sendNotification;
+    private LinearLayout addEvent, sendNotification;
     private String branch;
 
     private RequestQueue mQueue;
@@ -69,7 +69,6 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         addEvent=findViewById(R.id.admin_addEvent);
-        removeEvent=findViewById(R.id.admin_removeEvent);
         sendNotification=findViewById(R.id.admin_notification);
         firestore=FirebaseFirestore.getInstance();
         
@@ -86,12 +85,6 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             }
         });
 
-        removeEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         sendNotification.setOnClickListener(new View.OnClickListener() {
             @Override
