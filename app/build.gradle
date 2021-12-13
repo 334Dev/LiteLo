@@ -10,7 +10,7 @@ android {
             keyPassword 'oneon334'
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
     lintOptions {
@@ -20,9 +20,9 @@ android {
     defaultConfig {
         applicationId "com.dev334.litelo"
         minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 12
-        versionName "1.2.5"
+        targetSdkVersion 30
+        versionCode 18
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

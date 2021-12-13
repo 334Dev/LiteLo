@@ -11,7 +11,7 @@
         android:id="@+id/branchEvent_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppinsmedium"
         android:text="CyberQuest"
@@ -22,11 +22,11 @@
 
     <TextView
         android:id="@+id/branchDesc_TextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/poppinsmedium"
         android:text="Is computer science the only good branch left in India considering there are hardly any core companies in India and most of the core branch people are getting IT jobs"
         android:textColor="@color/Text"
@@ -53,6 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:background="@color/background"
         android:clipToPadding="false"
@@ -62,4 +63,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView22"
         tools:listitem="@layout/event_detail_card" />
+
+    <Button
+        android:id="@+id/subscribeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/secondary_filled_box"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Subscribe"
+        android:textColor="@color/White"
+        app:layout_constraintBottom_toBottomOf="@+id/branchEvent_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/branchEvent_textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

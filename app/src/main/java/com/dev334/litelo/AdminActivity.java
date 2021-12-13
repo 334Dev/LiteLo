@@ -73,7 +73,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         firestore=FirebaseFirestore.getInstance();
         
         //branch name
-        branch="Cyberquest";
+        branch=getIntent().getStringExtra("Branch");
         events=new ArrayList<>();
 
         mQueue= Volley.newRequestQueue(this);
@@ -303,9 +303,9 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         //Making a Json Object
         JSONObject mainobj=new JSONObject();
         try {
-            mainobj.put("to","/topics/"+"Avishkar");
+            mainobj.put("to","/topics/"+branch);
             JSONObject notificationObj=new JSONObject();
-            notificationObj.put("title","Avishkar");
+            notificationObj.put("title","Avishkar: "+branch);
             notificationObj.put("body",descText);
             // notificationObj.put("click_action","https://www.google.com/");
             mainobj.put("notification",notificationObj);

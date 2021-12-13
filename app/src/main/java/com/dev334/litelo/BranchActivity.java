@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.EventLog;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.UI.home.eventAdapter;
 import com.dev334.litelo.UI.home.filterAdapter;
@@ -20,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +44,9 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     private static String TAG="branchActivityLog";
     private String Branch;
     private TextView branchEvent, branchDesc;
+    private Button subscribeBtn;
+    private TinyDB tinyDB;
+    private Boolean SUBSCRIBE=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,29 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
         branchEvent=findViewById(R.id.branchEvent_textView);
         branchEvent.setText(Branch);
 
+        tinyDB=new TinyDB(this);
+
+        SUBSCRIBE=tinyDB.getBoolean(Branch);
+
+        subscribeBtn = findViewById(R.id.subscribeBtn);
+
+        updateButton();
+
+        subscribeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(SUBSCRIBE) {
+                    SUBSCRIBE=false;
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(Branch);
+                }else{
+                    SUBSCRIBE=true;
+                    FirebaseMessaging.getInstance().subscribeToTopic(Branch);
+                }
+
+                updateButton();
+            }
+        });
+
         firestore=FirebaseFirestore.getInstance();
         EventMap=new ArrayList<>();
 
@@ -60,6 +90,17 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
         fetchDataToday();
 
 
+    }
+
+    public void updateButton(){
+        tinyDB.putBoolean(Branch, SUBSCRIBE);
+        if(SUBSCRIBE){
+            subscribeBtn.setBackground(getDrawable(R.drawable.grey_filled_box));
+            subscribeBtn.setText("Subscribed");
+        }else{
+            subscribeBtn.setBackground(getDrawable(R.drawable.secondary_filled_box));
+            subscribeBtn.setText("Subscribe");
+        }
     }
 
     private void fetchDataToday() {
