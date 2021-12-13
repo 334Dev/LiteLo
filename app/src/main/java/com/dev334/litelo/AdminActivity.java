@@ -205,16 +205,13 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 firestore.collection("Events").document(Date).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String Desc="Avishkar event organiser";
                         if(documentSnapshot.exists()){
                             events=(List<Map<String, Object>>) documentSnapshot.get("Events");
-                            Desc= (String) documentSnapshot.get("Desc");
                         }
                         assert events != null;
                         events.add(map);
                         Log.i(TAG, "onSuccess: "+events);
                         fMap.put("Events", events);
-                        fMap.put("Desc", Desc);
 
                         addEventDate(Date);
                     }
@@ -267,11 +264,14 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         firestore.collection("Events").document(branch).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String Desc="Avishkar event organiser";
                 if(documentSnapshot.exists()) {
                     events = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    Desc= (String) documentSnapshot.get("Desc");
                 }
                 events.add(map);
                 fMap.put("Events", events);
+                fMap.put("Desc", Desc);
                 addEventToParent();
             }
         }).addOnFailureListener(new OnFailureListener() {
