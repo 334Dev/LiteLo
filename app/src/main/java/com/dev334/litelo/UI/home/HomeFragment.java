@@ -143,15 +143,10 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
         if(Events.isEmpty()){
             root.findViewById(R.id.noevent_msg).setVisibility(View.VISIBLE);
-        }else if(Events.size()>1){
-            sortEventModelList(Events);
         }
 
 
         filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
-        if(filterEvents.size()>1){
-            sortEventModelList(filterEvents);
-        }
 
         todayRecycler=root.findViewById(R.id.todayEventRecycler);
         branchRecycler=root.findViewById(R.id.recyclerView2);
@@ -195,31 +190,6 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         return root;
     }
 
-    private void sortEventModelList(List<EventModel> events) {
-        events.sort(new Comparator<EventModel>() {
-            @Override
-            public int compare(EventModel e1, EventModel e2) {
-                Integer h1=Integer.parseInt(e1.getTime().substring(0,2));
-                Integer h2=Integer.parseInt(e2.getTime().substring(0,2));
-
-                if(h1>h2){
-                    return 1;
-                }else if(h1<h2){
-                    return 0;
-                }
-
-                Integer m1=Integer.parseInt(e1.getTime().substring(3));
-                Integer m2=Integer.parseInt(e2.getTime().substring(3));
-                if(m1>=m2){
-                    return 1;
-                }else{
-                    return 0;
-                }
-
-            }
-        });
-    }
-
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
@@ -236,6 +206,12 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
                     fEvents.clear();
                     if(documentSnapshot.exists()){
                         EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
+                        EventMap.sort(new Comparator<Map<String, Object>>() {
+                            @Override
+                            public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                                return m1.get("Time").toString().compareTo(m2.get("Time").toString());
+                            }
+                        });
                         fEvents=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
                         setupFilterDateRecycler();
                     }

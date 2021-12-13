@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -97,8 +98,14 @@ public class SplashFragment extends Fragment {
 
                     String UserID=mAuth.getCurrentUser().getUid();
                     FirebaseUser user=mAuth.getCurrentUser();
+                    Boolean EMAIL=false;
+                    for(UserInfo u: FirebaseAuth.getInstance().getCurrentUser().getProviderData()){
+                        if(u.getProviderId().equals("password")){
+                            EMAIL=true;
+                        }
+                    }
 
-                    if(!user.getPhoneNumber().isEmpty()){
+                    if(!EMAIL){
                         firestore.collection("NewUsers").document(UserID).
                                 get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
@@ -160,6 +167,12 @@ public class SplashFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()) {
                     EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    EventMap.sort(new Comparator<Map<String, Object>>() {
+                        @Override
+                        public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                            return m1.get("Time").toString().compareTo(m2.get("Time").toString());
+                        }
+                    });
                     Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
                     Log.i(TAG, "onSuccess: " + Events.get(0).getName());
                 }
@@ -182,6 +195,12 @@ public class SplashFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()) {
                     tEventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    tEventMap.sort(new Comparator<Map<String, Object>>() {
+                        @Override
+                        public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                            return m1.get("Time").toString().compareTo(m2.get("Time").toString());
+                        }
+                    });
                     TomorrowEvents = tEventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
                     Log.i(TAG, "onSuccess: " + TomorrowEvents.get(0).getName());
                 }

@@ -28,6 +28,8 @@ import com.dev334.litelo.UserFeedback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 public class SettingsFragment extends Fragment {
 
@@ -57,7 +59,15 @@ public class SettingsFragment extends Fragment {
         mAuth=FirebaseAuth.getInstance();
         tinyDB=new TinyDB(getActivity());
 
-        if(mAuth.getCurrentUser().getEmail().isEmpty()){
+        FirebaseUser user=mAuth.getCurrentUser();
+        Boolean EMAIL=false;
+        for(UserInfo u: FirebaseAuth.getInstance().getCurrentUser().getProviderData()){
+            if(u.getProviderId().equals("password")){
+                EMAIL=true;
+            }
+        }
+
+        if(!EMAIL){
             changePass.setVisibility(View.GONE);
         }
 

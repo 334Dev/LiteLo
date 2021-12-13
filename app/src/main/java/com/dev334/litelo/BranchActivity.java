@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.EventLog;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev334.litelo.UI.home.EventModel;
@@ -20,6 +22,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +39,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     private List<Map<String, Object>> EventMap;
     private static String TAG="branchActivityLog";
     private String Branch;
+    private TextView branchEvent, branchDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,9 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
         setContentView(R.layout.activity_branch);
 
         Branch=getIntent().getStringExtra("Branch");
+        branchDesc=findViewById(R.id.branchDesc_TextView);
+        branchEvent=findViewById(R.id.branchEvent_textView);
+        branchEvent.setText(Branch);
 
         firestore=FirebaseFirestore.getInstance();
         EventMap=new ArrayList<>();
@@ -50,7 +58,6 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
         Events=new ArrayList<>();
 
         fetchDataToday();
-
 
 
     }
@@ -62,11 +69,17 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()) {
+                    branchDesc.setText(documentSnapshot.get("Desc").toString());
                     EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    EventMap.sort(new Comparator<Map<String, Object>>() {
+                        @Override
+                        public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                            return m1.get("Date").toString().compareTo(m2.get("Date").toString());
+                        }
+                    });
                     Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
-                    Log.i(TAG, "onSuccess: " + Events.get(0).getName());
-                    sortEventModelList(Events);
                     setUpRecycler();
+                    //sortEventModelList();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -77,36 +90,53 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
         });
     }
 
-    private void sortEventModelList(List<EventModel> events) {
-        events.sort(new Comparator<EventModel>() {
+    private boolean sortEventModelList() {
+        Events.sort(new Comparator<EventModel>() {
             @Override
             public int compare(EventModel e1, EventModel e2) {
-                Integer h1=Integer.parseInt(e1.getTime().substring(0,2));
-                Integer h2=Integer.parseInt(e2.getTime().substring(0,2));
+                Integer d1 = Integer.parseInt(e1.getDate().substring(8));
+                Integer d2 = Integer.parseInt(e2.getDate().substring(8));
 
-                if(h1>h2){
-                    return 1;
-                }else if(h1<h2){
+                Log.i(TAG, "compare: " + d1 + " " + d2);
+
+                if (d1 > d2) {
+                    Log.i(TAG, "compare: d1>d2");
                     return 0;
+                } else if (d1 < d2) {
+                    Log.i(TAG, "compare: d1<d2");
+                    return 1;
                 }
 
-                Integer m1=Integer.parseInt(e1.getTime().substring(3));
-                Integer m2=Integer.parseInt(e2.getTime().substring(3));
-                if(m1>=m2){
-                    return 1;
-                }else{
+
+                Integer h1 = Integer.parseInt(e1.getTime().substring(0, 2));
+                Integer h2 = Integer.parseInt(e2.getTime().substring(0, 2));
+
+                if (h1 > h2) {
+                    Log.i(TAG, "compare: d1>d2");
                     return 0;
+                } else if (h1 < h2) {
+                    Log.i(TAG, "compare: d1<d2");
+                    return 1;
                 }
 
+                Integer m1 = Integer.parseInt(e1.getTime().substring(3));
+                Integer m2 = Integer.parseInt(e2.getTime().substring(3));
+                if (m1 >= m2) {
+                    Log.i(TAG, "compare: d1>d2");
+                    return 0;
+                } else {
+                    Log.i(TAG, "compare: d1<d2");
+                    return 1;
+                }
             }
         });
+
+        eventAdapter.notifyDataSetChanged();
+
+        return true;
     }
 
     private void setUpRecycler() {
-        Events.add(Events.get(0));
-        Events.add(Events.get(0));
-        Events.add(Events.get(0));
-        Events.add(Events.get(0));
         eventAdapter=new eventAdapter(Events,BranchActivity.this);
         timelineRecycler.setAdapter(eventAdapter);
         timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
