@@ -27,8 +27,7 @@
                 android:id="@+id/event_name_full"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:fontFamily="@font/poppinsmedium"
+                android:fontFamily="@font/poppinssemibold"
                 android:gravity="center_horizontal"
                 android:padding="4dp"
                 android:text="Softablitz"
@@ -47,16 +46,28 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/website_link_full"
+                android:id="@+id/eCard_Link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/secondary_filled_box"
                 android:fontFamily="@font/poppinsregular"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
+                android:text="Join the meeting"
+                android:textAlignment="center"
+                android:textColor="@color/White"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/website_link_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsregular"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:text="@string/hyperlink"
                 android:textAlignment="center"
-                android:textColor="@color/Text"
+                android:textColor="@color/White"
                 android:textColorLink="@color/Text"
                 android:textSize="14sp" />
 
@@ -64,7 +75,6 @@
                 android:id="@+id/coordinator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/poppinsmedium"
                 android:gravity="center_horizontal"
                 android:padding="8dp"
@@ -82,24 +92,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppinsmedium"
+                    android:fontFamily="@font/poppinsregular"
                     android:gravity="center_horizontal"
                     android:padding="4dp"
+                    android:text="Anant"
                     android:textColor="@color/Text"
-                    android:textSize="@dimen/_10ssp"
-                    android:text="Anant" />
+                    android:textSize="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/coordinator_number_full"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppinsmedium"
+                    android:fontFamily="@font/poppinsregular"
                     android:gravity="center_horizontal"
                     android:padding="4dp"
+                    android:text="6204930041"
                     android:textColor="@color/Text"
-                    android:textSize="@dimen/_10ssp"
-                    android:text="6204930041" />
+                    android:textSize="@dimen/_10ssp" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,24 +122,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppinsmedium"
+                    android:fontFamily="@font/poppinsregular"
                     android:gravity="center_horizontal"
                     android:padding="4dp"
+                    android:text="Aditya"
                     android:textColor="@color/Text"
-                    android:textSize="@dimen/_10ssp"
-                    android:text="Aditya" />
+                    android:textSize="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/coordinator_number_full2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppinsmedium"
+                    android:fontFamily="@font/poppinsregular"
                     android:gravity="center_horizontal"
                     android:padding="4dp"
+                    android:text="6204930041"
                     android:textColor="@color/Text"
-                    android:textSize="@dimen/_10ssp"
-                    android:text="6204930041" />
+                    android:textSize="@dimen/_10ssp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

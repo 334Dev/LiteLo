@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private List<EventModel> fEvents;
     private List<Map<String, Object>> EventMap;
     private List<String> filter;
+    private Integer FILTER=1;
     public HomeFragment(){
         //empty constructor
     }
@@ -163,10 +164,13 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==0){
+                    FILTER=1;
                     setupFilterTomorrowRecycler();
                 }else if(i==1){
+                    FILTER=0;
                     setupFilterTodayRecycler();
                 }else if(i==2){
+                    FILTER=2;
                     Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
                     if(filter.size()==4) {
                         filter.remove(3);
@@ -183,6 +187,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                FILTER=1;
                 setupFilterTomorrowRecycler();
             }
         });
@@ -285,28 +290,54 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     @Override
     public void recyclerviewOnClick(int position) {
         AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-        View view=getLayoutInflater().inflate(R.layout.event_dailog,null);
-        TextView link=view.findViewById(R.id.textView19);
-        TextView event=view.findViewById(R.id.event_dialog_name);
-        event.setText(Events.get(position).getName());
-        TextView website=view.findViewById(R.id.textView20);
-        website.setMovementMethod(LinkMovementMethod.getInstance());
+        View view=getLayoutInflater().inflate(R.layout.event_full_detail,null);
         alert.setView(view);
         AlertDialog show=alert.show();
 
-        link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(Events.get(position).getLink()); // missing 'http://' will cause crashed
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
+        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain,MeetingLink;
+        evtName=view.findViewById(R.id.event_name_full);
+        evtDesc=view.findViewById(R.id.event_desc_full);
+        cord1Name=view.findViewById(R.id.coordinator_name_full);
+        cord2Name=view.findViewById(R.id.coordinator_name_full2);
+        cord1Phone=view.findViewById(R.id.coordinator_number_full);
+        cord2Phone=view.findViewById(R.id.coordinator_number_full2);
+        linkMain =view.findViewById(R.id.website_link_full);
+        MeetingLink=view.findViewById(R.id.eCard_Link);
+
+        Map<String, String> mp=new HashMap<>();
+        evtName.setText(Events.get(position).getName());
+        evtDesc.setText(Events.get(position).getDesc());
+        mp = Events.get(position).getCoordinator();
+
+        ArrayList<String> names=new ArrayList<>();
+        ArrayList<String> phones=new ArrayList<>();
+        for (Map.Entry<String, String> entry : mp.entrySet()) {
+            names.add(entry.getKey());
+            phones.add(entry.getValue());
+        }
+
+        cord1Name.setText(names.get(0));
+        cord2Name.setText(names.get(1));
+        cord1Phone.setText(phones.get(0));
+        cord2Phone.setText(phones.get(1));
+
+        linkMain.setMovementMethod(LinkMovementMethod.getInstance());
+        linkMain.setOnClickListener(v->{
+            //on click
         });
 
-        website.setOnClickListener(new View.OnClickListener() {
+
+        MeetingLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Uri uri=Uri.parse(Events.get(position).getLink());
 
+                if(uri.toString().isEmpty()){
+                    Toast.makeText(getContext(), "No meeting scheduled yet", Toast.LENGTH_SHORT);
+                }else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -328,7 +359,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         alert.setView(view);
         AlertDialog show=alert.show();
 
-        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain;
+        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain,MeetingLink;
         evtName=view.findViewById(R.id.event_name_full);
         evtDesc=view.findViewById(R.id.event_desc_full);
         cord1Name=view.findViewById(R.id.coordinator_name_full);
@@ -336,9 +367,24 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord1Phone=view.findViewById(R.id.coordinator_number_full);
         cord2Phone=view.findViewById(R.id.coordinator_number_full2);
         linkMain =view.findViewById(R.id.website_link_full);
-        evtName.setText(filterEvents.get(position).getName());
-        evtDesc.setText(filterEvents.get(position).getDesc());
-        Map<String,String> mp = filterEvents.get(position).getCoordinator();
+        MeetingLink=view.findViewById(R.id.eCard_Link);
+
+        Map<String, String> mp=new HashMap<>();
+        if(FILTER==0){
+            evtName.setText(Events.get(position).getName());
+            evtDesc.setText(Events.get(position).getDesc());
+            mp = Events.get(position).getCoordinator();
+        }
+        else if(FILTER==1) {
+            evtName.setText(filterEvents.get(position).getName());
+            evtDesc.setText(filterEvents.get(position).getDesc());
+            mp = filterEvents.get(position).getCoordinator();
+        }else{
+            evtName.setText(fEvents.get(position).getName());
+            evtDesc.setText(fEvents.get(position).getDesc());
+            mp = fEvents.get(position).getCoordinator();
+        }
+
         ArrayList<String> names=new ArrayList<>();
         ArrayList<String> phones=new ArrayList<>();
         for (Map.Entry<String, String> entry : mp.entrySet()) {
@@ -351,13 +397,30 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord1Phone.setText(phones.get(0));
         cord2Phone.setText(phones.get(1));
 
+        linkMain.setMovementMethod(LinkMovementMethod.getInstance());
+        linkMain.setOnClickListener(v->{
+            //on click
+        });
 
-        linkMain.setOnClickListener(new View.OnClickListener() {
+
+        MeetingLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(filterEvents.get(position).getLink()); // missing 'http://' will cause crashed
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                Uri uri=Uri.parse("https://avishkar.mnnit.ac.in/events/");
+                if(FILTER==0){
+                    uri=Uri.parse(Events.get(position).getLink());
+                }else if(FILTER==1) {
+                    uri=Uri.parse(filterEvents.get(position).getLink()); // missing 'http://' will cause crashed
+                }else{
+                    uri=Uri.parse(fEvents.get(position).getLink());
+                }
+
+                if(uri.toString().isEmpty()){
+                    Toast.makeText(getContext(), "No meeting scheduled yet", Toast.LENGTH_SHORT);
+                }else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
             }
         });
 

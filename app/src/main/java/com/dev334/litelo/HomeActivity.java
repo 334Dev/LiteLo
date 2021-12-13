@@ -29,6 +29,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private HomeFragment homeFragment;
     private SettingsFragment settingsFragment;
     private NotificationFragment notificationFragment;
+    private ResourcesFragment resourcesFragment;
     private SplashFragment splashFragment;
     private ChipNavigationBar bottomNavigation;
     private List<EventModel> Events, TomorrowEvents;
@@ -41,7 +42,8 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
 
         homeFragment=new HomeFragment();
         settingsFragment=new SettingsFragment();
-        notificationFragment=new NotificationFragment();
+       //notificationFragment=new NotificationFragment();
+        resourcesFragment=new ResourcesFragment();
         splashFragment=new SplashFragment(this);
         bottomNavigation=findViewById(R.id.bottom_navigation_bar);
 
@@ -62,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
                         replaceFragment(settingsFragment);
                         break;
                     case R.id.nav_notification:
-                        replaceFragment(notificationFragment);
+                        replaceFragment(resourcesFragment);
                         break;
                     default:
                         replaceFragment(homeFragment);

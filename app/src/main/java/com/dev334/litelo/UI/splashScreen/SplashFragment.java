@@ -90,6 +90,7 @@ public class SplashFragment extends Fragment {
             public void run() {
 
                 if(mAuth.getCurrentUser()==null){
+                    Log.i(TAG, "run: user not found");
                     ((HomeActivity)getActivity()).openLoginActivity(0);
                 }
                 else {
@@ -103,6 +104,7 @@ public class SplashFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
+                                    Log.i(TAG, "run: profile not found");
                                     FirebaseMessaging.getInstance().subscribeToTopic("Avishkar");
                                     fetchDataToday();
                                 } else {
@@ -118,6 +120,7 @@ public class SplashFragment extends Fragment {
                     }
 
                     else if(!user.isEmailVerified()){
+                        Log.i(TAG, "run: email not verified");
                         ((HomeActivity)getActivity()).openLoginActivity(1);
                     }
                     else {
@@ -130,6 +133,7 @@ public class SplashFragment extends Fragment {
                                     fetchDataToday();
 
                                 } else {
+                                    Log.i(TAG, "run: profile not found");
                                     ((HomeActivity)getActivity()).openLoginActivity(2);
                                 }
                             }

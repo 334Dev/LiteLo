@@ -7,14 +7,19 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
+import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MyNotificationManager {
 
     private Context mCtx;
     private static MyNotificationManager mInstance;
-
     private MyNotificationManager(Context context){
         mCtx=context;
     }
@@ -38,7 +43,14 @@ public class MyNotificationManager {
        //  Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/"));
        // String u="https://www.google.com/";
 
-
+        TinyDB tinyDB=new TinyDB(mCtx);
+        ArrayList<Object> notification=new ArrayList<>();
+        notification=tinyDB.getListObject("Notification");
+        Map<String, String> map=new HashMap<>();
+        map.put("title", title);
+        map.put("body", body);
+        notification.add(map);
+        tinyDB.putListObject("Notification", notification);
 
         PendingIntent pendingIntent=PendingIntent.getActivity(mCtx,0,intent,0);
 

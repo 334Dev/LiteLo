@@ -49,8 +49,10 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/cc_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/club_dialog.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/dropdown_item_filter.xml" value="0.1361111111111111" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_dailog.xml" value="0.1361111111111111" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_card_rectangle.xml" value="0.21" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_dailog.xml" value="0.25" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_detail_card.xml" value="0.2" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_full_detail.xml" value="0.16" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_browse_club.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_club_details.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_create_profile.xml" value="0.18" />
@@ -62,6 +64,7 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_notification.xml" value="0.18" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_o_t_p_verify.xml" value="0.16" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_phone_auth_fagment.xml" value="0.13243243243243244" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_resources.xml" value="0.1361111111111111" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_settings.xml" value="0.13243243243243244" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_signup.xml" value="0.12" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/fragment_splash.xml" value="0.13243243243243244" />
@@ -93,10 +96,7 @@
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/cc_model.xml" value="0.16893115942028986" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/dialog_add_event.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/event_card_rectangle.xml" value="0.4" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/event_card_square.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/event_detail_card.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/event_full_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_create_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />

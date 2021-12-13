@@ -299,9 +299,9 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         //Making a Json Object
         JSONObject mainobj=new JSONObject();
         try {
-            mainobj.put("to","/topics/"+branch);
+            mainobj.put("to","/topics/"+"Avishkar");
             JSONObject notificationObj=new JSONObject();
-            notificationObj.put("title",branch);
+            notificationObj.put("title","Avishkar");
             notificationObj.put("body",descText);
             // notificationObj.put("click_action","https://www.google.com/");
             mainobj.put("notification",notificationObj);
@@ -316,7 +316,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                     }, new  com.android.volley.Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Log.i(TAG, "onErrorResponse: "+error.getMessage());
                 }
             }){
                 @Override
@@ -331,6 +331,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             mQueue.add(request);
 
         } catch (JSONException e) {
+            Log.i(TAG, "sendNotification: "+e.getMessage());
             e.printStackTrace();
         }
 
