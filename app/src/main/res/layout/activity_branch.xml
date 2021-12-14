@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/poppinsmedium"
-        android:text="Is computer science the only good branch left in India considering there are hardly any core companies in India and most of the core branch people are getting IT jobs"
+        android:text="Annual Tech fest of MNNIT "
         android:textColor="@color/Text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

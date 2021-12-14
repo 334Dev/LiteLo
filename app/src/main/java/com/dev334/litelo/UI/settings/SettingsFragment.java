@@ -95,8 +95,21 @@ public class SettingsFragment extends Fragment {
                 //Toast.makeText(getContext(),"Developed by Dev334",Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
                 View view=getLayoutInflater().inflate(R.layout.contact_us_dailog,null);
+                Button contact = view.findViewById(R.id.contact_btn);
                 alert.setView(view);
                 AlertDialog show=alert.show();
+
+                contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("plain/text");
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "oneon334@gmail.com" });
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "LiteLo-Contact Us");
+                        startActivity(Intent.createChooser(intent, "Send us email"));
+                    }
+                });
+
                 alert.setCancelable(true);
                 show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }

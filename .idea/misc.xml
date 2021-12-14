@@ -9,6 +9,8 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/buttomrect.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/email_vector.xml" value="0.21574074074074073" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_back.xml" value="0.21574074074074073" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_box_filled.xml" value="0.14536082474226805" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/gradient_red.xml" value="0.14536082474226805" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/greybutton.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_app_logo.xml" value="0.2169230769230769" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.1" />
@@ -47,10 +49,12 @@
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/activity_user_info.xml" value="0.20416666666666666" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/ad_dailog.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
-        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/branch_card.xml" value="0.13195876288659794" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/branch_card.xml" value="0.16" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/browseclub_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/cc_model.xml" value="0.1" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/club_dialog.xml" value="0.1" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/contact_us_dailog.xml" value="0.16" />
+        <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/dialog_add_event.xml" value="0.1361111111111111" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/dialog_send_notification.xml" value="0.1361111111111111" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/dropdown_item_filter.xml" value="0.1361111111111111" />
         <entry key="..\:/Software Projects/LiteLo/app/src/main/res/layout/event_card_rectangle.xml" value="0.21" />

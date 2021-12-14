@@ -20,7 +20,7 @@
             android:id="@+id/branchCard_logo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:background="@drawable/gradient_box_filled"
+            android:background="@drawable/gradient_red"
             android:padding="12dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_avishkar_triangle" />
