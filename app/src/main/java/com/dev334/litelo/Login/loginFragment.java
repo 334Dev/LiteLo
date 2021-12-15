@@ -201,6 +201,7 @@ public class loginFragment extends Fragment {
                         if(task.isSuccessful()){
                             Intent i = new Intent(getActivity(), HomeActivity.class);
                             startActivity(i);
+                            getActivity().finish();
                         }else{
                             ((LoginActivity)getActivity()).openCreateProfile();
                         }
@@ -215,11 +216,7 @@ public class loginFragment extends Fragment {
         }else if(password.isEmpty()){
             EditPassword.setError("Password is empty");
             return  false;
-        }else if(email.endsWith("@mnnit.ac.in")){
-            EditEmail.setError("Use college Gsuite ID");
-            return false;
-        }
-        else {
+        }else {
             if (password.length() < 6) {
                 EditPassword.setError("Password is too short");
                 return false;

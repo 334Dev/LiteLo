@@ -174,6 +174,7 @@ public class OTPVerifyFragment extends Fragment {
                             if(document.exists()) {
                                 Intent i = new Intent(getActivity(), HomeActivity.class);
                                 startActivity(i);
+                                getActivity().finish();
                             }else{
                                 ((LoginActivity)getActivity()).openCreateProfile();
                             }

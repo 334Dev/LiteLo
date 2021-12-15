@@ -112,6 +112,9 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
                 if(documentSnapshot.exists()) {
                     branchDesc.setText(documentSnapshot.get("Desc").toString());
                     EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    if(EventMap==null) {
+                        return;
+                    }
                     EventMap.sort(new Comparator<Map<String, Object>>() {
                         @Override
                         public int compare(Map<String, Object> m1, Map<String, Object> m2) {

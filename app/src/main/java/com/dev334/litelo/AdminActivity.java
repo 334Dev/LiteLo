@@ -97,21 +97,21 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
     }
 
     private void showNotificationDialog() {
-        AlertDialog.Builder alert=new AlertDialog.Builder(AdminActivity.this);
-        View view=getLayoutInflater().inflate(R.layout.dialog_send_notification,null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(AdminActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_send_notification, null);
 
-        TextView EditDesc= view.findViewById(R.id.notificationDesc);
-        Button sendBtn=view.findViewById(R.id.sendNotiBtn);
+        TextView EditDesc = view.findViewById(R.id.notificationDesc);
+        Button sendBtn = view.findViewById(R.id.sendNotiBtn);
 
         alert.setView(view);
-        AlertDialog show=alert.show();
+        AlertDialog show = alert.show();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
-                if(EditDesc.getText().toString().isEmpty()){
+                if (EditDesc.getText().toString().isEmpty()) {
                     EditDesc.setError("Empty Description");
-                }else{
+                } else {
                     //send Notification
                     sendNotification(EditDesc.getText().toString());
                 }
@@ -349,4 +349,5 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         String date=year+"-"+month+"-"+dayOfMonth;
         eDate.setText(date);
     }
+
 }

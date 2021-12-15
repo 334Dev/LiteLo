@@ -95,7 +95,7 @@
             android:drawablePadding="8dp"
             android:ems="10"
             android:fontFamily="@font/poppinsregular"
-            android:hint="Registration Number*"
+            android:hint="Reg No* ex., 20195066"
             android:inputType="number"
             android:paddingStart="16dp"
             android:paddingTop="12dp"

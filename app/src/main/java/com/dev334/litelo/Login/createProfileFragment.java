@@ -70,11 +70,7 @@ public class createProfileFragment extends Fragment {
                 }
                 else if(RegNo.isEmpty()){
                     EditReg.setError("Write Your Registration No.");
-                }
-                else if(Integer.parseInt(RegNo) < 20170000 || Integer.parseInt(RegNo) > 20220000){
-                    EditReg.setError("Invalid Registration No.");
-                }
-                else{
+                }else{
                     Map<String, Object> user = new HashMap<>();
                     user.put("Name", FullName);
                     user.put("Group", RegNo);
@@ -86,6 +82,7 @@ public class createProfileFragment extends Fragment {
                             setSnackBar(parentLayout, "Welcome " + FullName + "!");
                             Intent i = new Intent(getContext(), HomeActivity.class);
                             startActivity(i);
+                            getActivity().finish();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
