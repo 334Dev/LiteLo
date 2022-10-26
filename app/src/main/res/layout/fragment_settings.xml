@@ -71,38 +71,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/settings_about"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/grey_filled_box"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_outline_info_24" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppinsregular"
-                android:text="  Contact Us"
-                android:textColor="@color/Text"
-                android:textSize="@dimen/_13ssp" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/settings_share"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/grey_filled_box"
             android:orientation="horizontal"
-            android:layout_marginBottom="12dp"
             android:padding="12dp">
 
             <ImageView
@@ -128,7 +102,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/grey_filled_box"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/imageView18"

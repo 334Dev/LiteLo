@@ -38,36 +38,40 @@ public class SettingsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private LinearLayout logout, deleteAcc, changePass, feedback, about, share,admin;
+    private LinearLayout logout, deleteAcc, changePass, feedback, share, admin;
     private FirebaseAuth mAuth;
-    private static String TAG="SettingsFragmentLog";
+    private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root= inflater.inflate(R.layout.fragment_settings, container, false);
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        logout=root.findViewById(R.id.settings_logout);
-        deleteAcc=root.findViewById(R.id.settings_delete);
-        changePass=root.findViewById(R.id.settings_changePass);
-        feedback=root.findViewById(R.id.settings_feedback);
-        about=root.findViewById(R.id.settings_about);
-        share=root.findViewById(R.id.settings_share);
-        admin=root.findViewById(R.id.settings_admin);
-        mAuth=FirebaseAuth.getInstance();
-        tinyDB=new TinyDB(getActivity());
+        logout = root.findViewById(R.id.settings_logout);
+        deleteAcc = root.findViewById(R.id.settings_delete);
+        changePass = root.findViewById(R.id.settings_changePass);
+        feedback = root.findViewById(R.id.settings_feedback);
+        share = root.findViewById(R.id.settings_share);
+        admin = root.findViewById(R.id.settings_admin);
+        mAuth = FirebaseAuth.getInstance();
+        tinyDB = new TinyDB(getActivity());
 
-        FirebaseUser user=mAuth.getCurrentUser();
-        Boolean EMAIL=false;
-        for(UserInfo u: FirebaseAuth.getInstance().getCurrentUser().getProviderData()){
-            if(u.getProviderId().equals("password")){
-                EMAIL=true;
+        boolean isAdmin = tinyDB.getBoolean("Admin");
+        if (isAdmin) {
+            admin.setVisibility(View.VISIBLE);
+        }
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        Boolean EMAIL = false;
+        for (UserInfo u : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+            if (u.getProviderId().equals("password")) {
+                EMAIL = true;
             }
         }
 
-        if(!EMAIL){
+        if (!EMAIL) {
             changePass.setVisibility(View.GONE);
         }
 
@@ -89,37 +93,11 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getContext(),"Developed by Dev334",Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-                View view=getLayoutInflater().inflate(R.layout.contact_us_dailog,null);
-                Button contact = view.findViewById(R.id.contact_btn);
-                alert.setView(view);
-                AlertDialog show=alert.show();
-
-                contact.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("plain/text");
-                        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "oneon334@gmail.com" });
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "LiteLo-Contact Us");
-                        startActivity(Intent.createChooser(intent, "Send us email"));
-                    }
-                });
-
-                alert.setCancelable(true);
-                show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
-        });
-
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Open feedback activity
-                Intent i=new Intent(getActivity(), UserFeedback.class);
+                Intent i = new Intent(getActivity(), UserFeedback.class);
                 startActivity(i);
             }
         });
@@ -147,14 +125,9 @@ public class SettingsFragment extends Fragment {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean admin=tinyDB.getBoolean("Admin");
-                if(admin) {
-                    Intent i = new Intent(getContext(), AdminActivity.class);
-                    i.putExtra("Branch", tinyDB.getString("Branch"));
-                    startActivity(i);
-                }else{
-                    Toast.makeText(getContext(), "Access Denied", Toast.LENGTH_SHORT).show();
-                }
+                Intent i = new Intent(getContext(), AdminActivity.class);
+                i.putExtra("Branch", tinyDB.getString("Branch"));
+                startActivity(i);
             }
         });
 
@@ -162,26 +135,26 @@ public class SettingsFragment extends Fragment {
     }
 
     private void DeleteAccount() {
-        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-        View view=getLayoutInflater().inflate(R.layout.dialog_delete_account,null);
-        TextView delete=view.findViewById(R.id.dDeleteAcc);
-        TextView cancel=view.findViewById(R.id.dCancel);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.dialog_delete_account, null);
+        TextView delete = view.findViewById(R.id.dDeleteAcc);
+        TextView cancel = view.findViewById(R.id.dCancel);
         alert.setView(view);
-        AlertDialog show=alert.show();
+        AlertDialog show = alert.show();
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAuth.getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Intent i=new Intent(getActivity(), LoginActivity.class);
+                        Intent i = new Intent(getActivity(), LoginActivity.class);
                         startActivity(i);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //setSnackBar(scrollView, "Try After logging in again");
-                        Log.i(TAG, "onFailure: "+e.getMessage());
+                        Log.i(TAG, "onFailure: " + e.getMessage());
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

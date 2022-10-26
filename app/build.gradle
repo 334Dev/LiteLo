@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         release {
             storeFile file('D:\\coding\\LiteLo\\KeyStore\\keystore.jks')
             keyAlias 'litelo'
             storePassword 'Dev@A3A3D4'
             keyPassword 'oneon334'
         }
-    }
+    }*/
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
@@ -33,7 +33,7 @@ android {
             shrinkResources false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     compileOptions {
