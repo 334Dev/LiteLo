@@ -114,13 +114,18 @@
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/fragment_signup.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Asus/StudioProjects/LiteLo-Avishkar/app/src/main/res/layout/resource_grid.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/drawable/ic_app_logo.xml" value="0.321875" />
+        <entry key="app/src/main/res/drawable/ic_avishkar_triangle.xml" value="0.321875" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_outline_info_24.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/activity_branch.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.3015625" />
+        <entry key="app/src/main/res/layout/branch_card.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3015625" />
         <entry key="app/src/main/res/menu/home_bottom_navigation.xml" value="0.3015625" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.321875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.321875" />
       </map>
     </option>
