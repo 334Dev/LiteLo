@@ -10,24 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class upcomingAdapter extends RecyclerView.Adapter<upcomingAdapter.mViewholder>  {
+public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.mViewholder>  {
 
-    private List<clubModel> clubModels;
+    private List<ClubModel> clubModels;
     private onNoteListener mOnNoteListener;
-    public upcomingAdapter(List<clubModel> clubModels, onNoteListener mOnNoteListener){
+    public UpcomingAdapter(List<ClubModel> clubModels, onNoteListener mOnNoteListener){
         this.clubModels=clubModels;
         this.mOnNoteListener=mOnNoteListener;
     }
 
     @NonNull
     @Override
-    public upcomingAdapter.mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UpcomingAdapter.mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cc_model, parent, false);
-        return new upcomingAdapter.mViewholder(view, mOnNoteListener);
+        return new UpcomingAdapter.mViewholder(view, mOnNoteListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull upcomingAdapter.mViewholder holder, int position) {
+    public void onBindViewHolder(@NonNull UpcomingAdapter.mViewholder holder, int position) {
 
         holder.setDate(clubModels.get(position).getTiming());
         holder.setDesc(clubModels.get(position).getDescription());

@@ -1,6 +1,5 @@
 package com.dev334.litelo;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class subResAdapter extends RecyclerView.Adapter<subResAdapter.mViewholder> {
+public class ResourceAdapter extends RecyclerView.Adapter<ResourceAdapter.mViewholder> {
 
-    private List<String> resourceModel;
+    private List<String> resourceModels;
+
     private onNoteListener mOnNoteListener;
-
-    public subResAdapter(List<String> resourceModel,onNoteListener onNoteListener){
-        this.resourceModel=resourceModel;
+    public ResourceAdapter(List<String> resourceModels, onNoteListener onNoteListener){
+        this.resourceModels=resourceModels;
         this.mOnNoteListener=onNoteListener;
     }
 
@@ -25,17 +24,17 @@ public class subResAdapter extends RecyclerView.Adapter<subResAdapter.mViewholde
     @Override
     public mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.resource_grid, parent, false);
-        return new subResAdapter.mViewholder(view,mOnNoteListener);
+        return new ResourceAdapter.mViewholder(view,mOnNoteListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull mViewholder holder, int position) {
-        holder.setResourceName(resourceModel.get(position));
+        holder.setSubjectName(resourceModels.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return resourceModel.size();
+        return resourceModels.size();
     }
     public interface onNoteListener{
         void onNoteClick(int position);
@@ -53,10 +52,9 @@ public class subResAdapter extends RecyclerView.Adapter<subResAdapter.mViewholde
             this.onNotelistener=onNotelistener;
         }
 
-        public void setResourceName(String resname){
+        public void setSubjectName(String subject){
             Subject=view.findViewById(R.id.resourceSubject);
-            Subject.setText(resname);
-            Log.i("resSub", "setResourceName: "+resname);
+            Subject.setText(subject);
         }
 
         @Override

@@ -27,7 +27,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class profileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
             private CircleImageView profileImageView;
             private TextView profile_name,profile_Regno,profile_Grp;
@@ -72,7 +72,7 @@ public class profileActivity extends AppCompatActivity {
         profileImageView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                  CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(profileActivity.this);
+                  CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(ProfileActivity.this);
                }
         });
 
@@ -84,7 +84,7 @@ public class profileActivity extends AppCompatActivity {
              @Override
              public void onClick(View view) {
                  mAuth.signOut();
-                 Intent i= new Intent(profileActivity.this, LoginActivity.class);
+                 Intent i= new Intent(ProfileActivity.this, LoginActivity.class);
                  startActivity(i);
                  finish();
              }
@@ -121,7 +121,7 @@ public class profileActivity extends AppCompatActivity {
          }).addOnFailureListener(new OnFailureListener() {
              @Override
              public void onFailure(@NonNull Exception e) {
-                 Toast.makeText(profileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                 Toast.makeText(ProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
              }
          });
 

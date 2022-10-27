@@ -3,7 +3,6 @@ package com.dev334.litelo.UI.home;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -15,35 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.dev334.litelo.BranchActivity;
-import com.dev334.litelo.DatePickerFragment;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
-import com.dev334.litelo.resourceAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,9 +42,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.Set;
-
-import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface
 , DatePickerDialog.OnDateSetListener

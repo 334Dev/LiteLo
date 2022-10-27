@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
-import com.dev334.litelo.clubModel;
-import com.dev334.litelo.upcomingAdapter;
+import com.dev334.litelo.ClubModel;
+import com.dev334.litelo.UpcomingAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,13 +25,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationFragment extends Fragment implements upcomingAdapter.onNoteListener {
+public class NotificationFragment extends Fragment implements UpcomingAdapter.onNoteListener {
 
     private View view;
     private RecyclerView clubRecycler;
     private FirebaseFirestore firestore;
-    private List<clubModel> clubModels;
-    private upcomingAdapter clubAdapter;
+    private List<ClubModel> clubModels;
+    private UpcomingAdapter clubAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +41,7 @@ public class NotificationFragment extends Fragment implements upcomingAdapter.on
         clubRecycler=view.findViewById(R.id.notifactionRec);
 
         clubModels=new ArrayList<>();
-        clubAdapter= new upcomingAdapter(clubModels, this);
+        clubAdapter= new UpcomingAdapter(clubModels, this);
         clubRecycler.setAdapter(clubAdapter);
         clubRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         clubRecycler.setHasFixedSize(true);
@@ -60,7 +60,7 @@ public class NotificationFragment extends Fragment implements upcomingAdapter.on
                 }else {
                     List<DocumentSnapshot> snapshots=queryDocumentSnapshots.getDocuments();
                     for(DocumentSnapshot snapshot:snapshots){
-                        clubModels.add(snapshot.toObject(clubModel.class));
+                        clubModels.add(snapshot.toObject(ClubModel.class));
                     }
                     clubAdapter.notifyDataSetChanged();
                 }

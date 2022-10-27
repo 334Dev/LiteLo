@@ -17,7 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
-public class splashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
@@ -46,7 +46,7 @@ public class splashScreen extends AppCompatActivity {
             public void run() {
 
                 if(mAuth.getCurrentUser()==null){
-                    Intent i= new Intent(splashScreen.this, LoginActivity.class);
+                    Intent i= new Intent(SplashScreen.this, LoginActivity.class);
                     startActivity(i);
                     finish();
                 }
@@ -61,11 +61,11 @@ public class splashScreen extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
-                                    Intent i = new Intent(splashScreen.this, HomeActivity.class);
+                                    Intent i = new Intent(SplashScreen.this, HomeActivity.class);
                                     startActivity(i);
                                     finish();
                                 } else {
-                                    Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                                    Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                                     i.putExtra("FRAGMENT", 2);
                                     startActivity(i);
                                     finish();
@@ -80,7 +80,7 @@ public class splashScreen extends AppCompatActivity {
                     }
 
                     else if(!user.isEmailVerified()){
-                        Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                        Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                         i.putExtra("FRAGMENT", 1);
                         startActivity(i);
                         finish();
@@ -91,11 +91,11 @@ public class splashScreen extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
-                                    Intent i = new Intent(splashScreen.this, HomeActivity.class);
+                                    Intent i = new Intent(SplashScreen.this, HomeActivity.class);
                                     startActivity(i);
                                     finish();
                                 } else {
-                                    Intent i = new Intent(splashScreen.this, LoginActivity.class);
+                                    Intent i = new Intent(SplashScreen.this, LoginActivity.class);
                                     i.putExtra("FRAGMENT", 2);
                                     startActivity(i);
                                     finish();

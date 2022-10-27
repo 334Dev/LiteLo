@@ -1,6 +1,6 @@
 package com.dev334.litelo;
 
-public class clubModel {
+public class ClubModel {
     private String Topic;
     private String Timing;
     private String Description;
@@ -8,11 +8,11 @@ public class clubModel {
 
     private String Link;
 
-    public clubModel(){
+    public ClubModel(){
         //empty constructor
     }
 
-    public clubModel(String topic, String timing, String description, String link) {
+    public ClubModel(String topic, String timing, String description, String link) {
         Topic = topic;
         Timing = timing;
         Description = description;

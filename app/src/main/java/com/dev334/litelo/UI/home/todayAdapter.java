@@ -1,8 +1,5 @@
 package com.dev334.litelo.UI.home;
 
-import static android.content.Intent.ACTION_EDIT;
-import static android.content.Intent.ACTION_INSERT;
-
 import android.content.Context;
 import android.content.Intent;
 import android.provider.CalendarContract;
@@ -12,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
-import com.dev334.litelo.clubAdapter;
 
 import java.util.Calendar;
 import java.util.List;

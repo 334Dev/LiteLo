@@ -30,7 +30,7 @@
             android:name=".AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".subjectResources"
+            android:name=".SubjectResources"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChangePassword"
@@ -45,14 +45,14 @@
             android:name=".Settings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".profileActivity"
+            android:name=".ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".splashScreen"
+            android:name=".SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -20,10 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class subjectResources extends AppCompatActivity implements subResAdapter.onNoteListener {
+public class SubjectResources extends AppCompatActivity implements SubResAdapter.onNoteListener {
 
     private RecyclerView resSubRecycler;
-    private subResAdapter adapter;
+    private SubResAdapter adapter;
     private List<String> resourceModels;
     private List<String> Links;
     private FirebaseFirestore fstore;
@@ -64,7 +64,7 @@ public class subjectResources extends AppCompatActivity implements subResAdapter
 
     private void setResources() {
 
-        adapter= new subResAdapter(resourceModels,this);
+        adapter= new SubResAdapter(resourceModels,this);
         resSubRecycler.setAdapter(adapter);
         resSubRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         resSubRecycler.setHasFixedSize(true);

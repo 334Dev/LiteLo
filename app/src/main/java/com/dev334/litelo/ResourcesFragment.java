@@ -19,10 +19,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResourcesFragment extends Fragment implements resourceAdapter.onNoteListener {
+public class ResourcesFragment extends Fragment implements ResourceAdapter.onNoteListener {
     private View view;
     private RecyclerView resourceRecycler;
-    private resourceAdapter adapter;
+    private ResourceAdapter adapter;
     private FirebaseFirestore fstore;
     private List<String> resourceSubject;
 
@@ -80,7 +80,7 @@ public class ResourcesFragment extends Fragment implements resourceAdapter.onNot
 
     private void setupRecycler() {
 
-        adapter= new resourceAdapter(resourceSubject,this);
+        adapter= new ResourceAdapter(resourceSubject,this);
         resourceRecycler.setAdapter(adapter);
         resourceRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         resourceRecycler.setHasFixedSize(true);
@@ -90,7 +90,7 @@ public class ResourcesFragment extends Fragment implements resourceAdapter.onNot
     public void onNoteClick(int position) {
 
 
-        Intent i=new Intent(getActivity(),subjectResources.class);
+        Intent i=new Intent(getActivity(), SubjectResources.class);
         i.putExtra("Subject",resourceSubject.get(position));
         startActivity(i);
     }

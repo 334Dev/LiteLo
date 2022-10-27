@@ -1,6 +1,5 @@
 package com.dev334.litelo.UI.splashScreen;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,10 +13,8 @@ import android.view.ViewGroup;
 
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Interfaces.PassDataInterface;
-import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UI.home.EventModel;
-import com.dev334.litelo.splashScreen;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,14 +22,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;

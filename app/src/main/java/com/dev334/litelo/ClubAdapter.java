@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class clubAdapter extends RecyclerView.Adapter<clubAdapter.mViewHolder> {
+public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.mViewHolder> {
 
-    private List<clubModel> clubModels;
+    private List<ClubModel> clubModels;
     private ClickInterface listner;
 
-    public clubAdapter(List<clubModel> clubModels, ClickInterface listner){
+    public ClubAdapter(List<ClubModel> clubModels, ClickInterface listner){
         this.clubModels=clubModels;
         this.listner=listner;
     }
@@ -24,7 +24,7 @@ public class clubAdapter extends RecyclerView.Adapter<clubAdapter.mViewHolder> {
     @Override
     public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cc_model, parent, false);
-        return new clubAdapter.mViewHolder(view);
+        return new ClubAdapter.mViewHolder(view);
     }
 
     @Override
