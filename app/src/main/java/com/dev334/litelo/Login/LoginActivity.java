@@ -1,142 +1,132 @@
 package com.dev334.litelo.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dev334.litelo.Database.TinyDB;
+import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.AuthResponse;
+import com.dev334.litelo.utility.Constants;
+import com.dev334.litelo.utility.RetrofitAccessObject;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private loginHomeFragment loginHome;
-    private FragmentManager fragmentManager;
-    private signUpFragment SignupFrag;
-    private loginFragment loginFrag;
-    private emailVerifyFragment verificationFragment;
-    private phoneAuthFragment phoneFragment;
-    private OTPVerifyFragment otpFragment;
-    private createProfileFragment CreateProfileFragment;
-    private String PhoneNo,Username,Organisation,Facebook, Instagram;
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private ArrayList<String> Organisations,userInterest;
-    private TinyDB tinyDB;
-    private TextView loginTxt;
-    private int FRAGMENT=0; //0>default 1->emailVerification
-
-    private String email, password,  phoneNo, verificationID;
+    private ConstraintLayout parent;
+    private EditText email, password;
+    private AppCompatButton submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setReferences();
+        setListeners();
+    }
 
-        loginHome=new loginHomeFragment();
-        SignupFrag=new signUpFragment();
-        loginFrag=new loginFragment();
-        verificationFragment=new emailVerifyFragment();
-        phoneFragment=new phoneAuthFragment();
-        otpFragment=new OTPVerifyFragment();
-        CreateProfileFragment=new createProfileFragment();
+    private void setReferences() {
+        parent = findViewById(R.id.parent);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        submit = findViewById(R.id.submit);
+    }
 
-        tinyDB=new TinyDB(getApplicationContext());
+    private void setListeners() {
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+    }
 
-        fragmentManager=getSupportFragmentManager();
-
-        FRAGMENT=getIntent().getIntExtra("FRAGMENT",0);
-
-        if(FRAGMENT==0){
-            replaceFragment(loginHome);
-        }else if(FRAGMENT==2){
-            replaceFragment(CreateProfileFragment);
-        }else if(FRAGMENT==1){
-            replaceFragment(loginFrag);
-        }else{
-            replaceFragment(loginFrag);
+    private void login() {
+        if (validate()) {
+            try {
+                sendLoginRequest();
+            } catch (JSONException exception) {
+                showMessage("Some error occurred");
+            }
         }
     }
 
-    public void openLogin(){
-        replaceFragment(loginFrag);
-    }
-
-    public void openSignup(){
-        replaceFragment(SignupFrag);
-    }
-
-    public void openVerifyEmail(){
-        replaceFragment(verificationFragment);
-    }
-
-    public void openPhoneAuth(){
-        replaceFragment(phoneFragment);
-    }
-
-    public void openPhoneOTP(){
-        replaceFragment(otpFragment);
-    }
-
-    public void setPhoneNo(String phone, String verifyID, PhoneAuthProvider.ForceResendingToken rToken){
-        phoneNo=phone;
-        verificationID=verifyID;
-        mResendToken=rToken;
-    }
-
-    public void openCreateProfile(){
-        replaceFragment(CreateProfileFragment);
-    }
-
-    public String getPhoneNo(){
-        return phoneNo;
-    }
-
-    public String getVerificationID(){
-        return verificationID;
-    }
-
-    public void setSignUpCredentials(String email, String password){
-        this.email=email;
-        this.password=password;
-    }
-
-    public String getSignUpEmail(){
-        return email;
-    }
-
-    public String getSignUpPassword(){
-        return password;
-    }
-
-    private void replaceFragment(Fragment fragmentToShow) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
-        // Hide all of the fragments
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            transaction.hide(fragment);
+    private boolean validate() {
+        String emailText = email.getText().toString();
+        String passwordText = password.getText().toString();
+        if (emailText.equals("")) {
+            email.requestFocus();
+            return false;
         }
-
-        if (fragmentToShow.isAdded()) {
-            // When fragment was previously added - show it
-            transaction.show(fragmentToShow);
-        } else {
-            // When fragment is adding first time - add it
-            transaction.add(R.id.LoginContainer, fragmentToShow);
+        if (passwordText.equals("")) {
+            password.requestFocus();
+            return false;
         }
-
-        transaction.commit();
+        return true;
     }
 
-    public void createProfile() {
-        //not required currently
+    private void sendLoginRequest() throws JSONException {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("email", email.getText().toString());
+        requestBody.put("password", password.getText().toString());
+        RetrofitAccessObject.getRetrofitAccessObject().signIn(requestBody).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                Log.i("RequestBody", call.request().url().toString() + " " + response.toString() + "\n" + call.request().body().toString());
+                if (response.code() == 200) {
+                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
+                    try {
+                        SharedPreferences.Editor editor = preferences.edit();
+                        if (response.body() == null || response.body().getToken().equals(""))
+                            throw new Exception("Unqualified response");
+                        editor.putString(Constants.TOKEN, response.body().getToken());
+                        editor.apply();
+                        goToHome();
+                    } catch (Exception exception) {
+                        showMessage("Some error occurred");
+                    }
+                } else {
+                    showMessage("Incorrect credentials");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                showMessage("Some error occurred");
+            }
+        });
+    }
+
+    private void showMessage(String message) {
+        Snackbar.make(parent, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void goToHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
