@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         TomorrowEvents = new ArrayList<>();
 
         if (savedInstanceState == null) {
-            bottomNavigation.setVisibility(View.INVISIBLE);
+//            bottomNavigation.setVisibility(View.INVISIBLE);
             bottomNavigation.setItemSelected(R.id.nav_home, true);
             replaceFragment(homeFragment);
         }

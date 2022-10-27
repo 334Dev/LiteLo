@@ -1,19 +1,14 @@
 package com.dev334.litelo.UI.settings;
 
-import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.dev334.litelo.AdminActivity;
@@ -22,10 +17,8 @@ import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.dev334.litelo.utility.Constants;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
 public class SettingsFragment extends Fragment {
@@ -36,7 +29,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private LinearLayout logout, deleteAcc, changePass, feedback, share, admin;
-    private FirebaseAuth mAuth;
+    private SharedPreferences preferences;
     private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
 
@@ -45,23 +38,21 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
-
+        preferences = requireContext().getSharedPreferences(Constants.SHARED_PREFERENCE, Context.MODE_PRIVATE);
         logout = root.findViewById(R.id.settings_logout);
         deleteAcc = root.findViewById(R.id.settings_delete);
         changePass = root.findViewById(R.id.settings_changePass);
         feedback = root.findViewById(R.id.settings_feedback);
         share = root.findViewById(R.id.settings_share);
         admin = root.findViewById(R.id.settings_admin);
-        mAuth = FirebaseAuth.getInstance();
         tinyDB = new TinyDB(getActivity());
 
-        boolean isAdmin = tinyDB.getBoolean("Admin");
+        boolean isAdmin = preferences.getBoolean(Constants.ADMIN, false);
         if (isAdmin) {
             admin.setVisibility(View.VISIBLE);
         }
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        Boolean EMAIL = false;
+        /*boolean EMAIL = false;
         for (UserInfo u : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
             if (u.getProviderId().equals("password")) {
                 EMAIL = true;
@@ -70,13 +61,13 @@ public class SettingsFragment extends Fragment {
 
         if (!EMAIL) {
             changePass.setVisibility(View.GONE);
-        }
+        }*/
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Logout user and send them to login activity
-                mAuth.signOut();
+                preferences.edit().clear().apply();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
@@ -132,7 +123,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void DeleteAccount() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        /*AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         View view = getLayoutInflater().inflate(R.layout.dialog_delete_account, null);
         TextView delete = view.findViewById(R.id.dDeleteAcc);
         TextView cancel = view.findViewById(R.id.dCancel);
@@ -166,6 +157,6 @@ public class SettingsFragment extends Fragment {
         });
 
         alert.setCancelable(true);
-        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
     }
 }

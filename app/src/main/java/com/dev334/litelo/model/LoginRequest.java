@@ -1,12 +1,12 @@
 package com.dev334.litelo.model;
 
-public class LoginData {
+public class LoginRequest {
     private String email, password;
 
-    public LoginData() {
+    public LoginRequest() {
     }
 
-    public LoginData(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
