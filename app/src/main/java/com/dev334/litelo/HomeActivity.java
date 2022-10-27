@@ -30,36 +30,34 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private SettingsFragment settingsFragment;
     private NotificationFragment notificationFragment;
     private ResourcesFragment resourcesFragment;
-    private SplashFragment splashFragment;
     private ChipNavigationBar bottomNavigation;
     private List<EventModel> Events, TomorrowEvents;
-    private String TAG="HomeActivity";
+    private String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        homeFragment=new HomeFragment();
-        settingsFragment=new SettingsFragment();
-       //notificationFragment=new NotificationFragment();
-        resourcesFragment=new ResourcesFragment();
-        splashFragment=new SplashFragment(this);
-        bottomNavigation=findViewById(R.id.bottom_navigation_bar);
+        homeFragment = new HomeFragment();
+        settingsFragment = new SettingsFragment();
+        //notificationFragment=new NotificationFragment();
+        resourcesFragment = new ResourcesFragment();
+        bottomNavigation = findViewById(R.id.bottom_navigation_bar);
 
-        Events=new ArrayList<>();
-        TomorrowEvents=new ArrayList<>();
+        Events = new ArrayList<>();
+        TomorrowEvents = new ArrayList<>();
 
-        if(savedInstanceState==null){
+        if (savedInstanceState == null) {
             bottomNavigation.setVisibility(View.INVISIBLE);
             bottomNavigation.setItemSelected(R.id.nav_home, true);
-            replaceFragment(splashFragment);
+            replaceFragment(homeFragment);
         }
 
         bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
-                switch (i){
+                switch (i) {
                     case R.id.nav_settings:
                         replaceFragment(settingsFragment);
                         break;
@@ -98,24 +96,24 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
 
     @Override
     public void PassTodayEvents(List<EventModel> Events) {
-        this.Events=Events;
+        this.Events = Events;
     }
 
     @Override
     public void PassTomorrowEvents(List<EventModel> Events) {
-        TomorrowEvents=Events;
+        TomorrowEvents = Events;
     }
 
-    public List<EventModel> getEvents(){
+    public List<EventModel> getEvents() {
         return Events;
     }
 
-    public List<EventModel> getTomorrowEvents(){
+    public List<EventModel> getTomorrowEvents() {
         return TomorrowEvents;
     }
 
     public void openLoginActivity(int n) {
-        Intent i= new Intent(HomeActivity.this, LoginActivity.class);
+        Intent i = new Intent(HomeActivity.this, LoginActivity.class);
         i.putExtra("FRAGMENT", n);
         startActivity(i);
         finish();
@@ -124,6 +122,6 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     public void setHomeFragment() {
         bottomNavigation.setVisibility(View.VISIBLE);
         replaceFragment(homeFragment);
-        Log.i(TAG, "setHomeFragment: "+Events);
+        Log.i(TAG, "setHomeFragment: " + Events);
     }
 }

@@ -9,16 +9,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.AuthResponse;
+import com.dev334.litelo.model.LoginData;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.android.material.snackbar.Snackbar;
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     private ConstraintLayout parent;
     private EditText email, password;
     private AppCompatButton submit;
+    private TextView registerHere;
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         submit = findViewById(R.id.submit);
+        registerHere = findViewById(R.id.registerHere);
+        loading = findViewById(R.id.loginLoading);
     }
 
     private void setListeners() {
@@ -60,6 +67,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+        registerHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.AVISHKAR_URL));
+                startActivity(intent);
             }
         });
     }
@@ -89,13 +104,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendLoginRequest() throws JSONException {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("email", email.getText().toString());
-        requestBody.put("password", password.getText().toString());
+        loading.setVisibility(View.VISIBLE);
+        submit.setEnabled(false);
+        LoginData requestBody = new LoginData(email.getText().toString(), password.getText().toString());
         RetrofitAccessObject.getRetrofitAccessObject().signIn(requestBody).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                Log.i("RequestBody", call.request().url().toString() + " " + response.toString() + "\n" + call.request().body().toString());
+                Log.i("RequestBody", call.request().url().toString() + " " + response.toString() + "\n" + requestBody.toString());
                 if (response.code() == 200) {
                     SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
                     try {
@@ -111,11 +126,15 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     showMessage("Incorrect credentials");
                 }
+                loading.setVisibility(View.GONE);
+                submit.setEnabled(true);
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
                 showMessage("Some error occurred");
+                loading.setVisibility(View.GONE);
+                submit.setEnabled(true);
             }
         });
     }

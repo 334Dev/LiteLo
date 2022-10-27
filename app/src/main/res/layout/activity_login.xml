@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent"
+    android:paddingVertical="50dp"
     tools:context=".Login.LoginActivity">
 
     <LinearLayout
@@ -22,19 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:textColor="@color/Text"
             android:fontFamily="@font/poppinssemibold"
             android:text="Login"
+            android:textColor="@color/Text"
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/LoginTextSignup"
+            android:id="@+id/registerHere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:fontFamily="@font/poppinsregular"
-            android:textColor="@color/Hint"
             android:text="New to the app?? Register here"
+            android:textColor="@color/Hint"
             android:textSize="16sp" />
 
         <EditText
@@ -91,7 +92,8 @@
             android:layout_marginEnd="32dp"
             android:text="Forget Password?"
             android:textColor="@color/Text"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -118,10 +120,11 @@
 
     <ProgressBar
         android:id="@+id/loginLoading"
-        android:theme="@style/ProgressBarStyle"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        android:theme="@style/ProgressBarStyle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
