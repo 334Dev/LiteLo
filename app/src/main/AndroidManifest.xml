@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.BranchActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -25,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BranchActivity" />
+        <activity android:name=".EventActivity" />
         <activity
             android:name=".AdminActivity"
             android:exported="false" />

@@ -25,9 +25,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dev334.litelo.BranchActivity;
+import com.dev334.litelo.UI.BranchActivity;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.DepartmentModel;
+import com.dev334.litelo.model.DepartmentResponse;
+import com.dev334.litelo.utility.Constants;
+import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,11 +47,14 @@ import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface
-, DatePickerDialog.OnDateSetListener
-{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private static final String TAG ="HomeFragment" ;
+public class HomeFragment extends Fragment implements todayAdapter.ClickInterface, branchAdapter.ClickInterface, filterAdapter.ClickInterface
+        , DatePickerDialog.OnDateSetListener {
+
+    private static final String TAG = "HomeFragment";
     private HomeViewModel homeViewModel;
     private List<EventModel> Events, filterEvents;
     private RecyclerView todayRecycler;
@@ -57,13 +64,15 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private branchAdapter AdapterBranch;
     private filterAdapter AdapterFilter;
     private RecyclerView filterRecycler;
-    private List<Map<String,Object>> branchList;
+    private List<DepartmentModel> departments;
     private Spinner filterSpinner;
     private List<EventModel> fEvents;
     private List<Map<String, Object>> EventMap;
     private List<String> filter;
-    private Integer FILTER=1;
-    public HomeFragment(){
+    private Integer FILTER = 1;
+    Map<String, Object> images = new HashMap<>();
+
+    public HomeFragment() {
         //empty constructor
     }
 
@@ -74,28 +83,28 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         //Firebase Instances
 
-        Events=new ArrayList<>();
+        Events = new ArrayList<>();
         filterEvents = new ArrayList<>();
-        branchList =new ArrayList<>();
-        filterSpinner=root.findViewById(R.id.spinner2);
-        fEvents=new ArrayList<>();
-        EventMap=new ArrayList<>();
-        filter=new ArrayList<>();
+        departments = new ArrayList<>();
+        filterSpinner = root.findViewById(R.id.spinner2);
+        fEvents = new ArrayList<>();
+        EventMap = new ArrayList<>();
+        filter = new ArrayList<>();
 
         filter.add("Tomorrow");
         filter.add("Today");
         filter.add("Pick a Date");
 
-        ArrayAdapter arrayAdapter=new ArrayAdapter(getContext(), R.layout.dropdown_item_filter, filter);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_item_filter, filter);
         filterSpinner.setAdapter(arrayAdapter);
 
 
         String[] branch_names = new String[]{
-              "Cyberquest","Oligopoly","Techno Art","Rasayans","Kreedomania","Monopoly","Nirmaan","Astrowing","Powersurge","Mecrocosm","Robomania",
-                "Aerodynamix","Genesis","Electromania","Gnosiomania"
+                "Cyberquest", "Oligopoly", "Techno Art", "Rasayans", "Kreedomania", "Monopoly", "Nirmaan", "Astrowing", "PowerSurge", "Mechrocosm", "Robomania",
+                "Aerodynamix", "Genesis", "Electromania", "Gnosiomania"
         };
 
-        Integer[] branch_logo=new Integer[]{
+        Integer[] branch_logo = new Integer[]{
                 R.drawable.ic_branch_logo_cyberquest_01,
                 R.drawable.ic_branch_logo_oligopoly_01,
                 R.drawable.ic_branch_logo_technoart_01,
@@ -115,27 +124,24 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
         };
 
-        for(int i=0;i<15;i++)
-        {
-              Map<String,Object> map=new HashMap<>();
-              map.put("Name",branch_names[i]);
-              map.put("Img",branch_logo[i]);
-              branchList.add(map);
-
+        for (int i = 0; i < 15; i++) {
+            images.put(branch_names[i], branch_logo[i]);
         }
 
-        Events=((HomeActivity)getActivity()).getEvents();
+        fetchDepartments();
 
-        if(Events.isEmpty()){
+        Events = ((HomeActivity) getActivity()).getEvents();
+
+        if (Events.isEmpty()) {
             root.findViewById(R.id.noevent_msg).setVisibility(View.VISIBLE);
         }
 
 
-        filterEvents=((HomeActivity)getActivity()).getTomorrowEvents();
+        filterEvents = ((HomeActivity) getActivity()).getTomorrowEvents();
 
-        todayRecycler=root.findViewById(R.id.todayEventRecycler);
-        branchRecycler=root.findViewById(R.id.recyclerView2);
-        filterRecycler=root.findViewById(R.id.filterEventRecycler);
+        todayRecycler = root.findViewById(R.id.todayEventRecycler);
+        branchRecycler = root.findViewById(R.id.recyclerView2);
+        filterRecycler = root.findViewById(R.id.filterEventRecycler);
         filterRecycler.setNestedScrollingEnabled(false);
         setupBranchRecycler();
         setupTodayRecycler();
@@ -143,16 +149,16 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
-                    FILTER=1;
+                if (i == 0) {
+                    FILTER = 1;
                     setupFilterTomorrowRecycler();
-                }else if(i==1){
-                    FILTER=0;
+                } else if (i == 1) {
+                    FILTER = 0;
                     setupFilterTodayRecycler();
-                }else if(i==2){
-                    FILTER=2;
+                } else if (i == 2) {
+                    FILTER = 2;
                     Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
-                    if(filter.size()==4) {
+                    if (filter.size() == 4) {
                         filter.remove(3);
                     }
                     DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
@@ -167,7 +173,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                FILTER=1;
+                FILTER = 1;
                 setupFilterTomorrowRecycler();
             }
         });
@@ -175,29 +181,47 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         return root;
     }
 
+    private void fetchDepartments() {
+        RetrofitAccessObject.getRetrofitAccessObject().getDepartments().enqueue(new Callback<DepartmentResponse>() {
+            @Override
+            public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getDepartment() != null)
+                        departments = response.body().getDepartment();
+                    setupBranchRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
-            selectedMonth=selectedMonth+1;
-            String date=selectedYear+"-"+selectedMonth+"-"+selectedDay;
+            selectedMonth = selectedMonth + 1;
+            String date = selectedYear + "-" + selectedMonth + "-" + selectedDay;
             filter.add(date);
             filterSpinner.setSelection(3);
-            FirebaseFirestore firestore=FirebaseFirestore.getInstance();
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             firestore.collection("Events").document(date).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     fEvents.clear();
-                    if(documentSnapshot.exists()){
-                        EventMap= (List<Map<String, Object>>) documentSnapshot.get("Events");
+                    if (documentSnapshot.exists()) {
+                        EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
                         EventMap.sort(new Comparator<Map<String, Object>>() {
                             @Override
                             public int compare(Map<String, Object> m1, Map<String, Object> m2) {
                                 return m1.get("Time").toString().compareTo(m2.get("Time").toString());
                             }
                         });
-                        fEvents=EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel> toList());
+                        fEvents = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
                         setupFilterDateRecycler();
                     }
                     setupFilterDateRecycler();
@@ -205,7 +229,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.i(TAG, "onFailure: "+e.getMessage());
+                    Log.i(TAG, "onFailure: " + e.getMessage());
                 }
             });
 
@@ -213,36 +237,36 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     };
 
     private void setupFilterDateRecycler() {
-        AdapterFilter= new filterAdapter(fEvents,this,getContext());
+        AdapterFilter = new filterAdapter(fEvents, this, getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
     }
 
     private void setupFilterTodayRecycler() {
-        AdapterFilter= new filterAdapter(Events,this,getContext());
+        AdapterFilter = new filterAdapter(Events, this, getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
     }
 
     private void setupFilterTomorrowRecycler() {
-        AdapterFilter= new filterAdapter(filterEvents,this,getContext());
+        AdapterFilter = new filterAdapter(filterEvents, this, getContext());
         filterRecycler.setAdapter(AdapterFilter);
         filterRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         filterRecycler.setHasFixedSize(true);
     }
 
     private void setupBranchRecycler() {
-
-        AdapterBranch= new branchAdapter(branchList,this);
+        AdapterBranch = new branchAdapter(departments, this, images);
         branchRecycler.setAdapter(AdapterBranch);
         branchRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         branchRecycler.setHasFixedSize(true);
     }
+
     private void setupTodayRecycler() {
 
-        AdapterToday= new todayAdapter(Events,this,getContext());
+        AdapterToday = new todayAdapter(Events, this, getContext());
         todayRecycler.setAdapter(AdapterToday);
         todayRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         todayRecycler.setHasFixedSize(true);
@@ -250,28 +274,28 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void recyclerviewOnClick(int position) {
-        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-        View view=getLayoutInflater().inflate(R.layout.event_full_detail,null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.event_full_detail, null);
         alert.setView(view);
-        AlertDialog show=alert.show();
+        AlertDialog show = alert.show();
 
-        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain,MeetingLink;
-        evtName=view.findViewById(R.id.event_name_full);
-        evtDesc=view.findViewById(R.id.event_desc_full);
-        cord1Name=view.findViewById(R.id.coordinator_name_full);
-        cord2Name=view.findViewById(R.id.coordinator_name_full2);
-        cord1Phone=view.findViewById(R.id.coordinator_number_full);
-        cord2Phone=view.findViewById(R.id.coordinator_number_full2);
-        linkMain =view.findViewById(R.id.website_link_full);
-        MeetingLink=view.findViewById(R.id.eCard_Link);
+        TextView evtName, evtDesc, cord1Name, cord2Name, cord1Phone, cord2Phone, linkMain, MeetingLink;
+        evtName = view.findViewById(R.id.event_name_full);
+        evtDesc = view.findViewById(R.id.event_desc_full);
+        cord1Name = view.findViewById(R.id.coordinator_name_full);
+        cord2Name = view.findViewById(R.id.coordinator_name_full2);
+        cord1Phone = view.findViewById(R.id.coordinator_number_full);
+        cord2Phone = view.findViewById(R.id.coordinator_number_full2);
+        linkMain = view.findViewById(R.id.website_link_full);
+        MeetingLink = view.findViewById(R.id.eCard_Link);
 
-        Map<String, String> mp=new HashMap<>();
+        Map<String, String> mp = new HashMap<>();
         evtName.setText(Events.get(position).getName());
         evtDesc.setText(Events.get(position).getDesc());
         mp = Events.get(position).getCoordinator();
 
-        ArrayList<String> names=new ArrayList<>();
-        ArrayList<String> phones=new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> phones = new ArrayList<>();
         for (Map.Entry<String, String> entry : mp.entrySet()) {
             names.add(entry.getKey());
             phones.add(entry.getValue());
@@ -283,7 +307,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord2Phone.setText(phones.get(1));
 
         linkMain.setMovementMethod(LinkMovementMethod.getInstance());
-        linkMain.setOnClickListener(v->{
+        linkMain.setOnClickListener(v -> {
             //on click
         });
 
@@ -291,11 +315,11 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         MeetingLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri=Uri.parse(Events.get(position).getLink());
+                Uri uri = Uri.parse(Events.get(position).getLink());
 
-                if(uri.toString().isEmpty()){
+                if (uri.toString().isEmpty()) {
                     Toast.makeText(getContext(), "No meeting scheduled yet", Toast.LENGTH_SHORT);
-                }else {
+                } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
@@ -308,46 +332,45 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void branchviewOnClick(int position) {
-       Intent intent=new Intent(getActivity(), BranchActivity.class);
-       intent.putExtra("Branch", String.valueOf(branchList.get(position).get("Name")));
-       startActivity(intent);
+        Intent intent = new Intent(getActivity(), BranchActivity.class);
+        intent.putExtra(Constants.DEPARTMENT, departments.get(position));
+        startActivity(intent);
     }
 
     @Override
     public void filterViewOnClick(int position) {
-        AlertDialog.Builder alert=new AlertDialog.Builder(getContext());
-        View view=getLayoutInflater().inflate(R.layout.event_full_detail,null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.event_full_detail, null);
         alert.setView(view);
-        AlertDialog show=alert.show();
+        AlertDialog show = alert.show();
 
-        TextView evtName,evtDesc,cord1Name,cord2Name,cord1Phone,cord2Phone,linkMain,MeetingLink;
-        evtName=view.findViewById(R.id.event_name_full);
-        evtDesc=view.findViewById(R.id.event_desc_full);
-        cord1Name=view.findViewById(R.id.coordinator_name_full);
-        cord2Name=view.findViewById(R.id.coordinator_name_full2);
-        cord1Phone=view.findViewById(R.id.coordinator_number_full);
-        cord2Phone=view.findViewById(R.id.coordinator_number_full2);
-        linkMain =view.findViewById(R.id.website_link_full);
-        MeetingLink=view.findViewById(R.id.eCard_Link);
+        TextView evtName, evtDesc, cord1Name, cord2Name, cord1Phone, cord2Phone, linkMain, MeetingLink;
+        evtName = view.findViewById(R.id.event_name_full);
+        evtDesc = view.findViewById(R.id.event_desc_full);
+        cord1Name = view.findViewById(R.id.coordinator_name_full);
+        cord2Name = view.findViewById(R.id.coordinator_name_full2);
+        cord1Phone = view.findViewById(R.id.coordinator_number_full);
+        cord2Phone = view.findViewById(R.id.coordinator_number_full2);
+        linkMain = view.findViewById(R.id.website_link_full);
+        MeetingLink = view.findViewById(R.id.eCard_Link);
 
-        Map<String, String> mp=new HashMap<>();
-        if(FILTER==0){
+        Map<String, String> mp = new HashMap<>();
+        if (FILTER == 0) {
             evtName.setText(Events.get(position).getName());
             evtDesc.setText(Events.get(position).getDesc());
             mp = Events.get(position).getCoordinator();
-        }
-        else if(FILTER==1) {
+        } else if (FILTER == 1) {
             evtName.setText(filterEvents.get(position).getName());
             evtDesc.setText(filterEvents.get(position).getDesc());
             mp = filterEvents.get(position).getCoordinator();
-        }else{
+        } else {
             evtName.setText(fEvents.get(position).getName());
             evtDesc.setText(fEvents.get(position).getDesc());
             mp = fEvents.get(position).getCoordinator();
         }
 
-        ArrayList<String> names=new ArrayList<>();
-        ArrayList<String> phones=new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> phones = new ArrayList<>();
         for (Map.Entry<String, String> entry : mp.entrySet()) {
             names.add(entry.getKey());
             phones.add(entry.getValue());
@@ -359,7 +382,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         cord2Phone.setText(phones.get(1));
 
         linkMain.setMovementMethod(LinkMovementMethod.getInstance());
-        linkMain.setOnClickListener(v->{
+        linkMain.setOnClickListener(v -> {
             //on click
         });
 
@@ -367,18 +390,18 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         MeetingLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri=Uri.parse("https://avishkar.mnnit.ac.in/events/");
-                if(FILTER==0){
-                    uri=Uri.parse(Events.get(position).getLink());
-                }else if(FILTER==1) {
-                    uri=Uri.parse(filterEvents.get(position).getLink()); // missing 'http://' will cause crashed
-                }else{
-                    uri=Uri.parse(fEvents.get(position).getLink());
+                Uri uri = Uri.parse("https://avishkar.mnnit.ac.in/events/");
+                if (FILTER == 0) {
+                    uri = Uri.parse(Events.get(position).getLink());
+                } else if (FILTER == 1) {
+                    uri = Uri.parse(filterEvents.get(position).getLink()); // missing 'http://' will cause crashed
+                } else {
+                    uri = Uri.parse(fEvents.get(position).getLink());
                 }
 
-                if(uri.toString().isEmpty()){
+                if (uri.toString().isEmpty()) {
                     Toast.makeText(getContext(), "No meeting scheduled yet", Toast.LENGTH_SHORT);
-                }else {
+                } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
@@ -391,9 +414,9 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        month=month+1;
-        Log.i("DateSelectedAdmin", "onDateSet: "+year+" "+month+" "+dayOfMonth);
-        String date=year+"-"+month+"-"+dayOfMonth;
+        month = month + 1;
+        Log.i("DateSelectedAdmin", "onDateSet: " + year + " " + month + " " + dayOfMonth);
+        String date = year + "-" + month + "-" + dayOfMonth;
     }
 
     Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {

@@ -3,7 +3,9 @@ package com.dev334.litelo.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Event {
+import java.io.Serializable;
+
+public class EventModel implements Serializable {
 
     @SerializedName("id")
     @Expose

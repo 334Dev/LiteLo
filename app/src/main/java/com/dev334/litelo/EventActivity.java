@@ -6,19 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.UI.home.EventModel;
 import com.dev334.litelo.UI.home.eventAdapter;
-import com.dev334.litelo.UI.home.filterAdapter;
-import com.dev334.litelo.UI.home.todayAdapter;
-import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,15 +21,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BranchActivity extends AppCompatActivity implements eventAdapter.ClickInterface{
+public class EventActivity extends AppCompatActivity implements eventAdapter.ClickInterface{
 
     private RecyclerView timelineRecycler;
     private eventAdapter eventAdapter;
@@ -51,7 +44,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_branch);
+        setContentView(R.layout.activity_event);
 
         Branch=getIntent().getStringExtra("Branch");
         branchDesc=findViewById(R.id.branchDesc_TextView);
@@ -181,7 +174,7 @@ public class BranchActivity extends AppCompatActivity implements eventAdapter.Cl
     }
 
     private void setUpRecycler() {
-        eventAdapter=new eventAdapter(Events,BranchActivity.this);
+        eventAdapter=new eventAdapter(Events, EventActivity.this);
         timelineRecycler.setAdapter(eventAdapter);
         timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
         timelineRecycler.setHasFixedSize(true);

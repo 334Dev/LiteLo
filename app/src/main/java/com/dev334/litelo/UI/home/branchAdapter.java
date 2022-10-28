@@ -10,16 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.DepartmentModel;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolder>{
-    private List<Map<String,Object>> branchList;
+public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolder> {
+    private List<DepartmentModel> departments;
     private ClickInterface Listener;
-    public branchAdapter(List<Map<String,Object>> branchList, ClickInterface Listener){
-        this.branchList=branchList;
-        this.Listener=Listener;
+    Map<String, Object> images = new HashMap<>();
+
+    public branchAdapter(List<DepartmentModel> departments, ClickInterface Listener, Map<String, Object> images) {
+        this.departments = departments;
+        this.Listener = Listener;
+        this.images = images;
     }
 
     @NonNull
@@ -31,23 +36,24 @@ public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        holder.setBranch((String) branchList.get(position).get("Name"), (Integer) branchList.get(position).get("Img"));
+        holder.setBranch((String) departments.get(position).getName(), (Integer) images.get(departments.get(position).getName()));
     }
 
     @Override
     public int getItemCount() {
-        return branchList.size();
+        return departments.size();
     }
 
     public interface ClickInterface {
         void branchviewOnClick(int position);
     }
 
-    public class mViewHolder extends RecyclerView.ViewHolder{
+    public class mViewHolder extends RecyclerView.ViewHolder {
         View view;
+
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
-            view=itemView;
+            view = itemView;
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -56,7 +62,7 @@ public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolde
             });
         }
 
-        public void setBranch(String branchName,Integer img){
+        public void setBranch(String branchName, Integer img) {
             ImageView imageView = view.findViewById(R.id.branchCard_logo);
             imageView.setImageResource(img);
             TextView textView = view.findViewById(R.id.branchCard_name);

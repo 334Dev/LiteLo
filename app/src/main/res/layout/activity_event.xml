@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".UI.BranchActivity">
+    tools:context=".EventActivity">
 
     <TextView
-        android:id="@+id/department"
+        android:id="@+id/branchEvent_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/branchDesc_TextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -33,23 +33,23 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/department" />
+        app:layout_constraintTop_toBottomOf="@+id/branchEvent_textView" />
 
     <TextView
-        android:id="@+id/event_tv"
+        android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppinsmedium"
-        android:text="Events"
+        android:text="Events TimeLine"
         android:textColor="@color/Text"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/branchDesc_TextView" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/eventsRecycler"
+        android:id="@+id/timelineRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -61,7 +61,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_tv"
+        app:layout_constraintTop_toBottomOf="@+id/textView22"
         tools:listitem="@layout/event_detail_card" />
 
+    <Button
+        android:id="@+id/subscribeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/secondary_filled_box"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Subscribe"
+        android:textColor="@color/White"
+        app:layout_constraintBottom_toBottomOf="@+id/branchEvent_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/branchEvent_textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

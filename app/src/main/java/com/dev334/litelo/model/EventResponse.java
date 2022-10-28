@@ -9,16 +9,16 @@ public class EventResponse {
 
     @SerializedName("events")
     @Expose
-    private List<Event> events = null;
+    private List<EventModel> events = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
 
-    public List<Event> getEvents() {
+    public List<EventModel> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(List<EventModel> events) {
         this.events = events;
     }
 

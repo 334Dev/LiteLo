@@ -8,16 +8,16 @@ public class DepartmentResponse {
 
     @SerializedName("departmentEvents")
     @Expose
-    private List<Department> departments = null;
+    private List<DepartmentModel> departments = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
 
-    public List<Department> getDepartment() {
+    public List<DepartmentModel> getDepartment() {
         return departments;
     }
 
-    public void setDepartment(List<Department> departments) {
+    public void setDepartment(List<DepartmentModel> departments) {
         this.departments = departments;
     }
 
