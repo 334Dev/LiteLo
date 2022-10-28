@@ -1,28 +1,24 @@
 package com.dev334.litelo;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 
 import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.Login.LoginActivity;
-import com.dev334.litelo.UI.home.EventModel;
+import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.UI.home.HomeFragment;
 import com.dev334.litelo.UI.notification.NotificationFragment;
 import com.dev334.litelo.UI.settings.SettingsFragment;
-import com.dev334.litelo.UI.splashScreen.SplashFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements PassDataInterface {
 
@@ -31,7 +27,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private NotificationFragment notificationFragment;
     private ResourcesFragment resourcesFragment;
     private ChipNavigationBar bottomNavigation;
-    private List<EventModel> Events, TomorrowEvents;
+    private List<TimelineModel> Events, TomorrowEvents;
     private String TAG = "HomeActivity";
 
     @Override
@@ -95,20 +91,20 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     }
 
     @Override
-    public void PassTodayEvents(List<EventModel> Events) {
+    public void PassTodayEvents(List<TimelineModel> Events) {
         this.Events = Events;
     }
 
     @Override
-    public void PassTomorrowEvents(List<EventModel> Events) {
+    public void PassTomorrowEvents(List<TimelineModel> Events) {
         TomorrowEvents = Events;
     }
 
-    public List<EventModel> getEvents() {
+    public List<TimelineModel> getEvents() {
         return Events;
     }
 
-    public List<EventModel> getTomorrowEvents() {
+    public List<TimelineModel> getTomorrowEvents() {
         return TomorrowEvents;
     }
 

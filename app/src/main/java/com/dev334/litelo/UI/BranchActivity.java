@@ -76,7 +76,7 @@ public class BranchActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter() {
-        adapter = new EventAdapter(events, this);
+        adapter = new EventAdapter(events, this, departmentModel.getName());
         eventsRecycler.setLayoutManager(new LinearLayoutManager(this));
         eventsRecycler.setAdapter(adapter);
     }

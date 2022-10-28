@@ -1,5 +1,6 @@
 package com.dev334.litelo.UI.home;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -8,34 +9,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.TimelineModel;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.List;
 
-public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineViewHolder> {
-    private List<EventModel> eventModelList;
-    private eventAdapter.ClickInterface Listener;
-    public eventAdapter(List<EventModel> eventModelList, eventAdapter.ClickInterface Listener){
-        this.eventModelList=eventModelList;
-        this.Listener=Listener;
+public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLineViewHolder> {
+    private final List<TimelineModel> timelineModelList;
+    private final TimelineAdapter.ClickInterface Listener;
+
+    public TimelineAdapter(List<TimelineModel> timelineModelList, TimelineAdapter.ClickInterface listener) {
+        this.timelineModelList = timelineModelList;
+        this.Listener = listener;
     }
 
     @NonNull
     @Override
-    public eventAdapter.TimeLineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.event_detail_card, null);
+    public TimelineAdapter.TimeLineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = View.inflate(parent.getContext(), R.layout.timeline_card, null);
         return new TimeLineViewHolder(view, viewType);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull eventAdapter.TimeLineViewHolder holder, int position) {
-        holder.setDetails(eventModelList.get(position).getName(),
-                eventModelList.get(position).getDate());
+    public void onBindViewHolder(@NonNull TimelineAdapter.TimeLineViewHolder holder, int position) {
+        holder.setDetails(timelineModelList.get(position).getName(),
+                timelineModelList.get(position).getDate());
     }
 
     @Override
     public int getItemCount() {
-        return eventModelList.size();
+        return timelineModelList.size();
     }
 
     public interface ClickInterface {
@@ -52,7 +55,7 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
 
         public TimeLineViewHolder(View itemView, int viewType) {
             super(itemView);
-            mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
+            mTimelineView = itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -61,7 +64,8 @@ public class eventAdapter extends RecyclerView.Adapter<eventAdapter.TimeLineView
                 }
             });
         }
-        public void setDetails(String name,String date){
+
+        public void setDetails(String name, String date) {
             TextView nameText = itemView.findViewById(R.id.text_timeline_title);
             TextView dateText = itemView.findViewById(R.id.text_timeline_date);
             nameText.setText(name);

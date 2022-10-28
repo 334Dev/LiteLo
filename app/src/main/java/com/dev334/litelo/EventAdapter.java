@@ -18,10 +18,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.CustomVH> {
 
     private List<EventModel> events;
     private Context context;
+    private String department;
 
-    public EventAdapter(List<EventModel> events, Context context) {
+    public EventAdapter(List<EventModel> events, Context context, String department) {
         this.events = events;
         this.context = context;
+        this.department = department;
     }
 
     @NonNull
@@ -53,6 +55,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.CustomVH> {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, EventActivity.class);
                     intent.putExtra(Constants.EVENT, events.get(getAdapterPosition()));
+                    intent.putExtra(Constants.DEPARTMENT, department);
                     context.startActivity(intent);
                 }
             });

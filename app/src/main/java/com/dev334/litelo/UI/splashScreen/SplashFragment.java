@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.R;
-import com.dev334.litelo.UI.home.EventModel;
+import com.dev334.litelo.model.TimelineModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +51,7 @@ public class SplashFragment extends Fragment {
     private String todayString;
     private String tomorrowString;
     private String TAG="SplashFragment";
-    private List<EventModel> Events, TomorrowEvents;
+    private List<TimelineModel> Events, TomorrowEvents;
     private List<Map<String, Object>> EventMap, tEventMap;
 
 
@@ -167,7 +167,7 @@ public class SplashFragment extends Fragment {
                             return m1.get("Time").toString().compareTo(m2.get("Time").toString());
                         }
                     });
-                    Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                    Events = EventMap.stream().map(MapToEvents).collect(Collectors.<TimelineModel>toList());
                     Log.i(TAG, "onSuccess: " + Events.get(0).getName());
                 }
                 passDataInterface.PassTodayEvents(Events);
@@ -195,7 +195,7 @@ public class SplashFragment extends Fragment {
                             return m1.get("Time").toString().compareTo(m2.get("Time").toString());
                         }
                     });
-                    TomorrowEvents = tEventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                    TomorrowEvents = tEventMap.stream().map(MapToEvents).collect(Collectors.<TimelineModel>toList());
                     Log.i(TAG, "onSuccess: " + TomorrowEvents.get(0).getName());
                 }
                 passDataInterface.PassTomorrowEvents(TomorrowEvents);
@@ -209,10 +209,10 @@ public class SplashFragment extends Fragment {
         });
     }
 
-    Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {
+    Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
         @Override
-        public EventModel apply(Map<String, Object> stringObjectMap) {
-            EventModel event = new EventModel(stringObjectMap);
+        public TimelineModel apply(Map<String, Object> stringObjectMap) {
+            TimelineModel event = new TimelineModel(stringObjectMap);
             return event;
         }
     };

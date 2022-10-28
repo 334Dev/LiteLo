@@ -14,18 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.TimelineModel;
 
 import java.util.Calendar;
 import java.util.List;
 
 
 public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>{
-    private List<EventModel> eventModelList;
+    private List<TimelineModel> timelineModelList;
     private ClickInterface Listener;
     private Context context;
 
-    public todayAdapter(List<EventModel> eventModelList, ClickInterface Listener,Context context){
-        this.eventModelList=eventModelList;
+    public todayAdapter(List<TimelineModel> timelineModelList, ClickInterface Listener, Context context){
+        this.timelineModelList = timelineModelList;
         this.Listener=Listener;
         this.context=context;
     }
@@ -40,15 +41,15 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        holder.setEventName(eventModelList.get(position).getName());
-        holder.setEventTime(eventModelList.get(position).getTime());
-        holder.setEventParent(eventModelList.get(position).getParent());
+        holder.setEventName(timelineModelList.get(position).getName());
+        holder.setEventTime(timelineModelList.get(position).getTime());
+        holder.setEventParent(timelineModelList.get(position).getParent());
         holder.setEventLocation("MS Teams");
     }
 
     @Override
     public int getItemCount() {
-        return eventModelList.size();
+        return timelineModelList.size();
     }
 
     public interface ClickInterface {
@@ -67,7 +68,7 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
                 @Override
                 public void onClick(View view) {
                     //add to calender
-                    EventModel currentEvent=eventModelList.get(getAdapterPosition());
+                    TimelineModel currentEvent= timelineModelList.get(getAdapterPosition());
 
                     String date= currentEvent.getDate();
                     String eDate=date.substring(8);

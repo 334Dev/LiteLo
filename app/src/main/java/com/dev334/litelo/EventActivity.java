@@ -1,199 +1,194 @@
 package com.dev334.litelo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.dev334.litelo.Database.TinyDB;
-import com.dev334.litelo.UI.home.EventModel;
-import com.dev334.litelo.UI.home.eventAdapter;
+import com.dev334.litelo.model.TimelineModel;
+import com.dev334.litelo.UI.home.TimelineAdapter;
+import com.dev334.litelo.utility.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 
-public class EventActivity extends AppCompatActivity implements eventAdapter.ClickInterface{
+public class EventActivity extends AppCompatActivity implements TimelineAdapter.ClickInterface {
 
-    private RecyclerView timelineRecycler;
-    private eventAdapter eventAdapter;
     private ExpandableTextView expendable_desc_tv;
-    private TextView criteria_tv;
-
-    private List<EventModel> Events;
-    private FirebaseFirestore firestore;
-    private List<Map<String, Object>> EventMap;
-    private static String TAG="branchActivityLog";
-    private String Branch;
+    private TextView event_tv, criteria_tv, problem_stat_tv;
+    private RecyclerView timelineRecycler;
+    private TimelineAdapter timelineAdapter;
+    private com.dev334.litelo.model.EventModel eventModel;
+    private SharedPreferences preferences;
     private Button subscribeBtn;
-    private TinyDB tinyDB;
-    private Boolean SUBSCRIBE=false;
+    private Boolean subscribed = false;
+
+    private List<TimelineModel> timelineModels = new ArrayList<>();
+    private FirebaseFirestore fireStore;
+    private List<Map<String, Object>> EventMap = new ArrayList<>();
+    private static String TAG = "branchActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        expendable_desc_tv.setText(getString(R.string.expandable_text));
-
-        Branch=getIntent().getStringExtra("Branch");
-
-        tinyDB=new TinyDB(this);
-
-        SUBSCRIBE=tinyDB.getBoolean(Branch);
-
-        subscribeBtn = findViewById(R.id.subscribeBtn);
-
-        updateButton();
-
-        subscribeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(SUBSCRIBE) {
-                    SUBSCRIBE=false;
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(Branch);
-                }else{
-                    SUBSCRIBE=true;
-                    FirebaseMessaging.getInstance().subscribeToTopic(Branch);
-                }
-
-                updateButton();
-            }
-        });
-/*
-        firestore=FirebaseFirestore.getInstance();
-        EventMap=new ArrayList<>();
-
-        timelineRecycler=findViewById(R.id.timelineRecyclerView);
-        Events=new ArrayList<>();
-
-        fetchDataToday();
-
- */
-
-
+        setReferences();
+        setValues();
+        fetchTimeline();
     }
 
     private void setReferences() {
-        // getting reference of  ExpandableTextView
-        expendable_desc_tv = (ExpandableTextView) findViewById(R.id.branch_desc_tv).findViewById(R.id.branch_desc_tv);
-
-        // calling setText on the ExpandableTextView so that
-        // text content will be  displayed to the user
-//        department = findViewById(R.id.department);
-//        description = findViewById(R.id.description);
-//        eventsRecycler = findViewById(R.id.eventsRecycler);
+        expendable_desc_tv = findViewById(R.id.branch_desc_tv).findViewById(R.id.branch_desc_tv);
+        event_tv = findViewById(R.id.branchEvent_textView);
+        criteria_tv = findViewById(R.id.criteria_content_tv);
+        eventModel = (com.dev334.litelo.model.EventModel) getIntent().getSerializableExtra(Constants.EVENT);
+        subscribeBtn = findViewById(R.id.subscribeBtn);
+        problem_stat_tv = findViewById(R.id.problem_statement_tv);
+        timelineRecycler = findViewById(R.id.timelineRecyclerView);
+        preferences = getSharedPreferences(Constants.SHARED_PREFERENCE_SUBSCRIPTION, MODE_PRIVATE);
+        fireStore = FirebaseFirestore.getInstance();
     }
 
-    public void updateButton(){
-        tinyDB.putBoolean(Branch, SUBSCRIBE);
-        if(SUBSCRIBE){
-            subscribeBtn.setBackground(getDrawable(R.drawable.grey_filled_box));
-            subscribeBtn.setText("Subscribed");
-        }else{
-            subscribeBtn.setBackground(getDrawable(R.drawable.secondary_filled_box));
+    private void setValues() {
+        timelineRecycler.setNestedScrollingEnabled(false);
+        if (eventModel == null) return;
+        event_tv.setText(eventModel.getName());
+        expendable_desc_tv.setText(Html.fromHtml(eventModel.getDetails(), Html.FROM_HTML_MODE_COMPACT));
+        criteria_tv.setText(Html.fromHtml(eventModel.getCriteria(), Html.FROM_HTML_MODE_COMPACT));
+        subscribed = preferences.getBoolean(eventModel.getName(), false);
+        updateButton();
+        subscribeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subscribeBtn.setEnabled(false);
+                if (subscribed) {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            subscribed = false;
+                            updateButton();
+                        }
+                    });
+                } else {
+                    FirebaseMessaging.getInstance().subscribeToTopic(eventModel.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            subscribed = true;
+                            updateButton();
+                        }
+                    });
+                }
+            }
+        });
+        problem_stat_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = eventModel.getPsLink();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+    }
+
+    public void updateButton() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(eventModel.getName(), subscribed);
+        editor.apply();
+        subscribeBtn.setEnabled(true);
+        if (subscribed) {
+            subscribeBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.grey_filled_box));
+            subscribeBtn.setText("Unsubscribe");
+        } else {
+            subscribeBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.secondary_filled_box));
             subscribeBtn.setText("Subscribe");
         }
     }
-/*
-    private void fetchDataToday() {
-        String test = "2021-12-19";
-        firestore.collection("Events").document(Branch)
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()) {
-//                    branchDesc.setText(documentSnapshot.get("Desc").toString());
-                    EventMap = (List<Map<String, Object>>) documentSnapshot.get("Events");
-                    if(EventMap==null) {
-                        return;
-                    }
-                    EventMap.sort(new Comparator<Map<String, Object>>() {
-                        @Override
-                        public int compare(Map<String, Object> m1, Map<String, Object> m2) {
-                            return m1.get("Date").toString().compareTo(m2.get("Date").toString());
+
+    private void fetchTimeline() {
+        fireStore
+                .collection("Timeline")
+                .document(getIntent().getStringExtra(Constants.DEPARTMENT))
+                .collection(eventModel.getName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments())
+                                timelineModels.add(documentSnapshot.toObject(TimelineModel.class));
+                            timelineModels.sort(new Comparator<TimelineModel>() {
+                                @Override
+                                public int compare(TimelineModel o1, TimelineModel o2) {
+                                    Calendar c1 = getCalendar(o1);
+                                    Calendar c2 = getCalendar(o2);
+                                    if (c1.getTimeInMillis() > c2.getTimeInMillis()) return 1;
+                                    if (c1.getTimeInMillis() < c2.getTimeInMillis()) return -1;
+                                    return 0;
+                                }
+
+                                private Calendar getCalendar(TimelineModel o2) {
+                                    StringTokenizer dateTokenizer = new StringTokenizer(o2.getDate(), "-");
+                                    StringTokenizer timeTokenizer = new StringTokenizer(o2.getTime(), ":");
+                                    Calendar c = Calendar.getInstance();
+                                    c.set(
+                                            Integer.parseInt(dateTokenizer.nextToken()),
+                                            Integer.parseInt(dateTokenizer.nextToken()),
+                                            Integer.parseInt(dateTokenizer.nextToken()),
+                                            Integer.parseInt(timeTokenizer.nextToken()),
+                                            Integer.parseInt(timeTokenizer.nextToken()));
+                                    return c;
+                                }
+                            });
+                            setUpRecycler();
+                        } else {
+                            if (task.getException() != null)
+                                Log.i(TAG, "onFailure: " + task.getException().getMessage());
+                            else
+                                Toast.makeText(EventActivity.this, "Some error occurred", Toast.LENGTH_LONG).show();
                         }
-                    });
-                    Events = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
-                    setUpRecycler();
-                    //sortEventModelList();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i(TAG, "onFailure: "+e.getMessage());
-            }
-        });
+                    }
+                });
     }
-*/
-    /*
-    private boolean sortEventModelList() {
-        Events.sort(new Comparator<EventModel>() {
-            @Override
-            public int compare(EventModel e1, EventModel e2) {
-                Integer d1 = Integer.parseInt(e1.getDate().substring(8));
-                Integer d2 = Integer.parseInt(e2.getDate().substring(8));
 
-                Log.i(TAG, "compare: " + d1 + " " + d2);
-
-                if (d1 > d2) {
-                    Log.i(TAG, "compare: d1>d2");
-                    return 0;
-                } else if (d1 < d2) {
-                    Log.i(TAG, "compare: d1<d2");
-                    return 1;
-                }
-
-
-                Integer h1 = Integer.parseInt(e1.getTime().substring(0, 2));
-                Integer h2 = Integer.parseInt(e2.getTime().substring(0, 2));
-
-                if (h1 > h2) {
-                    Log.i(TAG, "compare: d1>d2");
-                    return 0;
-                } else if (h1 < h2) {
-                    Log.i(TAG, "compare: d1<d2");
-                    return 1;
-                }
-
-                Integer m1 = Integer.parseInt(e1.getTime().substring(3));
-                Integer m2 = Integer.parseInt(e2.getTime().substring(3));
-                if (m1 >= m2) {
-                    Log.i(TAG, "compare: d1>d2");
-                    return 0;
-                } else {
-                    Log.i(TAG, "compare: d1<d2");
-                    return 1;
-                }
-            }
-        });
-
-        eventAdapter.notifyDataSetChanged();
-
-        return true;
-    }
-*/
-    /*
     private void setUpRecycler() {
-        eventAdapter=new eventAdapter(Events, EventActivity.this);
-        timelineRecycler.setAdapter(eventAdapter);
+        timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this);
+        timelineRecycler.setAdapter(timelineAdapter);
         timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
         timelineRecycler.setHasFixedSize(true);
     }
 
-     */
 
-    Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {
+    Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
         @Override
-        public EventModel apply(Map<String, Object> stringObjectMap) {
-            EventModel event = new EventModel(stringObjectMap);
+        public TimelineModel apply(Map<String, Object> stringObjectMap) {
+            TimelineModel event = new TimelineModel(stringObjectMap);
             return event;
         }
     };

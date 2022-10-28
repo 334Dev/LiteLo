@@ -30,6 +30,7 @@ import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.DepartmentModel;
 import com.dev334.litelo.model.DepartmentResponse;
+import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
 
     private static final String TAG = "HomeFragment";
     private HomeViewModel homeViewModel;
-    private List<EventModel> Events, filterEvents;
+    private List<TimelineModel> Events, filterEvents;
     private RecyclerView todayRecycler;
     private RecyclerView branchRecycler;
 
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
     private RecyclerView filterRecycler;
     private List<DepartmentModel> departments;
     private Spinner filterSpinner;
-    private List<EventModel> fEvents;
+    private List<TimelineModel> fEvents;
     private List<Map<String, Object>> EventMap;
     private List<String> filter;
     private Integer FILTER = 1;
@@ -221,7 +222,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
                                 return m1.get("Time").toString().compareTo(m2.get("Time").toString());
                             }
                         });
-                        fEvents = EventMap.stream().map(MapToEvents).collect(Collectors.<EventModel>toList());
+                        fEvents = EventMap.stream().map(MapToEvents).collect(Collectors.<TimelineModel>toList());
                         setupFilterDateRecycler();
                     }
                     setupFilterDateRecycler();
@@ -292,7 +293,7 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         Map<String, String> mp = new HashMap<>();
         evtName.setText(Events.get(position).getName());
         evtDesc.setText(Events.get(position).getDesc());
-        mp = Events.get(position).getCoordinator();
+//        mp = Events.get(position).getCoordinator();
 
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> phones = new ArrayList<>();
@@ -358,15 +359,15 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         if (FILTER == 0) {
             evtName.setText(Events.get(position).getName());
             evtDesc.setText(Events.get(position).getDesc());
-            mp = Events.get(position).getCoordinator();
+//            mp = Events.get(position).getCoordinator();
         } else if (FILTER == 1) {
             evtName.setText(filterEvents.get(position).getName());
             evtDesc.setText(filterEvents.get(position).getDesc());
-            mp = filterEvents.get(position).getCoordinator();
+//            mp = filterEvents.get(position).getCoordinator();
         } else {
             evtName.setText(fEvents.get(position).getName());
             evtDesc.setText(fEvents.get(position).getDesc());
-            mp = fEvents.get(position).getCoordinator();
+//            mp = fEvents.get(position).getCoordinator();
         }
 
         ArrayList<String> names = new ArrayList<>();
@@ -419,10 +420,10 @@ public class HomeFragment extends Fragment implements todayAdapter.ClickInterfac
         String date = year + "-" + month + "-" + dayOfMonth;
     }
 
-    Function<Map<String, Object>, EventModel> MapToEvents = new Function<Map<String, Object>, EventModel>() {
+    Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
         @Override
-        public EventModel apply(Map<String, Object> stringObjectMap) {
-            EventModel event = new EventModel(stringObjectMap);
+        public TimelineModel apply(Map<String, Object> stringObjectMap) {
+            TimelineModel event = new TimelineModel(stringObjectMap);
             return event;
         }
     };
