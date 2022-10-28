@@ -82,14 +82,14 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         event_tv.setText(eventModel.getName());
         expendable_desc_tv.setText(Html.fromHtml(eventModel.getDetails(), Html.FROM_HTML_MODE_COMPACT));
         criteria_tv.setText(Html.fromHtml(eventModel.getCriteria(), Html.FROM_HTML_MODE_COMPACT));
-        subscribed = preferences.getBoolean(eventModel.getName(), false);
+        subscribed = preferences.getBoolean(eventModel.getId(), false);
         updateButton();
         subscribeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 subscribeBtn.setEnabled(false);
                 if (subscribed) {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             subscribed = false;
@@ -98,7 +98,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                         }
                     });
                 } else {
-                    FirebaseMessaging.getInstance().subscribeToTopic(eventModel.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseMessaging.getInstance().subscribeToTopic(eventModel.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             subscribed = true;
@@ -122,7 +122,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
 
     private void updateSubscription() {
         Map<String, Object> map = new HashMap<>();
-        map.put(eventModel.getName(), subscribed);
+        map.put(eventModel.getId(), subscribed);
         FirebaseFirestore.getInstance()
                 .collection(Constants.SUBSCRIPTIONS)
                 .document(preferences.getString(Constants.EMAIL, ""))
@@ -131,7 +131,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
 
     public void updateButton() {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(eventModel.getName(), subscribed);
+        editor.putBoolean(eventModel.getId(), subscribed);
         editor.apply();
         subscribeBtn.setEnabled(true);
         if (subscribed) {
@@ -147,7 +147,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         fireStore
                 .collection("Timeline")
                 .document(getIntent().getStringExtra(Constants.DEPARTMENT))
-                .collection(eventModel.getName())
+                .collection(eventModel.getId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
