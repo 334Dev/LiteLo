@@ -26,12 +26,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -70,7 +72,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         subscribeBtn = findViewById(R.id.subscribeBtn);
         problem_stat_tv = findViewById(R.id.problem_statement_tv);
         timelineRecycler = findViewById(R.id.timelineRecyclerView);
-        preferences = getSharedPreferences(Constants.SHARED_PREFERENCE_SUBSCRIPTION, MODE_PRIVATE);
+        preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         fireStore = FirebaseFirestore.getInstance();
     }
 
@@ -91,6 +93,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                         @Override
                         public void onSuccess(Void unused) {
                             subscribed = false;
+                            updateSubscription();
                             updateButton();
                         }
                     });
@@ -99,6 +102,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                         @Override
                         public void onSuccess(Void unused) {
                             subscribed = true;
+                            updateSubscription();
                             updateButton();
                         }
                     });
@@ -114,6 +118,15 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                 startActivity(i);
             }
         });
+    }
+
+    private void updateSubscription() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(eventModel.getName(), subscribed);
+        FirebaseFirestore.getInstance()
+                .collection(Constants.SUBSCRIPTIONS)
+                .document(preferences.getString(Constants.EMAIL, ""))
+                .set(map, SetOptions.merge());
     }
 
     public void updateButton() {

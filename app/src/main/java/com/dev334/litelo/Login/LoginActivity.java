@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.json.JSONException;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -140,20 +141,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.body() == null || response.body().getToken().equals(""))
                             throw new Exception("Unqualified response");
                         editor.putString(Constants.TOKEN, response.body().getToken());
-                        if (admins.containsKey(emailSubmitted.toLowerCase())) {
-                            editor.putBoolean(Constants.ADMIN, true);
-                            editor.putString(Constants.ADMIN_OF, admins.get(emailSubmitted.toLowerCase()));
-                        }
+                        editor.putString(Constants.EMAIL, emailSubmitted);
                         editor.apply();
-                        goToHome();
+                        getNotificationSubscriptions();
                     } catch (Exception exception) {
                         showMessage("Some error occurred");
                     }
                 } else {
                     showMessage("Incorrect credentials");
+                    loading.setVisibility(View.GONE);
+                    submit.setEnabled(true);
                 }
-                loading.setVisibility(View.GONE);
-                submit.setEnabled(true);
             }
 
             @Override
@@ -163,6 +161,29 @@ public class LoginActivity extends AppCompatActivity {
                 submit.setEnabled(true);
             }
         });
+    }
+
+    private void getNotificationSubscriptions() {
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
+        FirebaseFirestore.getInstance()
+                .collection(Constants.SUBSCRIPTIONS)
+                .document(emailSubmitted)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            SharedPreferences.Editor editor = preferences.edit();
+                            for (Map.Entry<String, Object> entry : task.getResult().getData().entrySet()) {
+                                if ((Boolean) entry.getValue()) {
+                                    editor.putBoolean(entry.getKey(), true);
+                                }
+                            }
+                            editor.apply();
+                        }
+                        goToHome();
+                    }
+                });
     }
 
     private void showMessage(String message) {

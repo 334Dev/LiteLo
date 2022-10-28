@@ -8,5 +8,6 @@ public class Constants {
     public static final String ADMIN_OF = "adminOf";
     public static final String DEPARTMENT = "department";
     public static final String EVENT = "event";
-    public static final String SHARED_PREFERENCE_SUBSCRIPTION = "com.dev334.litelo.subscription";
+    public static final String EMAIL = "email";
+    public static final String SUBSCRIPTIONS = "Subscriptions";
 }
