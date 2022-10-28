@@ -25,7 +25,6 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private HomeFragment homeFragment;
     private SettingsFragment settingsFragment;
     private NotificationFragment notificationFragment;
-    private ResourcesFragment resourcesFragment;
     private ChipNavigationBar bottomNavigation;
     private List<TimelineModel> Events, TomorrowEvents;
     private String TAG = "HomeActivity";
@@ -38,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
         //notificationFragment=new NotificationFragment();
-        resourcesFragment = new ResourcesFragment();
+        notificationFragment = new NotificationFragment();
         bottomNavigation = findViewById(R.id.bottom_navigation_bar);
 
         Events = new ArrayList<>();
@@ -58,7 +57,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
                         replaceFragment(settingsFragment);
                         break;
                     case R.id.nav_notification:
-                        replaceFragment(resourcesFragment);
+                        replaceFragment(notificationFragment);
                         break;
                     default:
                         replaceFragment(homeFragment);

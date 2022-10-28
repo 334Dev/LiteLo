@@ -14,9 +14,9 @@
 
     <fragment
         android:id="@+id/nav_resources"
-        android:name="com.dev334.litelo.ResourcesFragment"
+        android:name="com.dev334.litelo.NotificationsFragment"
         android:label="Resources"
-        tools:layout="@layout/fragment_resources" />
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/nav_settings"

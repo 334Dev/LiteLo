@@ -19,7 +19,6 @@ import com.dev334.litelo.model.TimelineModel;
 import java.util.Calendar;
 import java.util.List;
 
-
 public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>{
     private List<TimelineModel> timelineModelList;
     private ClickInterface Listener;
@@ -30,7 +29,6 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
         this.Listener=Listener;
         this.context=context;
     }
-
 
     @NonNull
     @Override
@@ -113,14 +111,17 @@ public class todayAdapter extends RecyclerView.Adapter<todayAdapter.mViewHolder>
             TextView event=view.findViewById(R.id.s_eventcard_event);
             event.setText(Event);
         }
+
         public void setEventLocation(String Location){
             TextView event=view.findViewById(R.id.s_eventcard_location);
             event.setText(Location);
         }
+
         public void setEventTime(String Date){
             TextView event=view.findViewById(R.id.s_eventcard_time);
             event.setText(Date);
         }
+
         public void setEventParent(String Parent){
             TextView parent=view.findViewById(R.id.s_eventcard_parent);
             parent.setText(Parent);

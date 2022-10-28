@@ -6,9 +6,9 @@
     app:startDestination="@+id/navi_resources">
     <fragment
         android:id="@+id/navi_resources"
-        android:name="com.dev334.litelo.ResourcesFragment"
+        android:name="com.dev334.litelo.NotificationsFragment"
         android:label="Resources"
-        tools:layout="@layout/fragment_resources" />
+        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navi_notification"
         android:name="com.dev334.litelo.UI.notification.NotificationFragment"

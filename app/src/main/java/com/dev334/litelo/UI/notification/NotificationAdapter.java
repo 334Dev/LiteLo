@@ -1,4 +1,4 @@
-package com.dev334.litelo;
+package com.dev334.litelo.UI.notification;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dev334.litelo.R;
+
 import java.util.List;
 
-public class ResourceAdapter extends RecyclerView.Adapter<ResourceAdapter.mViewholder> {
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.mViewholder> {
 
     private List<String> resourceModels;
 
     private onNoteListener mOnNoteListener;
-    public ResourceAdapter(List<String> resourceModels, onNoteListener onNoteListener){
+    public NotificationAdapter(List<String> resourceModels, onNoteListener onNoteListener){
         this.resourceModels=resourceModels;
         this.mOnNoteListener=onNoteListener;
     }
@@ -23,13 +25,13 @@ public class ResourceAdapter extends RecyclerView.Adapter<ResourceAdapter.mViewh
     @NonNull
     @Override
     public mViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.resource_grid, parent, false);
-        return new ResourceAdapter.mViewholder(view,mOnNoteListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
+        return new NotificationAdapter.mViewholder(view,mOnNoteListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull mViewholder holder, int position) {
-        holder.setSubjectName(resourceModels.get(position));
+//        holder.setSubjectName(resourceModels.get(position));
     }
 
     @Override
@@ -52,10 +54,6 @@ public class ResourceAdapter extends RecyclerView.Adapter<ResourceAdapter.mViewh
             this.onNotelistener=onNotelistener;
         }
 
-        public void setSubjectName(String subject){
-            Subject=view.findViewById(R.id.resourceSubject);
-            Subject.setText(subject);
-        }
 
         @Override
         public void onClick(View view) {
