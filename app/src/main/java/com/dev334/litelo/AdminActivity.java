@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dev334.litelo.model.AdminModel;
+import com.dev334.litelo.model.NotificationModel;
 import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.utility.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,8 +111,14 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         AlertDialog.Builder alert = new AlertDialog.Builder(AdminActivity.this);
         View view = getLayoutInflater().inflate(R.layout.dialog_send_notification, null);
 
+        Spinner eventSpinner = view.findViewById(R.id.event_spinner);
         TextView EditDesc = view.findViewById(R.id.notificationDesc);
         Button sendBtn = view.findViewById(R.id.sendNotiBtn);
+
+        ArrayAdapter<AdminModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, adminModels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eventSpinner.setAdapter(adapter);
+        eventSpinner.setOnItemSelectedListener(this);
 
         alert.setView(view);
         AlertDialog show = alert.show();
@@ -122,10 +129,8 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 if (EditDesc.getText().toString().isEmpty()) {
                     EditDesc.setError("Empty Description");
                 } else {
-                    //send Notification
-                    sendNotification(EditDesc.getText().toString());
+                    sendNotification(show, (AdminModel) eventSpinner.getSelectedItem(), EditDesc.getText().toString());
                 }
-                show.dismiss();
             }
         });
 
@@ -236,16 +241,16 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    private void sendNotification(String descText) {
+    private void sendNotification(AlertDialog show, AdminModel model, String descText) {
 
         //Making a Json Object
         JSONObject mainobj = new JSONObject();
         try {
-            mainobj.put("to", "/topics/" + branch);
+            mainobj.put("to", "/topics/" + model.getEventId());
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", "Avishkar: " + branch);
+            notificationObj.put("title", model.getEvent());
             notificationObj.put("body", descText);
-            // notificationObj.put("click_action","https://www.google.com/");
+            notificationObj.put("time", System.currentTimeMillis());
             mainobj.put("notification", notificationObj);
 
             JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.POST, fcmUrl,
@@ -253,7 +258,6 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                     new com.android.volley.Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                         }
                     }, new com.android.volley.Response.ErrorListener() {
                 @Override
@@ -269,15 +273,57 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                     return header;
                 }
             };
-
             mQueue.add(request);
-
+            addNotificationToFirebase(show, notificationObj);
         } catch (JSONException e) {
             Log.i(TAG, "sendNotification: " + e.getMessage());
             e.printStackTrace();
         }
+    }
 
+    private void addNotificationToFirebase(AlertDialog show, JSONObject notificationObj) {
+        FirebaseFirestore.getInstance()
+                .collection("Notifications")
+                .document("Notifications")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<NotificationModel> notifications = new ArrayList<>();
+                            if (task.getResult() != null && task.getResult().get("Notifications") != null)
+                                notifications.addAll((List<NotificationModel>) task.getResult().get("Notifications"));
+                            try {
+                                notifications.add(new NotificationModel(
+                                        notificationObj.getString("title"),
+                                        notificationObj.getString("body"),
+                                        notificationObj.getLong("time")));
+                            } catch (JSONException exception) {
+                                exception.printStackTrace();
+                            }
+                            Map<String, List<NotificationModel>> mp = new HashMap<>();
+                            mp.put("Notifications", notifications);
+                            FirebaseFirestore.getInstance()
+                                    .collection("Notifications")
+                                    .document("Notifications")
+                                    .set(mp)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful())
+                                                Toast.makeText(AdminActivity.this, "Sent", Toast.LENGTH_LONG).show();
+                                            else
 
+                                                Toast.makeText(AdminActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                            show.dismiss();
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(AdminActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                            show.dismiss();
+                        }
+                    }
+                });
     }
 
     @Override
