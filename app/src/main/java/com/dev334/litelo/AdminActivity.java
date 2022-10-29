@@ -9,11 +9,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.dev334.litelo.model.AdminModel;
 import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.utility.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,21 +50,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , AdapterView.OnItemSelectedListener {
 
     private LinearLayout addEvent, sendNotification;
     private String branch;
 
     private RequestQueue mQueue;
     private final String fcmUrl = "https://fcm.googleapis.com/fcm/send";
-
-    private TextView eName, eDate, eTime, eDesc, eLink;
+    String[] events_name = { "Webster", "Droid rush", "Insomnia", "Softathalon", "Tech maiden" };
+    private TextView  eDate, eTime, eDesc, eLink;
+    private Spinner eventSpinner;
     private ProgressBar progressBar;
     private Button DoneBtn, PickDate, PickTime;
     private List<Map<String, Object>> events;
     private FirebaseFirestore firestore;
     private static String TAG = "AdminActivityLog";
-
+    private ArrayList<AdminModel> adminModel= new ArrayList<>();
     int hour, min;
 
     @Override
@@ -84,7 +89,6 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             }
         });
 
-
         sendNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +97,10 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             }
         });
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, events_name);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eventSpinner.setAdapter(adapter);
+        eventSpinner.setOnItemSelectedListener(this);
     }
 
     private void showNotificationDialog() {
@@ -126,7 +134,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         AlertDialog.Builder alert = new AlertDialog.Builder(AdminActivity.this);
         View view = getLayoutInflater().inflate(R.layout.dialog_add_event, null);
 
-        eName = view.findViewById(R.id.addEvent_Name);
+        eventSpinner = view.findViewById(R.id.event_spinner);
         eDate = view.findViewById(R.id.addEvent_date);
         eTime = view.findViewById(R.id.addEvent_time);
         eDesc = view.findViewById(R.id.addEvent_Desc);
@@ -170,7 +178,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 progressBar.setVisibility(View.VISIBLE);
                 DoneBtn.setVisibility(View.GONE);
                 SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
-                String Name = eName.getText().toString();
+//                String Name = eName.getText().toString();
                 String Date = eDate.getText().toString();
                 String Link = eLink.getText().toString();
                 String Desc = eDesc.getText().toString();
@@ -178,7 +186,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
 
                 //add Data to firebase;
                 Map<String, Object> map = new HashMap<>();
-                map.put("name", Name);
+//                map.put("name", Name);
                 map.put("date", Date);
                 map.put("time", Time);
                 map.put("desc", Desc);
@@ -270,5 +278,17 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         String date = year + "-" + month + "-" + dayOfMonth;
         eDate.setText(date);
     }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
 
 }
