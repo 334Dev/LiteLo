@@ -15,13 +15,16 @@ import com.dev334.litelo.EventActivity;
 import com.dev334.litelo.EventAdapter;
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.EventModel;
+import com.dev334.litelo.model.NotificationModel;
 import com.dev334.litelo.utility.Constants;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.CustomVH> {
 
-    private List<NotificationModel> notifications;
+    private final List<NotificationModel> notifications;
     Context context;
 
     public NotificationAdapter(List<NotificationModel> notifications, Context context) {
@@ -46,25 +49,34 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class CustomVH extends RecyclerView.ViewHolder {
-        private TextView name, desc,time;
+        private TextView name, time;
+        private ExpandableTextView desc;
 
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            desc = itemView.findViewById(R.id.notification_desc_tv);
+            desc = itemView.findViewById(R.id.notification_desc_tv).findViewById(R.id.notification_desc_tv);
             time = itemView.findViewById(R.id.date_time);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
 
         public void setView(NotificationModel notificationModel) {
-            name.setText(notificationModel.getName());
-            desc.setText(notificationModel.getDesc());
-
+            name.setText(notificationModel.getTitle());
+            desc.setText(notificationModel.getBody());
+            time.setText(format(notificationModel.getTime()));
         }
+    }
+
+    private String format(Long time) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        return String.valueOf(c.get(Calendar.DAY_OF_MONTH)) +
+                '-' +
+                c.get(Calendar.MONTH) +
+                '-' +
+                c.get(Calendar.YEAR) +
+                ", " +
+                c.get(Calendar.HOUR) +
+                ":" +
+                c.get(Calendar.MINUTE);
     }
 }

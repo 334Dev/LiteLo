@@ -274,14 +274,14 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 }
             };
             mQueue.add(request);
-            addNotificationToFirebase(show, notificationObj);
+            addNotificationToFirebase(show, notificationObj, model.getEventId());
         } catch (JSONException e) {
             Log.i(TAG, "sendNotification: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void addNotificationToFirebase(AlertDialog show, JSONObject notificationObj) {
+    private void addNotificationToFirebase(AlertDialog show, JSONObject notificationObj, String eventId) {
         FirebaseFirestore.getInstance()
                 .collection("Notifications")
                 .document("Notifications")
@@ -295,6 +295,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                                 notifications.addAll((List<NotificationModel>) task.getResult().get("Notifications"));
                             try {
                                 notifications.add(new NotificationModel(
+                                        eventId,
                                         notificationObj.getString("title"),
                                         notificationObj.getString("body"),
                                         notificationObj.getLong("time")));
