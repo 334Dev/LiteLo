@@ -200,7 +200,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 map.put("time", Time);
                 map.put("desc", Desc);
                 map.put("link", Link);
-                map.put("parent", preferences.getString(Constants.PARENT, ""));
+                map.put("parent", selected.getDeptId());
 
                 firestore.collection("Timeline")
                         .document("Events")
