@@ -37,7 +37,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/text_timeline_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:textSize="14sp"
                 tools:text="24 JAN" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/text_timeline_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,15 +56,18 @@
                 android:textSize="16sp"
                 tools:text="Order Successfully Completed" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/event_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppinsregular"
-                android:textColor="@color/Text"
-                android:textSize="16sp"
-                tools:text="event link" />
+                android:includeFontPadding="false"
+                android:text="Event Link"
+                android:textColor="#3366CC"
+                android:textSize="15sp"
+                android:textStyle="italic|bold" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

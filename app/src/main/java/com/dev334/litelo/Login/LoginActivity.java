@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                         if (response.isSuccessful() && response.body() != null) {
                                                                             for (EventCoordinator eventCoordinator : response.body().getEventCoordies()) {
                                                                                 if (emailSubmitted.toLowerCase().equals(eventCoordinator.getUser().getEmail())) {
+                                                                                    Log.i("Coordie", adminModel.getEvent());
                                                                                     adminModels.add(adminModel);
                                                                                 }
                                                                             }
@@ -241,7 +242,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.apply();
                             getAdmins();
                         } else {
-                            retry("Some error occurred");
+                            getAdmins();
                         }
                     }
                 });

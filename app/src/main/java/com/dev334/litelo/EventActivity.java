@@ -191,7 +191,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     }
 
     private void setUpRecycler() {
-        timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this);
+        timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this, this);
         timelineRecycler.setAdapter(timelineAdapter);
         timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
         timelineRecycler.setHasFixedSize(true);

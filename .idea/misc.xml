@@ -128,6 +128,7 @@
         <entry key="app/src/main/res/layout/branch_card.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/branch_event_list_item.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/layout/dialog_add_event.xml" value="0.2617753623188406" />
+        <entry key="app/src/main/res/layout/dialog_send_notification.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/event_detail_card.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/layout/fragment_email_verification.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3015625" />
@@ -137,7 +138,8 @@
         <entry key="app/src/main/res/layout/fragment_phone_auth_fagment.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.3015625" />
-        <entry key="app/src/main/res/layout/timeline_card.xml" value="0.29438405797101447" />
+        <entry key="app/src/main/res/layout/notification_list_item.xml" value="0.3015625" />
+        <entry key="app/src/main/res/layout/timeline_card.xml" value="0.536" />
         <entry key="app/src/main/res/menu/home_bottom_navigation.xml" value="0.3015625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.321875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.321875" />
