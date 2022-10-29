@@ -14,11 +14,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.model.AdminModel;
 import com.dev334.litelo.model.AuthResponse;
+import com.dev334.litelo.model.CoordinatorRequest;
+import com.dev334.litelo.model.DepartmentModel;
+import com.dev334.litelo.model.DepartmentResponse;
+import com.dev334.litelo.model.EventCoordinatorResponse;
+import com.dev334.litelo.model.EventCoordinator;
+import com.dev334.litelo.model.EventModel;
+import com.dev334.litelo.model.EventRequest;
+import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.LoginRequest;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
@@ -27,14 +35,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 import org.json.JSONException;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerHere;
     private ProgressBar loading;
     private String emailSubmitted;
-    private HashMap<String, String> admins = new HashMap<>();
+    private final List<AdminModel> adminModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +65,71 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setReferences();
         setListeners();
-        getAdmins();
     }
 
     private void getAdmins() {
-        // TODO
-        SharedPreferences.Editor editor = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE).edit();
-        editor.putBoolean(Constants.ADMIN, true);
-        editor.putString(Constants.ADMIN_OF, "0ade98ac-fde4-4eb2-b301-5dfc6dc04286");
-        editor.putString(Constants.PARENT, "Cyberquest");
-        editor.apply();
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getDepartments()
+                .enqueue(new Callback<DepartmentResponse>() {
+                    @Override
+                    public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            for (DepartmentModel d : response.body().getDepartment()) {
+                                AdminModel adminModel = new AdminModel();
+                                adminModel.setDept(d.getName());
+                                adminModel.setDeptId(d.getId());
+                                RetrofitAccessObject.getRetrofitAccessObject()
+                                        .getEvents(new EventRequest(d.getId()))
+                                        .enqueue(new Callback<EventResponse>() {
+                                            @Override
+                                            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                                                if (response.isSuccessful() && response.body() != null) {
+                                                    for (EventModel e : response.body().getEvents()) {
+                                                        adminModel.setEvent(e.getName());
+                                                        adminModel.setEventId(e.getId());
+                                                        RetrofitAccessObject.getRetrofitAccessObject()
+                                                                .getEventCoordinator(new CoordinatorRequest(e.getId()))
+                                                                .enqueue(new Callback<EventCoordinatorResponse>() {
+                                                                    @Override
+                                                                    public void onResponse(Call<EventCoordinatorResponse> call, Response<EventCoordinatorResponse> response) {
+                                                                        if (response.isSuccessful() && response.body() != null) {
+                                                                            for (EventCoordinator eventCoordinator : response.body().getEventCoordies()) {
+                                                                                if (emailSubmitted.toLowerCase().equals(eventCoordinator.getUser().getEmail())) {
+                                                                                    adminModels.add(adminModel);
+                                                                                }
+                                                                            }
+                                                                            Gson gson = new GsonBuilder().create();
+                                                                            getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE)
+                                                                                    .edit()
+                                                                                    .putString(Constants.ADMIN, gson.toJson(adminModels))
+                                                                                    .apply();
+                                                                            goToHome();
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onFailure(Call<EventCoordinatorResponse> call, Throwable t) {
+                                                                        retry("Some error occurred");
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<EventResponse> call, Throwable t) {
+                                                retry("Some error occurred");
+                                            }
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+                        retry("Some error occurred");
+                    }
+                });
     }
 
     private void setReferences() {
@@ -99,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 sendLoginRequest();
             } catch (JSONException exception) {
-                showMessage("Some error occurred");
+                retry("Some error occurred");
             }
         }
     }
@@ -138,10 +202,12 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
                         getNotificationSubscriptions();
                     } catch (Exception exception) {
-                        showMessage("Some error occurred");
+                        retry("Some error occurred");
+                        loading.setVisibility(View.GONE);
+                        submit.setEnabled(true);
                     }
                 } else {
-                    showMessage("Incorrect credentials");
+                    retry("Incorrect credentials");
                     loading.setVisibility(View.GONE);
                     submit.setEnabled(true);
                 }
@@ -149,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                showMessage("Some error occurred");
+                retry("Some error occurred");
                 loading.setVisibility(View.GONE);
                 submit.setEnabled(true);
             }
@@ -173,14 +239,19 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             editor.apply();
+                            getAdmins();
+                        } else {
+                            retry("Some error occurred");
                         }
-                        goToHome();
                     }
                 });
     }
 
-    private void showMessage(String message) {
+    private void retry(String message) {
         Snackbar.make(parent, message, Snackbar.LENGTH_LONG).show();
+        loading.setVisibility(View.GONE);
+        submit.setEnabled(true);
+        getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE).edit().clear().apply();
     }
 
     private void goToHome() {

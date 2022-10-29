@@ -185,23 +185,23 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 map.put("link", Link);
                 map.put("parent", preferences.getString(Constants.PARENT, ""));
 
-                firestore.collection("Timeline")
-                        .document("Events")
-                        .collection(preferences.getString(Constants.ADMIN_OF, ""))
-                        .add(new TimelineModel(map))
-                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                if (task.isSuccessful()) {
-                                    show.dismiss();
-                                    Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(AdminActivity.this, "Event could not be added", Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
-                                    DoneBtn.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        });
+//                firestore.collection("Timeline")
+//                        .document("Events")
+//                        .collection(preferences.getString(Constants.ADMIN_OF, ""))
+//                        .add(new TimelineModel(map))
+//                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentReference> task) {
+//                                if (task.isSuccessful()) {
+//                                    show.dismiss();
+//                                    Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
+//                                } else {
+//                                    Toast.makeText(AdminActivity.this, "Event could not be added", Toast.LENGTH_LONG).show();
+//                                    progressBar.setVisibility(View.GONE);
+//                                    DoneBtn.setVisibility(View.VISIBLE);
+//                                }
+//                            }
+//                        });
             }
         });
 

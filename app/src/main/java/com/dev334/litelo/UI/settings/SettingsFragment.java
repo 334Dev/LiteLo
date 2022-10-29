@@ -18,9 +18,16 @@ import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
+import com.dev334.litelo.model.AdminModel;
 import com.dev334.litelo.utility.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsFragment extends Fragment {
 
@@ -48,8 +55,11 @@ public class SettingsFragment extends Fragment {
         admin = root.findViewById(R.id.settings_admin);
         tinyDB = new TinyDB(getActivity());
 
-        boolean isAdmin = preferences.getBoolean(Constants.ADMIN, false);
-        if (isAdmin) {
+        String adminOf = preferences.getString(Constants.ADMIN, "");
+        Gson gson = new GsonBuilder().create();
+        ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
+        }.getType());
+        if (adminModels.size() > 0) {
             admin.setVisibility(View.VISIBLE);
         }
 
