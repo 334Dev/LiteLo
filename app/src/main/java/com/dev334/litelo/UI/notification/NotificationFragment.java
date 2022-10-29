@@ -38,10 +38,9 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_notification, container, false);
         notificationRecyclerView = view.findViewById(R.id.notifaction_recycler);
-        notificationAdapter = new NotificationAdapter(notificationsToShow, requireContext());
-        notificationRecyclerView.setAdapter(notificationAdapter);
-        notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        notificationRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(requireContext());
+        llm.setAutoMeasureEnabled(false);
+        notificationRecyclerView.setLayoutManager(llm);
         fetchNotifications();
         return view;
     }
@@ -66,12 +65,13 @@ public class NotificationFragment extends Fragment {
                             notificationsToShow.sort(new Comparator<NotificationModel>() {
                                 @Override
                                 public int compare(NotificationModel o1, NotificationModel o2) {
-                                    if (o1.getTime() > o2.getTime()) return 1;
-                                    else if (o1.getTime() < o2.getTime()) return -1;
+                                    if (o1.getTime() > o2.getTime()) return -1;
+                                    else if (o1.getTime() < o2.getTime()) return 1;
                                     return 0;
                                 }
                             });
-                            notificationAdapter.notifyDataSetChanged();
+                            notificationAdapter = new NotificationAdapter(notificationsToShow, requireContext());
+                            notificationRecyclerView.setAdapter(notificationAdapter);
                         }
                     }
                 });
