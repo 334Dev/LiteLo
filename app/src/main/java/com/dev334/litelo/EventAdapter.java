@@ -2,6 +2,7 @@ package com.dev334.litelo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,7 +64,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.CustomVH> {
 
         public void setView(EventModel eventModel) {
             name.setText(eventModel.getName());
-            tagline.setText(eventModel.getTagline());
+            tagline.setText(Html.fromHtml(eventModel.getTagline(), Html.FROM_HTML_MODE_COMPACT));
         }
     }
 }

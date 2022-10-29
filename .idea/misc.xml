@@ -127,6 +127,7 @@
         <entry key="app/src/main/res/layout/branchEventListItem.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/layout/branch_card.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/branch_event_list_item.xml" value="0.29438405797101447" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/dialog_add_event.xml" value="0.2617753623188406" />
         <entry key="app/src/main/res/layout/dialog_send_notification.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/event_detail_card.xml" value="0.29438405797101447" />

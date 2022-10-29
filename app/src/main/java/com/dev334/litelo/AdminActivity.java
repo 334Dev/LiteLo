@@ -40,6 +40,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,22 +53,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , AdapterView.OnItemSelectedListener {
+public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
     private LinearLayout addEvent, sendNotification;
     private String branch;
 
     private RequestQueue mQueue;
     private final String fcmUrl = "https://fcm.googleapis.com/fcm/send";
-    String[] events_name = { "Webster", "Droid rush", "Insomnia", "Softathalon", "Tech maiden" };
-    private TextView  eDate, eTime, eDesc, eLink;
-    private Spinner eventSpinner;
+    private List<AdminModel> adminModels = new ArrayList<>();
+    private TextView eDate, eTime, eDesc, eLink;
     private ProgressBar progressBar;
     private Button DoneBtn, PickDate, PickTime;
     private List<Map<String, Object>> events;
     private FirebaseFirestore firestore;
     private static String TAG = "AdminActivityLog";
-    private ArrayList<AdminModel> adminModel= new ArrayList<>();
+    private ArrayList<AdminModel> adminModel = new ArrayList<>();
     int hour, min;
 
     @Override
@@ -75,6 +77,12 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         addEvent = findViewById(R.id.admin_addEvent);
         sendNotification = findViewById(R.id.admin_notification);
         firestore = FirebaseFirestore.getInstance();
+
+        // Admin of
+        String adminOf = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE).getString(Constants.ADMIN, "");
+        Gson gson = new GsonBuilder().create();
+        adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
+        }.getType());
 
         //branch name
         branch = getIntent().getStringExtra("Branch");
@@ -96,11 +104,6 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 showNotificationDialog();
             }
         });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, events_name);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eventSpinner.setAdapter(adapter);
-        eventSpinner.setOnItemSelectedListener(this);
     }
 
     private void showNotificationDialog() {
@@ -134,7 +137,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         AlertDialog.Builder alert = new AlertDialog.Builder(AdminActivity.this);
         View view = getLayoutInflater().inflate(R.layout.dialog_add_event, null);
 
-        eventSpinner = view.findViewById(R.id.event_spinner);
+        Spinner eventSpinner = view.findViewById(R.id.event_spinner);
         eDate = view.findViewById(R.id.addEvent_date);
         eTime = view.findViewById(R.id.addEvent_time);
         eDesc = view.findViewById(R.id.addEvent_Desc);
@@ -144,6 +147,11 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         PickTime = view.findViewById(R.id.addEvent_Time);
         progressBar = view.findViewById(R.id.progress_circular);
         ImageView closeAlert = view.findViewById(R.id.addEvent_close);
+
+        ArrayAdapter<AdminModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, adminModels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eventSpinner.setAdapter(adapter);
+        eventSpinner.setOnItemSelectedListener(this);
 
         alert.setView(view);
         AlertDialog show = alert.show();
@@ -178,7 +186,8 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                 progressBar.setVisibility(View.VISIBLE);
                 DoneBtn.setVisibility(View.GONE);
                 SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
-//                String Name = eName.getText().toString();
+                AdminModel selected = (AdminModel) eventSpinner.getSelectedItem();
+                String Name = selected.getEvent();
                 String Date = eDate.getText().toString();
                 String Link = eLink.getText().toString();
                 String Desc = eDesc.getText().toString();
@@ -186,30 +195,30 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
 
                 //add Data to firebase;
                 Map<String, Object> map = new HashMap<>();
-//                map.put("name", Name);
+                map.put("name", Name);
                 map.put("date", Date);
                 map.put("time", Time);
                 map.put("desc", Desc);
                 map.put("link", Link);
                 map.put("parent", preferences.getString(Constants.PARENT, ""));
 
-//                firestore.collection("Timeline")
-//                        .document("Events")
-//                        .collection(preferences.getString(Constants.ADMIN_OF, ""))
-//                        .add(new TimelineModel(map))
-//                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentReference> task) {
-//                                if (task.isSuccessful()) {
-//                                    show.dismiss();
-//                                    Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
-//                                } else {
-//                                    Toast.makeText(AdminActivity.this, "Event could not be added", Toast.LENGTH_LONG).show();
-//                                    progressBar.setVisibility(View.GONE);
-//                                    DoneBtn.setVisibility(View.VISIBLE);
-//                                }
-//                            }
-//                        });
+                firestore.collection("Timeline")
+                        .document("Events")
+                        .collection(selected.getEventId())
+                        .add(new TimelineModel(map))
+                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    show.dismiss();
+                                    Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(AdminActivity.this, "Event could not be added", Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    DoneBtn.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
             }
         });
 

@@ -87,12 +87,24 @@ public class LoginActivity extends AppCompatActivity {
                                                     for (EventModel e : response.body().getEvents()) {
                                                         adminModel.setEvent(e.getName());
                                                         adminModel.setEventId(e.getId());
+                                                        /********/
+                                                        if (adminModel.getEvent().equals("Webster")) {
+                                                            Log.i("Coordie", adminModel.getEvent());
+                                                            adminModels.add(adminModel);
+                                                            Gson gson = new GsonBuilder().create();
+                                                            getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE)
+                                                                    .edit()
+                                                                    .putString(Constants.ADMIN, gson.toJson(adminModels))
+                                                                    .apply();
+                                                            goToHome();
+                                                        }
+                                                        /******/
                                                         RetrofitAccessObject.getRetrofitAccessObject()
                                                                 .getEventCoordinator(new CoordinatorRequest(e.getId()))
                                                                 .enqueue(new Callback<EventCoordinatorResponse>() {
                                                                     @Override
                                                                     public void onResponse(Call<EventCoordinatorResponse> call, Response<EventCoordinatorResponse> response) {
-                                                                        if (response.isSuccessful() && response.body() != null) {
+                                                                        /*if (response.isSuccessful() && response.body() != null) {
                                                                             for (EventCoordinator eventCoordinator : response.body().getEventCoordies()) {
                                                                                 if (emailSubmitted.toLowerCase().equals(eventCoordinator.getUser().getEmail())) {
                                                                                     Log.i("Coordie", adminModel.getEvent());
@@ -105,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                                     .putString(Constants.ADMIN, gson.toJson(adminModels))
                                                                                     .apply();
                                                                             goToHome();
-                                                                        }
+                                                                        }*/
                                                                     }
 
                                                                     @Override

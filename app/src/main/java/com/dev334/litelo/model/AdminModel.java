@@ -1,10 +1,12 @@
 package com.dev334.litelo.model;
 
+import androidx.annotation.NonNull;
+
 public class AdminModel {
-    private String event, eventId, dept,deptId;
+    private String event, eventId, dept, deptId;
 
 
-    public AdminModel(){
+    public AdminModel() {
 
     }
 
@@ -46,5 +48,11 @@ public class AdminModel {
 
     public void setDeptId(String deptId) {
         this.deptId = deptId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return event;
     }
 }
