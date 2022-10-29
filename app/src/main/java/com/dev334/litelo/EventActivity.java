@@ -146,7 +146,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private void fetchTimeline() {
         fireStore
                 .collection("Timeline")
-                .document(getIntent().getStringExtra(Constants.DEPARTMENT))
+                .document("Events")
                 .collection(eventModel.getId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -10,4 +10,5 @@ public class Constants {
     public static final String EVENT = "event";
     public static final String EMAIL = "email";
     public static final String SUBSCRIPTIONS = "Subscriptions";
+    public static final String PARENT = "parent";
 }

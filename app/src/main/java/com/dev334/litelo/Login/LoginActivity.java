@@ -60,19 +60,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getAdmins() {
-        FirebaseFirestore.getInstance().collection("Admin").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
-                        if (documentSnapshot.contains("Email") && documentSnapshot.contains("Branch"))
-                            admins.put(Objects.requireNonNull(documentSnapshot.get("Email", String.class)).toLowerCase(), documentSnapshot.get("Branch", String.class));
-                    }
-                } else {
-                    getAdmins();
-                }
-            }
-        });
+        // TODO
+        SharedPreferences.Editor editor = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE).edit();
+        editor.putBoolean(Constants.ADMIN, true);
+        editor.putString(Constants.ADMIN_OF, "0ade98ac-fde4-4eb2-b301-5dfc6dc04286");
+        editor.putString(Constants.PARENT, "Cyberquest");
+        editor.apply();
     }
 
     private void setReferences() {

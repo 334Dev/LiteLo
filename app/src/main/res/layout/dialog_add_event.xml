@@ -107,108 +107,6 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <EditText
-                        android:id="@+id/addEvent_c1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/primary_outline_textbox"
-                        android:ems="10"
-                        android:fontFamily="@font/poppinsregular"
-                        android:hint="Coordi name"
-                        android:inputType="textPersonName"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="16dp"
-
-                        android:paddingBottom="12dp"
-                        android:textColor="@color/Text"
-                        android:textColorHint="@color/Text"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/addEvent_c1p"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/primary_outline_textbox"
-                        android:ems="10"
-                        android:fontFamily="@font/poppinsregular"
-                        android:hint="Contact No."
-                        android:inputType="number|textPersonName"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="16dp"
-
-                        android:paddingBottom="12dp"
-                        android:textColor="@color/Text"
-                        android:textColorHint="@color/Text"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <EditText
-                        android:id="@+id/addEvent_c2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/primary_outline_textbox"
-                        android:ems="10"
-                        android:fontFamily="@font/poppinsregular"
-                        android:hint="Coordi name"
-                        android:inputType="textPersonName"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="16dp"
-
-                        android:paddingBottom="12dp"
-                        android:textColor="@color/Text"
-                        android:textColorHint="@color/Text"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/addEvent_c2p"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/primary_outline_textbox"
-                        android:ems="10"
-                        android:fontFamily="@font/poppinsregular"
-                        android:hint="Contact No."
-                        android:inputType="number|textPersonName"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="16dp"
-
-                        android:paddingBottom="12dp"
-                        android:textColor="@color/Text"
-                        android:textColorHint="@color/Text"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -299,6 +197,23 @@
                     android:text="Add event"
                     android:textColor="@color/White"
                     android:textSize="14sp" />
+
+                <ProgressBar
+                    android:id="@+id/progress_circular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:alpha="1"
+                    android:background="@drawable/secondary_filled_box"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </ScrollView>

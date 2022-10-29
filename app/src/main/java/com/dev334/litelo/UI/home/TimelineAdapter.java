@@ -32,7 +32,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
 
     @Override
     public void onBindViewHolder(@NonNull TimelineAdapter.TimeLineViewHolder holder, int position) {
-        holder.setDetails(timelineModelList.get(position).getName(),
+        holder.setDetails(timelineModelList.get(position).getDesc(),
                 timelineModelList.get(position).getDate());
     }
 
@@ -65,10 +65,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
             });
         }
 
-        public void setDetails(String name, String date) {
-            TextView nameText = itemView.findViewById(R.id.text_timeline_title);
+        public void setDetails(String desc, String date) {
+            TextView descText = itemView.findViewById(R.id.text_timeline_title);
             TextView dateText = itemView.findViewById(R.id.text_timeline_date);
-            nameText.setText(name);
+            descText.setText(desc);
             dateText.setText(date);
         }
     }
