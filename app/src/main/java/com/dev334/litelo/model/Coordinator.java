@@ -1,10 +1,9 @@
-
 package com.dev334.litelo.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EventCoordinator {
+public class Coordinator {
 
     @SerializedName("userId")
     @Expose
@@ -12,9 +11,9 @@ public class EventCoordinator {
     @SerializedName("eventId")
     @Expose
     private String eventId;
-    @SerializedName("user")
+    @SerializedName("event")
     @Expose
-    private User user;
+    private EventModel event;
 
     public String getUserId() {
         return userId;
@@ -32,12 +31,12 @@ public class EventCoordinator {
         this.eventId = eventId;
     }
 
-    public User getUser() {
-        return user;
+    public EventModel getEvent() {
+        return event;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setEvent(EventModel event) {
+        this.event = event;
     }
 
 }

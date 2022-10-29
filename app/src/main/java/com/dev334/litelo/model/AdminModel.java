@@ -3,7 +3,7 @@ package com.dev334.litelo.model;
 import androidx.annotation.NonNull;
 
 public class AdminModel {
-    private String event, eventId, dept, deptId;
+    private String event, eventId, deptId;
 
 
     public AdminModel() {
@@ -13,7 +13,6 @@ public class AdminModel {
     public AdminModel(String event, String eventId, String dept, String deptId) {
         this.event = event;
         this.eventId = eventId;
-        this.dept = dept;
         this.deptId = deptId;
     }
 
@@ -32,14 +31,6 @@ public class AdminModel {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
-    }
-
-    public String getDept() {
-        return dept;
-    }
-
-    public void setDept(String dept) {
-        this.dept = dept;
     }
 
     public String getDeptId() {

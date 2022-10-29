@@ -1,4 +1,3 @@
-
 package com.dev334.litelo.model;
 
 import java.util.List;
@@ -8,19 +7,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class EventCoordinatorResponse {
 
-    @SerializedName("eventCoordies")
+    @SerializedName("coordieEvent")
     @Expose
-    private List<EventCoordinator> eventCoordies = null;
+    private List<Coordinator> coordinatorList = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
 
-    public List<EventCoordinator> getEventCoordies() {
-        return eventCoordies;
+    public List<Coordinator> getCoordieEvent() {
+        return coordinatorList;
     }
 
-    public void setEventCoordies(List<EventCoordinator> eventCoordies) {
-        this.eventCoordies = eventCoordies;
+    public void setCoordieEvent(List<Coordinator> coordinatorList) {
+        this.coordinatorList = coordinatorList;
     }
 
     public Boolean getSuccess() {

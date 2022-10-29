@@ -1,10 +1,5 @@
 package com.dev334.litelo.Login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -15,18 +10,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.AdminModel;
 import com.dev334.litelo.model.AuthResponse;
-import com.dev334.litelo.model.CoordinatorRequest;
-import com.dev334.litelo.model.DepartmentModel;
-import com.dev334.litelo.model.DepartmentResponse;
+import com.dev334.litelo.model.Coordinator;
 import com.dev334.litelo.model.EventCoordinatorResponse;
-import com.dev334.litelo.model.EventCoordinator;
-import com.dev334.litelo.model.EventModel;
-import com.dev334.litelo.model.EventRequest;
-import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.LoginRequest;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
@@ -37,7 +31,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 import org.json.JSONException;
 
@@ -57,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerHere;
     private ProgressBar loading;
     private String emailSubmitted;
+    private SharedPreferences preferences;
+    private String token;
     private final List<AdminModel> adminModels = new ArrayList<>();
 
     @Override
@@ -69,77 +64,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getAdmins() {
         RetrofitAccessObject.getRetrofitAccessObject()
-                .getDepartments()
-                .enqueue(new Callback<DepartmentResponse>() {
+                .getEventsCoordinated(token)
+                .enqueue(new Callback<EventCoordinatorResponse>() {
                     @Override
-                    public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
+                    public void onResponse(Call<EventCoordinatorResponse> call, Response<EventCoordinatorResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            for (DepartmentModel d : response.body().getDepartment()) {
-                                AdminModel adminModel = new AdminModel();
-                                adminModel.setDept(d.getName());
-                                adminModel.setDeptId(d.getId());
-                                RetrofitAccessObject.getRetrofitAccessObject()
-                                        .getEvents(new EventRequest(d.getId()))
-                                        .enqueue(new Callback<EventResponse>() {
-                                            @Override
-                                            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                                                if (response.isSuccessful() && response.body() != null) {
-                                                    for (EventModel e : response.body().getEvents()) {
-                                                        adminModel.setEvent(e.getName());
-                                                        adminModel.setEventId(e.getId());
-                                                        /********/
-                                                        if (adminModel.getEvent().equals("Webster")) {
-                                                            Log.i("Coordie", adminModel.getEvent());
-                                                            adminModels.add(adminModel);
-                                                            Gson gson = new GsonBuilder().create();
-                                                            getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE)
-                                                                    .edit()
-                                                                    .putString(Constants.ADMIN, gson.toJson(adminModels))
-                                                                    .apply();
-                                                            goToHome();
-                                                        }
-                                                        /******/
-                                                        RetrofitAccessObject.getRetrofitAccessObject()
-                                                                .getEventCoordinator(new CoordinatorRequest(e.getId()))
-                                                                .enqueue(new Callback<EventCoordinatorResponse>() {
-                                                                    @Override
-                                                                    public void onResponse(Call<EventCoordinatorResponse> call, Response<EventCoordinatorResponse> response) {
-                                                                        /*if (response.isSuccessful() && response.body() != null) {
-                                                                            for (EventCoordinator eventCoordinator : response.body().getEventCoordies()) {
-                                                                                if (emailSubmitted.toLowerCase().equals(eventCoordinator.getUser().getEmail())) {
-                                                                                    Log.i("Coordie", adminModel.getEvent());
-                                                                                    adminModels.add(adminModel);
-                                                                                }
-                                                                            }
-                                                                            Gson gson = new GsonBuilder().create();
-                                                                            getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE)
-                                                                                    .edit()
-                                                                                    .putString(Constants.ADMIN, gson.toJson(adminModels))
-                                                                                    .apply();
-                                                                            goToHome();
-                                                                        }*/
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onFailure(Call<EventCoordinatorResponse> call, Throwable t) {
-                                                                        retry("Some error occurred");
-                                                                    }
-                                                                });
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<EventResponse> call, Throwable t) {
-                                                retry("Some error occurred");
-                                            }
-                                        });
+                            for (Coordinator coordinator : response.body().getCoordieEvent()) {
+                                AdminModel model = new AdminModel();
+                                model.setEventId(coordinator.getEventId());
+                                model.setEvent(coordinator.getEvent().getName());
+                                model.setDeptId(coordinator.getEvent().getDeptEventId());
+                                adminModels.add(model);
                             }
+                            Gson gson = new GsonBuilder().create();
+                            preferences.edit().putString(Constants.ADMIN, gson.toJson(adminModels)).apply();
+                            goToHome();
+                        } else {
+                            retry("Some error occurred");
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+                    public void onFailure(Call<EventCoordinatorResponse> call, Throwable t) {
                         retry("Some error occurred");
                     }
                 });
@@ -152,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         registerHere = findViewById(R.id.registerHere);
         loading = findViewById(R.id.loginLoading);
+        preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
     }
 
     private void setListeners() {
@@ -205,11 +152,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 Log.i("RequestBody", call.request().url().toString() + " " + response.toString() + "\n" + requestBody.toString());
                 if (response.code() == 200) {
-                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
                     try {
                         SharedPreferences.Editor editor = preferences.edit();
                         if (response.body() == null || response.body().getToken().equals(""))
                             throw new Exception("Unqualified response");
+                        token = response.body().getToken();
                         editor.putString(Constants.TOKEN, response.body().getToken());
                         editor.putString(Constants.EMAIL, emailSubmitted);
                         editor.apply();
@@ -236,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getNotificationSubscriptions() {
-        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         FirebaseFirestore.getInstance()
                 .collection(Constants.SUBSCRIPTIONS)
                 .document(emailSubmitted)
@@ -246,11 +192,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful() && task.getResult().exists()) {
                             SharedPreferences.Editor editor = preferences.edit();
-                            for (Map.Entry<String, Object> entry : task.getResult().getData().entrySet()) {
-                                if ((Boolean) entry.getValue()) {
-                                    editor.putBoolean(entry.getKey(), true);
+                            if (task.getResult().getData() != null)
+                                for (Map.Entry<String, Object> entry : task.getResult().getData().entrySet()) {
+                                    if ((Boolean) entry.getValue()) {
+                                        editor.putBoolean(entry.getKey(), true);
+                                    }
                                 }
-                            }
                             editor.apply();
                             getAdmins();
                         } else {
@@ -264,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
         Snackbar.make(parent, message, Snackbar.LENGTH_LONG).show();
         loading.setVisibility(View.GONE);
         submit.setEnabled(true);
-        getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE).edit().clear().apply();
+        preferences.edit().clear().apply();
     }
 
     private void goToHome() {
