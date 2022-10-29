@@ -37,6 +37,7 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_notification, container, false);
+
         notificationRecyclerView = view.findViewById(R.id.notifaction_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(requireContext());
         llm.setAutoMeasureEnabled(false);

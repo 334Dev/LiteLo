@@ -49,7 +49,6 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private SharedPreferences preferences;
     private Button subscribeBtn;
     private Boolean subscribed = false;
-
     private List<TimelineModel> timelineModels = new ArrayList<>();
     private FirebaseFirestore fireStore;
     private List<Map<String, Object>> EventMap = new ArrayList<>();
