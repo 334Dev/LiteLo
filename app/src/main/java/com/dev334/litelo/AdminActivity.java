@@ -49,10 +49,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class AdminActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
@@ -215,8 +217,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
-                                    show.dismiss();
-                                    Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
+                                    addDateWiseEvent(map, show);
                                 } else {
                                     Toast.makeText(AdminActivity.this, "Event could not be added", Toast.LENGTH_LONG).show();
                                     progressBar.setVisibility(View.GONE);
@@ -239,6 +240,39 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
 
         alert.setCancelable(true);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    private void addDateWiseEvent(Map<String, Object> map, AlertDialog show) {
+        Map<String, List<Map<String, Object>>> updated = new HashMap<>();
+        firestore.collection("DateWiseEvent")
+                .document((String) Objects.requireNonNull(map.get("date")))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() || task.getResult() == null) {
+                            List<Map<String, Object>> list = new ArrayList<>();
+                            if (task.getResult() != null && task.getResult().get("Events") != null) {
+                                list.addAll((List<Map<String, Object>>) task.getResult().get("Events"));
+                            }
+                            list.add(map);
+                            updated.put("Events", list);
+                            FirebaseFirestore.getInstance()
+                                    .collection("DateWiseEvent")
+                                    .document((String) Objects.requireNonNull(map.get("date")))
+                                    .set(updated)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            show.dismiss();
+                                            Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                        }
+                        show.dismiss();
+                        Toast.makeText(AdminActivity.this, "Event added successfully", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void sendNotification(AlertDialog show, AdminModel model, String descText) {
