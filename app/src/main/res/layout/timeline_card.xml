@@ -64,9 +64,9 @@
                 android:fontFamily="@font/poppinsregular"
                 android:includeFontPadding="false"
                 android:text="Event Link"
-                android:textColor="#3366CC"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:textStyle="italic|bold" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 

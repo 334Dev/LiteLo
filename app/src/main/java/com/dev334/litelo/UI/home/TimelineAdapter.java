@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.R;
@@ -95,8 +96,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
             if (link.equals("")) eventLink.setVisibility(View.GONE);
             else eventLink.setVisibility(View.VISIBLE);
             if (URLUtil.isValidUrl(link)) {
+                eventLink.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_link_24_red, 0, 0, 0);
                 eventLink.setText("Event Link");
             } else {
+                eventLink.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_location_on_24_red, 0, 0, 0);
                 eventLink.setText(link);
             }
         }
