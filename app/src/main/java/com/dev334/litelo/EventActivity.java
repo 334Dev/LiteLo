@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -108,6 +109,8 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                 }
             }
         });
+        if (!URLUtil.isValidUrl(eventModel.getPsLink()))
+            problem_stat_tv.setVisibility(View.GONE);
         problem_stat_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

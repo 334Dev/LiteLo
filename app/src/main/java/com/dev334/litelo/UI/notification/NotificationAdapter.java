@@ -21,6 +21,7 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.CustomVH> {
 
@@ -69,14 +70,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private String format(Long time) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(time);
-        return String.valueOf(c.get(Calendar.DAY_OF_MONTH)) +
-                '-' +
-                c.get(Calendar.MONTH) +
-                '-' +
+        if (c.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR))
+            return c.get(Calendar.DAY_OF_MONTH) +
+                    " " +
+                    c.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) +
+                    " at " +
+                    c.get(Calendar.HOUR) +
+                    ":" +
+                    appendZero(c.get(Calendar.MINUTE));
+        return c.get(Calendar.DAY_OF_MONTH) +
+                " " +
+                c.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) +
+                " " +
                 c.get(Calendar.YEAR) +
-                ", " +
+                " at " +
                 c.get(Calendar.HOUR) +
                 ":" +
-                c.get(Calendar.MINUTE);
+                appendZero(c.get(Calendar.MINUTE));
+    }
+
+    private String appendZero(int i) {
+        if (i > 9)
+            return String.valueOf(i);
+        return "0" + i;
     }
 }

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
+
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
@@ -30,66 +32,65 @@
         app:cardBackgroundColor="@color/Grey"
         app:contentPadding="15dp">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsbold"
-        android:paddingStart="10dp"
-        android:textColor="@color/Text"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Webster" />
-
-    <com.ms.square.android.expandabletextview.ExpandableTextView
-        android:id="@+id/notification_desc_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="7dp"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        expandableTextView:animDuration="100"
-        expandableTextView:maxCollapsedLines="1"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@id/expandable_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/poppinsmedium"
-            android:justificationMode="inter_word"
-            android:textColor="#666666"
-            android:textSize="14sp"
-            tools:text="Mid term evaluation" />
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@id/expand_collapse"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|bottom"
-            android:background="@android:color/transparent" />
-    </com.ms.square.android.expandabletextview.ExpandableTextView>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:paddingStart="10dp"
+                android:textColor="@color/Text"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Webster" />
 
-    <TextView
-        android:id="@+id/date_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fontFamily="@font/helveticaneu_bold"
-        android:gravity="right"
-        android:paddingEnd="10dp"
-        android:textColor="@color/Text"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintBottom_toTopOf="@id/notification_desc_tv"
-        tools:text="10:50 AM / 01-11-2022" />
-</LinearLayout>
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/notification_desc_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="7dp"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                expandableTextView:animDuration="100"
+                expandableTextView:maxCollapsedLines="1"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:justificationMode="inter_word"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    tools:text="Mid term evaluation" />
+
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|bottom"
+                    android:background="@android:color/transparent" />
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+            <TextView
+                android:id="@+id/date_time"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppinslight"
+                android:gravity="end"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/Text"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toTopOf="@id/notification_desc_tv"
+                tools:text="10:50 AM / 01-11-2022" />
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
