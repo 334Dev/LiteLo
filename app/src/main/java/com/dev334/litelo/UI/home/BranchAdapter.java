@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolder> {
+public class BranchAdapter extends RecyclerView.Adapter<BranchAdapter.mViewHolder> {
     private List<DepartmentModel> departments;
     private ClickInterface Listener;
     Map<String, Object> images = new HashMap<>();
 
-    public branchAdapter(List<DepartmentModel> departments, ClickInterface Listener, Map<String, Object> images) {
+    public BranchAdapter(List<DepartmentModel> departments, ClickInterface Listener, Map<String, Object> images) {
         this.departments = departments;
         this.Listener = Listener;
         this.images = images;
@@ -31,7 +31,7 @@ public class branchAdapter extends RecyclerView.Adapter<branchAdapter.mViewHolde
     @Override
     public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.branch_card, parent, false);
-        return new branchAdapter.mViewHolder(view);
+        return new BranchAdapter.mViewHolder(view);
     }
 
     @Override

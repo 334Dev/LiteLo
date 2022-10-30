@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,10 +79,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
             eventLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String url = timelineModelList.get(getAdapterPosition()).getLink();
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    context.startActivity(i);
+                    if (URLUtil.isValidUrl(timelineModelList.get(getAdapterPosition()).getLink())) {
+                        String url = timelineModelList.get(getAdapterPosition()).getLink();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        context.startActivity(i);
+                    }
                 }
             });
         }
@@ -89,10 +92,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
         public void setDetails(String desc, String date, String link) {
             descText.setText(desc);
             dateText.setText(date);
-            if (link.equals("")) {
-                eventLink.setVisibility(View.GONE);
+            if (link.equals("")) eventLink.setVisibility(View.GONE);
+            else eventLink.setVisibility(View.VISIBLE);
+            if (URLUtil.isValidUrl(link)) {
+                eventLink.setText("Event Link");
             } else {
-                eventLink.setVisibility(View.VISIBLE);
+                eventLink.setText(link);
             }
         }
     }
