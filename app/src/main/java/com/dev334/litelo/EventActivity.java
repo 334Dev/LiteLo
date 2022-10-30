@@ -18,9 +18,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev334.litelo.model.EventModel;
+import com.dev334.litelo.model.EventRequest;
+import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.UI.home.TimelineAdapter;
 import com.dev334.litelo.utility.Constants;
+import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +43,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.function.Function;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventActivity extends AppCompatActivity implements TimelineAdapter.ClickInterface {
 
@@ -59,9 +67,42 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        String event = getIntent().getStringExtra(Constants.EVENT_FROM_NOTIFICATION);
+        String dept = getIntent().getStringExtra(Constants.DEPT_FROM_NOTIFICATION);
         setReferences();
-        setValues();
-        fetchTimeline();
+        if (event == null) {
+            setValues();
+            fetchTimeline();
+        } else {
+            fetchEvent(dept, event);
+        }
+    }
+
+    private void fetchEvent(String dept, String event) {
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getEvents(new EventRequest(dept))
+                .enqueue(new Callback<EventResponse>() {
+                    @Override
+                    public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            for (EventModel model : response.body().getEvents()) {
+                                if (model.getId().equals(event)) {
+                                    eventModel = model;
+                                    setValues();
+                                    fetchTimeline();
+                                    return;
+                                }
+                            }
+                            finish();
+                        } else
+                            finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<EventResponse> call, Throwable t) {
+                        finish();
+                    }
+                });
     }
 
     private void setReferences() {

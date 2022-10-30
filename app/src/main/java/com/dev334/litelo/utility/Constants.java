@@ -10,4 +10,6 @@ public class Constants {
     public static final String EMAIL = "email";
     public static final String SUBSCRIPTIONS = "Subscriptions";
     public static final String PARENT = "parent";
+    public static final String DEPT_FROM_NOTIFICATION = "dept_from_notification";
+    public static final String EVENT_FROM_NOTIFICATION = "event_from_notification";
 }

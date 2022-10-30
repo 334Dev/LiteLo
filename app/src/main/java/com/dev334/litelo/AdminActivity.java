@@ -249,6 +249,8 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             mainobj.put("to", "/topics/" + model.getEventId());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", model.getEvent());
+            notificationObj.put("eventId", model.getEventId());
+            notificationObj.put("deptId", model.getDeptId());
             notificationObj.put("body", descText);
             notificationObj.put("time", System.currentTimeMillis());
             mainobj.put("data", notificationObj);

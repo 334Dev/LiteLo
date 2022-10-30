@@ -12,12 +12,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
 
-       String title=remoteMessage.getData().get("title");
-       String body=remoteMessage.getData().get("body");
+        String title = remoteMessage.getData().get("title");
+        String body = remoteMessage.getData().get("body");
         Log.i("Notif", title + " " + body);
-      // String click_action=remoteMessage.getNotification().getClickAction();
+        // String click_action=remoteMessage.getNotification().getClickAction();
 
-       MyNotificationManager.getInstance(getApplicationContext()).displayNotification(title,body);
+        MyNotificationManager.getInstance(getApplicationContext()).displayNotification(title, body, remoteMessage.getData().get("eventId"), remoteMessage.getData().get("deptId"));
 
     }
 }

@@ -35,7 +35,7 @@ public class MyNotificationManager {
         return mInstance;
     }
 
-    public void displayNotification(String title, String body) {
+    public void displayNotification(String title, String body, String eventId, String deptId) {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx, Constants.Channel_ID)
                 .setSmallIcon(R.drawable.ic_app_logo)
@@ -51,6 +51,8 @@ public class MyNotificationManager {
         }
 
         Intent intent = new Intent(mCtx, HomeActivity.class);
+        intent.putExtra(com.dev334.litelo.utility.Constants.EVENT_FROM_NOTIFICATION, eventId);
+        intent.putExtra(com.dev334.litelo.utility.Constants.DEPT_FROM_NOTIFICATION, deptId);
         //  Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/"));
         // String u="https://www.google.com/";
 

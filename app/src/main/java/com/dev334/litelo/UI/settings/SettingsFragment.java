@@ -59,7 +59,7 @@ public class SettingsFragment extends Fragment {
         Gson gson = new GsonBuilder().create();
         ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
         }.getType());
-        if (adminModels.size() > 0) {
+        if (adminModels != null && adminModels.size() > 0) {
             admin.setVisibility(View.VISIBLE);
         }
 

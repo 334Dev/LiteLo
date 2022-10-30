@@ -15,6 +15,7 @@ import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.UI.home.HomeFragment;
 import com.dev334.litelo.UI.notification.NotificationFragment;
 import com.dev334.litelo.UI.settings.SettingsFragment;
+import com.dev334.litelo.utility.Constants;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
@@ -66,6 +67,18 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
             }
         });
 
+        checkIntentAndRedirect();
+
+    }
+
+    private void checkIntentAndRedirect() {
+        String event = getIntent().getStringExtra(Constants.EVENT_FROM_NOTIFICATION);
+        String dept = getIntent().getStringExtra(Constants.DEPT_FROM_NOTIFICATION);
+        if (event == null || dept == null) return;
+        Intent i = new Intent(this, EventActivity.class);
+        i.putExtra(Constants.EVENT_FROM_NOTIFICATION, event);
+        i.putExtra(Constants.DEPT_FROM_NOTIFICATION, dept);
+        startActivity(i);
     }
 
     private void replaceFragment(Fragment fragmentToShow) {
