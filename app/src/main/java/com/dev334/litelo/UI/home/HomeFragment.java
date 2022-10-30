@@ -60,12 +60,12 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
     private HomeViewModel homeViewModel;
     private RecyclerView todayRecycler;
     private RecyclerView branchRecycler;
+    private TextView eventDateTV;
     private RecyclerView filterRecycler;
     private TodayEventAdapter AdapterToday;
     private BranchAdapter AdapterBranch;
     private FilterEventAdapter AdapterFilter;
     private List<DepartmentModel> departments;
-    private Spinner filterSpinner;
     private List<String> filter;
     private Integer FILTER = 1;
     Map<String, Object> images = new HashMap<>();
@@ -81,12 +81,10 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         departments = new ArrayList<>();
-        filterSpinner = root.findViewById(R.id.spinner2);
-        filter = new ArrayList<>();
-        filter.add("Tomorrow");
-        filter.add("Pick a Date");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_item_filter, filter);
-        filterSpinner.setAdapter(arrayAdapter);
+        eventDateTV = root.findViewById(R.id.select_date);
+//        filter = new ArrayList<>();
+//        filter.add("Tomorrow");
+//        filter.add("Pick a Date");
         String[] branch_names = new String[]{
                 "Cyberquest", "Oligopoly", "Techno Art", "Rasayans", "Kreedomania", "Monopoly", "Nirmaan", "Astrowing", "PowerSurge", "Mechrocosm", "Robomania",
                 "Aerodynamix", "Genesis", "Electromania", "Gnosiomania"
@@ -130,11 +128,24 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
 
         fetchDepartments();
 
-
         fetchEvents(getDate(0), true);
         fetchEvents(getDate(1), false);
+        eventDateTV.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+            Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
+            DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH));
+            datePicker.setCancelable(false);
+            datePicker.setTitle("Select the date");
+            datePicker.show();
+    }
+});
+        return root;
 
-        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*    filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0)
@@ -159,7 +170,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
 
             }
         });
-        return root;
+        */
     }
 
     private void fetchEvents(String date, boolean today) {
@@ -220,8 +231,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                               int selectedMonth, int selectedDay) {
             selectedMonth = selectedMonth + 1;
             String date = selectedYear + "-" + selectedMonth + "-" + selectedDay;
-            filter.set(1, date);
-            filterSpinner.setSelection(1);
+            setTextDate(date);
             fetchEvents(date, false);
         }
     };
@@ -238,6 +248,15 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         month = month + 1;
         Log.i("DateSelectedAdmin", "onDateSet: " + year + " " + month + " " + dayOfMonth);
         String date = year + "-" + month + "-" + dayOfMonth;
+    }
+
+    public void setTextDate(String date){
+        String tomarrowDate = getDate(1);
+        if(date == tomarrowDate){
+            eventDateTV.setText("Tomarrow");
+        }else{
+            eventDateTV.setText(date);
+        }
     }
 
     Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
