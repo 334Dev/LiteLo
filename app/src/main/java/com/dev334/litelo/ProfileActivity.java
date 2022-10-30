@@ -22,8 +22,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -72,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                  CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(ProfileActivity.this);
+//                  CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(ProfileActivity.this);
                }
         });
 
@@ -97,12 +95,12 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
             //get cropped image and upload to firebase
-            if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
+            /*if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
                 CropImage.ActivityResult result=CropImage.getActivityResult(data);
                     Uri resultUri=result.getUri();
                     profileImageView.setImageURI(resultUri);
                     uploadImageToFirebase(resultUri);
-        }
+        }*/
     }
 
     private void uploadImageToFirebase(Uri ImageUri){
