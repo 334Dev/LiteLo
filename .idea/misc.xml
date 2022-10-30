@@ -118,6 +118,8 @@
         <entry key="app/src/main/res/drawable/ic_app_logo.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_avishkar_triangle.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_baseline_attach_file_24.xml" value="0.321875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.321875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_outline_info_24.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/activity_branch.xml" value="0.3015625" />
@@ -133,6 +135,7 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/dialog_add_event.xml" value="0.2617753623188406" />
         <entry key="app/src/main/res/layout/dialog_send_notification.xml" value="0.3015625" />
+        <entry key="app/src/main/res/layout/event_card_square.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/event_detail_card.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/layout/fragment_email_verification.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3015625" />
