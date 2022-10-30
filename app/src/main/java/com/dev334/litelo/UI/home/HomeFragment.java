@@ -1,5 +1,8 @@
 package com.dev334.litelo.UI.home;
 
+import static android.view.View.GONE;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -70,21 +73,23 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
     private Integer FILTER = 1;
     Map<String, Object> images = new HashMap<>();
     private List<Map<String, Object>> list = new ArrayList<>();
-    private TextView noEvent;
+
+    private TextView noEvent, nofilter_event;
 
     public HomeFragment() {
         //empty constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         departments = new ArrayList<>();
         eventDateTV = root.findViewById(R.id.select_date);
-//        filter = new ArrayList<>();
-//        filter.add("Tomorrow");
-//        filter.add("Pick a Date");
+        eventDateTV.setText(getDate(1));
+        fetchEvents(getDate(1), false);
+
         String[] branch_names = new String[]{
                 "Cyberquest", "Oligopoly", "Techno Art", "Rasayans", "Kreedomania", "Monopoly", "Nirmaan", "Astrowing", "PowerSurge", "Mechrocosm", "Robomania",
                 "Aerodynamix", "Genesis", "Electromania", "Gnosiomania"
@@ -110,6 +115,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
             images.put(branch_names[i], branch_logo[i]);
         }
         noEvent = root.findViewById(R.id.noevent_msg);
+        nofilter_event = root.findViewById(R.id.noevent_msg_filter);
         todayRecycler = root.findViewById(R.id.todayEventRecycler);
         branchRecycler = root.findViewById(R.id.recyclerView2);
         filterRecycler = root.findViewById(R.id.filterEventRecycler);
@@ -191,8 +197,14 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                                     noEvent.setVisibility(View.VISIBLE);
                                 }
                             } else if (task.getResult().get("Events") != null) {
+                                nofilter_event.setVisibility(View.INVISIBLE);
+                                filterRecycler.setVisibility(View.VISIBLE);
                                 AdapterFilter.setList((List<Map<String, Object>>) task.getResult().get("Events"));
                                 AdapterFilter.notifyDataSetChanged();
+                            }else{
+                                filterRecycler.setVisibility(View.GONE);
+                                nofilter_event.setVisibility(View.VISIBLE);
+
                             }
                         }
                     }
@@ -231,7 +243,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                               int selectedMonth, int selectedDay) {
             selectedMonth = selectedMonth + 1;
             String date = selectedYear + "-" + selectedMonth + "-" + selectedDay;
-            setTextDate(date);
+            eventDateTV.setText(date);
             fetchEvents(date, false);
         }
     };
@@ -250,14 +262,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         String date = year + "-" + month + "-" + dayOfMonth;
     }
 
-    public void setTextDate(String date){
-        String tomarrowDate = getDate(1);
-        if(date == tomarrowDate){
-            eventDateTV.setText("Tomarrow");
-        }else{
-            eventDateTV.setText(date);
-        }
-    }
+
 
     Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
         @Override

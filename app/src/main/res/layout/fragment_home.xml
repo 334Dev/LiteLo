@@ -106,6 +106,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="Pick a date"
+        android:textColor="@color/Text"
+        android:textStyle="bold"
+        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
         android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,6 +127,20 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <TextView
+        android:id="@+id/noevent_msg_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:text="No event there."
+        android:textColor="@color/colorSecondary"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
