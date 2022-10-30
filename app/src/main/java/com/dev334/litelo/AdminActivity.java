@@ -251,7 +251,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
             notificationObj.put("title", model.getEvent());
             notificationObj.put("body", descText);
             notificationObj.put("time", System.currentTimeMillis());
-            mainobj.put("notification", notificationObj);
+            mainobj.put("data", notificationObj);
 
             JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.POST, fcmUrl,
                     mainobj,
