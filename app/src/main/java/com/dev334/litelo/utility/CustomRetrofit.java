@@ -25,4 +25,7 @@ public interface CustomRetrofit {
 
     @GET("user/coordie-event")
     Call<EventCoordinatorResponse> getEventsCoordinated(@Header("Authorization") String auth);
+
+    @POST("auth/send-reset-mail")
+    Call<AuthResponse> resetPassword(@Body LoginRequest request);
 }

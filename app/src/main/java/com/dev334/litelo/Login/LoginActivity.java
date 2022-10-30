@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private ConstraintLayout parent;
     private EditText email, password;
     private AppCompatButton submit;
-    private TextView registerHere;
+    private TextView registerHere, forgetPassword;
     private ProgressBar loading;
     private String emailSubmitted;
     private SharedPreferences preferences;
@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         submit = findViewById(R.id.submit);
+        forgetPassword = findViewById(R.id.forget_password);
         registerHere = findViewById(R.id.registerHere);
         loading = findViewById(R.id.loginLoading);
         preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
@@ -114,6 +115,13 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(Constants.AVISHKAR_URL));
                 startActivity(intent);
+            }
+        });
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(i);
             }
         });
     }

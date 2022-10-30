@@ -17,6 +17,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Login.ConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.BranchActivity"
             android:exported="false" />
         <activity
