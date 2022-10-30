@@ -21,7 +21,8 @@ import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
 import com.dev334.litelo.model.AdminModel;
-import com.dev334.litelo.model.UserModel;
+import com.dev334.litelo.model.UserDetails;
+import com.dev334.litelo.model.UserResponse;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.gson.Gson;
@@ -42,12 +43,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private LinearLayout logout, deleteAcc, changePass, feedback, share, admin;
-    private TextView name,email,mobile_no;
+    private TextView name, email, mobile_no;
     private SharedPreferences preferences;
     private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
     RecyclerView teams_recycler;
-    private UserModel userModel = new UserModel();
+    private UserDetails details;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,8 +66,7 @@ public class SettingsFragment extends Fragment {
         name = root.findViewById(R.id.name_tv);
         email = root.findViewById(R.id.email_tv);
         mobile_no = root.findViewById(R.id.mobile_no);
-//        getUserData();
-//        setProfileValues();
+        getUserData();
         String adminOf = preferences.getString(Constants.ADMIN, "");
         Gson gson = new GsonBuilder().create();
         ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
@@ -128,33 +128,28 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setProfileValues() {
-        if(userModel == null) return;
-        name.setText(userModel.getName());
-        email.setText(userModel.getEmail());
-        mobile_no.setText(userModel.getMobile_no());
+        if (details == null) return;
+        name.setText(details.getName());
+        email.setText(details.getEmail());
+        mobile_no.setText(details.getMobile());
     }
 
     private void getUserData() {
         String token = preferences.getString(Constants.TOKEN, "");
         RetrofitAccessObject.getRetrofitAccessObject()
                 .getUserData(token)
-                .enqueue(new Callback<UserModel>() {
+                .enqueue(new Callback<UserResponse>() {
                     @Override
-                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                        if (response.code() == 200) {
-                            try {
-                                if (response.body() == null) throw new Exception("Unqualified response");
-                                userModel.setName(response.body().getName());
-                                userModel.setEmail(response.body().getEmail());
-                                userModel.setMobile_no(response.body().getMobile_no());
-                            } catch (Exception exception) {
-//                                Log.d("Hello2",exception.toString());
-                            }
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            details = response.body().getDetails();
+                            setProfileValues();
                         }
                     }
+
                     @Override
-                    public void onFailure(Call<UserModel> call, Throwable t) {
-//                        Log.d("Hello3","Failed");
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
                     }
                 });
     }

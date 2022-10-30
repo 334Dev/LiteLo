@@ -6,7 +6,7 @@ import com.dev334.litelo.model.EventCoordinatorResponse;
 import com.dev334.litelo.model.EventRequest;
 import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.LoginRequest;
-import com.dev334.litelo.model.UserModel;
+import com.dev334.litelo.model.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,5 +31,5 @@ public interface CustomRetrofit {
     Call<AuthResponse> resetPassword(@Body LoginRequest request);
 
     @GET("user")
-    Call<UserModel> getUserData(@Header("Authorization") String auth);
+    Call<UserResponse> getUserData(@Header("Authorization") String auth);
 }

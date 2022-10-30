@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,9 +31,9 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/poppinsbold"
                 android:maxLines="1"
-                android:text="Hitesh Mitruka"
                 android:textColor="@android:color/black"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                tools:text="Hitesh Mitruka" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,9 +56,9 @@
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/poppinslight"
                 android:includeFontPadding="false"
-                android:text="mitrukahitesh@gmail.com"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="mitrukahitesh@gmail.com" />
         </LinearLayout>
 
 
@@ -83,9 +82,9 @@
                 android:fontFamily="@font/poppinslight"
                 android:includeFontPadding="false"
                 android:letterSpacing="0.2"
-                android:text="9116260192"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="7396650812" />
         </LinearLayout>
 
         <LinearLayout
@@ -120,7 +119,8 @@
                     android:letterSpacing="0.2"
                     android:text="View Teams"
                     android:textAllCaps="false"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
