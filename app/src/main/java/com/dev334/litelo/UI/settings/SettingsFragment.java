@@ -1,16 +1,18 @@
 package com.dev334.litelo.UI.settings;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev334.litelo.AdminActivity;
 import com.dev334.litelo.ChangePassword;
@@ -19,15 +21,18 @@ import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
 import com.dev334.litelo.model.AdminModel;
+import com.dev334.litelo.model.UserModel;
 import com.dev334.litelo.utility.Constants;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
+import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingsFragment extends Fragment {
 
@@ -37,9 +42,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private LinearLayout logout, deleteAcc, changePass, feedback, share, admin;
+    private TextView name,email,mobile_no;
     private SharedPreferences preferences;
     private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
+    RecyclerView teams_recycler;
+    private UserModel userModel = new UserModel();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +62,11 @@ public class SettingsFragment extends Fragment {
         share = root.findViewById(R.id.settings_share);
         admin = root.findViewById(R.id.settings_admin);
         tinyDB = new TinyDB(getActivity());
-
+        name = root.findViewById(R.id.name_tv);
+        email = root.findViewById(R.id.email_tv);
+        mobile_no = root.findViewById(R.id.mobile_no);
+//        getUserData();
+//        setProfileValues();
         String adminOf = preferences.getString(Constants.ADMIN, "");
         Gson gson = new GsonBuilder().create();
         ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
@@ -62,17 +74,6 @@ public class SettingsFragment extends Fragment {
         if (adminModels != null && adminModels.size() > 0) {
             admin.setVisibility(View.VISIBLE);
         }
-
-        /*boolean EMAIL = false;
-        for (UserInfo u : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-            if (u.getProviderId().equals("password")) {
-                EMAIL = true;
-            }
-        }
-
-        if (!EMAIL) {
-            changePass.setVisibility(View.GONE);
-        }*/
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,13 +83,6 @@ public class SettingsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
-            }
-        });
-
-        deleteAcc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DeleteAccount();
             }
         });
 
@@ -133,41 +127,35 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
-    private void DeleteAccount() {
-        /*AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-        View view = getLayoutInflater().inflate(R.layout.dialog_delete_account, null);
-        TextView delete = view.findViewById(R.id.dDeleteAcc);
-        TextView cancel = view.findViewById(R.id.dCancel);
-        alert.setView(view);
-        AlertDialog show = alert.show();
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void setProfileValues() {
+        if(userModel == null) return;
+        name.setText(userModel.getName());
+        email.setText(userModel.getEmail());
+        mobile_no.setText(userModel.getMobile_no());
+    }
+
+    private void getUserData() {
+        String token = preferences.getString(Constants.TOKEN, "");
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getUserData(token)
+                .enqueue(new Callback<UserModel>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Intent i = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(i);
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        if (response.code() == 200) {
+                            try {
+                                if (response.body() == null) throw new Exception("Unqualified response");
+                                userModel.setName(response.body().getName());
+                                userModel.setEmail(response.body().getEmail());
+                                userModel.setMobile_no(response.body().getMobile_no());
+                            } catch (Exception exception) {
+//                                Log.d("Hello2",exception.toString());
+                            }
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //setSnackBar(scrollView, "Try After logging in again");
-                        Log.i(TAG, "onFailure: " + e.getMessage());
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+//                        Log.d("Hello3","Failed");
                     }
                 });
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show.dismiss();
-            }
-        });
-
-        alert.setCancelable(true);
-        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
     }
 }

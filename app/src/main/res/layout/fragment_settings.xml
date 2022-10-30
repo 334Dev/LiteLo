@@ -36,7 +36,6 @@
                 android:textSize="28sp" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/email_details"
             android:layout_width="match_parent"
@@ -49,10 +48,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/email_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
-                android:drawableStart="@drawable/ic_baseline_email_24"
+                android:drawableStart="@drawable/ic_baseline_email_25"
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/poppinslight"
                 android:includeFontPadding="false"
