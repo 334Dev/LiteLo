@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppinsbold"
-        android:text="Cyberquest"
+        android:text="Admin Panel"
         android:textColor="@color/Text"
         android:textSize="@dimen/_20ssp"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +46,9 @@
         app:layout_constraintTop_toBottomOf="@+id/sendNotification">
 
         <LinearLayout
+            android:id="@+id/admin_addEvent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/admin_addEvent"
             android:background="@drawable/gradient_box_filled"
             android:orientation="vertical"
             android:paddingStart="12dp"

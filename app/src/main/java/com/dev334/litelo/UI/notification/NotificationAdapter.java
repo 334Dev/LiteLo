@@ -77,7 +77,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     " at " +
                     c.get(Calendar.HOUR) +
                     ":" +
-                    appendZero(c.get(Calendar.MINUTE));
+                    appendZero(c.get(Calendar.MINUTE)) +
+                    " " +
+                    c.getDisplayName(Calendar.AM_PM, Calendar.LONG, Locale.getDefault());
         return c.get(Calendar.DAY_OF_MONTH) +
                 " " +
                 c.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) +
@@ -86,7 +88,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 " at " +
                 c.get(Calendar.HOUR) +
                 ":" +
-                appendZero(c.get(Calendar.MINUTE));
+                appendZero(c.get(Calendar.MINUTE)) +
+                " " +
+                c.getDisplayName(Calendar.AM_PM, Calendar.LONG, Locale.getDefault());
     }
 
     private String appendZero(int i) {

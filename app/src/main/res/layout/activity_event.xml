@@ -18,15 +18,20 @@
 
         <TextView
             android:id="@+id/branchEvent_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
+            android:ellipsize="end"
             android:fontFamily="@font/poppinsmedium"
+            android:maxLines="1"
+            android:paddingEnd="8dp"
             android:textColor="@color/Text"
             android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@id/subscribeBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Cyberquest" />
 
         <com.ms.square.android.expandabletextview.ExpandableTextView
             android:id="@+id/branch_desc_tv"
