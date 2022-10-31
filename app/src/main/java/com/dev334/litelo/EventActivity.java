@@ -18,6 +18,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev334.litelo.model.CoordinatorRequest;
+import com.dev334.litelo.model.CoordinatorResponse;
+import com.dev334.litelo.model.EventCoordinator;
 import com.dev334.litelo.model.EventModel;
 import com.dev334.litelo.model.EventRequest;
 import com.dev334.litelo.model.EventResponse;
@@ -52,8 +55,9 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
 
     private ExpandableTextView expendable_desc_tv;
     private TextView event_tv, criteria_tv, problem_stat_tv;
-    private RecyclerView timelineRecycler;
+    private RecyclerView timelineRecycler, coordinatorRecycler;
     private TimelineAdapter timelineAdapter;
+    private CoordinatorAdapter coordinatorAdapter;
     private com.dev334.litelo.model.EventModel eventModel;
     private SharedPreferences preferences;
     private Button subscribeBtn;
@@ -61,6 +65,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private List<TimelineModel> timelineModels = new ArrayList<>();
     private FirebaseFirestore fireStore;
     private List<Map<String, Object>> EventMap = new ArrayList<>();
+    private List<EventCoordinator> eventCoordinators = new ArrayList<>();
     private static String TAG = "branchActivityLog";
 
     @Override
@@ -73,6 +78,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         if (event == null) {
             setValues();
             fetchTimeline();
+            fetchCoordinators();
         } else {
             fetchEvent(dept, event);
         }
@@ -90,6 +96,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                                     eventModel = model;
                                     setValues();
                                     fetchTimeline();
+                                    fetchCoordinators();
                                     return;
                                 }
                             }
@@ -105,6 +112,25 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                 });
     }
 
+    private void fetchCoordinators() {
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getCoordinators(new CoordinatorRequest(eventModel.getId()))
+                .enqueue(new Callback<CoordinatorResponse>() {
+                    @Override
+                    public void onResponse(Call<CoordinatorResponse> call, Response<CoordinatorResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            coordinatorAdapter = new CoordinatorAdapter(response.body().getEventCoordies(), EventActivity.this);
+                            coordinatorRecycler.setAdapter(coordinatorAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CoordinatorResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
     private void setReferences() {
         expendable_desc_tv = findViewById(R.id.branch_desc_tv).findViewById(R.id.branch_desc_tv);
         event_tv = findViewById(R.id.branchEvent_textView);
@@ -113,12 +139,18 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         subscribeBtn = findViewById(R.id.subscribeBtn);
         problem_stat_tv = findViewById(R.id.problem_statement_tv);
         timelineRecycler = findViewById(R.id.timelineRecyclerView);
+        coordinatorRecycler = findViewById(R.id.coordie_recycler);
         preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         fireStore = FirebaseFirestore.getInstance();
     }
 
     private void setValues() {
         timelineRecycler.setNestedScrollingEnabled(false);
+        coordinatorRecycler.setNestedScrollingEnabled(false);
+        timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
+        timelineRecycler.setHasFixedSize(true);
+        coordinatorRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
+        coordinatorRecycler.setHasFixedSize(true);
         if (eventModel == null) return;
         event_tv.setText(eventModel.getName());
         expendable_desc_tv.setText(Html.fromHtml(eventModel.getDetails(), Html.FROM_HTML_MODE_COMPACT));
@@ -236,8 +268,6 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private void setUpRecycler() {
         timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this, this);
         timelineRecycler.setAdapter(timelineAdapter);
-        timelineRecycler.setLayoutManager(new LinearLayoutManager(getApplication()));
-        timelineRecycler.setHasFixedSize(true);
     }
 
 

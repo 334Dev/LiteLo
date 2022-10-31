@@ -1,6 +1,8 @@
 package com.dev334.litelo.utility;
 
 import com.dev334.litelo.model.AuthResponse;
+import com.dev334.litelo.model.CoordinatorRequest;
+import com.dev334.litelo.model.CoordinatorResponse;
 import com.dev334.litelo.model.DepartmentResponse;
 import com.dev334.litelo.model.EventCoordinatorResponse;
 import com.dev334.litelo.model.EventRequest;
@@ -32,4 +34,7 @@ public interface CustomRetrofit {
 
     @GET("user")
     Call<UserResponse> getUserData(@Header("Authorization") String auth);
+
+    @POST("event-coordie")
+    Call<CoordinatorResponse> getCoordinators(@Body CoordinatorRequest request);
 }

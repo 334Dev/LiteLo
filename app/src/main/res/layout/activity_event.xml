@@ -104,6 +104,27 @@
             app:layout_constraintTop_toBottomOf="@+id/criteria_content_tv" />
 
         <TextView
+            android:id="@+id/coordie_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="Coordinators :"
+            android:textColor="@color/Text"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/problem_statement_tv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coordie_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coordie_tv" />
+
+        <TextView
             android:id="@+id/event_timeline_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +135,7 @@
             android:textColor="@color/Text"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/problem_statement_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/coordie_recycler" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timelineRecyclerView"
