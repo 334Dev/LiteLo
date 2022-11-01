@@ -56,7 +56,7 @@
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/poppinslight"
                 android:includeFontPadding="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/Text"
                 android:textSize="14sp"
                 tools:text="mitrukahitesh@gmail.com" />
         </LinearLayout>
@@ -81,8 +81,8 @@
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/poppinslight"
                 android:includeFontPadding="false"
+                android:textColor="@color/Text"
                 android:letterSpacing="0.2"
-                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 tools:text="7396650812" />
         </LinearLayout>
@@ -131,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
+                    android:orientation="horizontal"
                     android:clipToPadding="false"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"

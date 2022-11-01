@@ -6,6 +6,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginTop="4dp"
     android:layout_marginEnd="16dp"
+    android:layout_margin="20dp"
     android:layout_marginBottom="4dp"
     app:cardBackgroundColor="@color/Grey"
     app:cardCornerRadius="8dp"
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingLeft="10dp"
+            android:visibility="gone"
             android:clipToPadding="false"
             />
 
@@ -67,7 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:src="@drawable/ic_baseline_expand_less_24"
+                android:src="@drawable/ic_baseline_expand_circle_down_24"
+                app:tint="@color/White"
                 />
 
             <TextView
