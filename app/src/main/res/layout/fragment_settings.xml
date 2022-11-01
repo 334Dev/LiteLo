@@ -110,20 +110,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <Button
+                <TextView
                     android:id="@+id/view_teams"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:height="40dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
                     android:layout_marginVertical="8dp"
                     android:background="@drawable/gradient_red"
                     android:letterSpacing="0.2"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                     android:text="View Teams"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
-                    android:visibility="gone" />
-
-
-            </LinearLayout>
+                     />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -133,12 +134,12 @@
                 android:layout_marginTop="10dp"
                 android:clipToPadding="false"
                 android:paddingBottom="90dp"
-                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
 
         </LinearLayout>

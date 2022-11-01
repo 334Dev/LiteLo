@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dev334.litelo.AdminActivity;
 import com.dev334.litelo.ChangePassword;
 import com.dev334.litelo.Database.TinyDB;
@@ -21,6 +21,7 @@ import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.UserFeedback;
 import com.dev334.litelo.model.AdminModel;
+import com.dev334.litelo.model.TeamsModel;
 import com.dev334.litelo.model.UserDetails;
 import com.dev334.litelo.model.UserResponse;
 import com.dev334.litelo.utility.Constants;
@@ -28,8 +29,8 @@ import com.dev334.litelo.utility.RetrofitAccessObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,12 +44,13 @@ public class SettingsFragment extends Fragment {
     }
 
     private LinearLayout logout, deleteAcc, changePass, feedback, share, admin;
-    private TextView name, email, mobile_no;
+    private TextView name, email, mobile_no, viewTeams;
     private SharedPreferences preferences;
     private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
     RecyclerView teams_recycler;
     private UserDetails details;
+    private List<TeamsModel> teams = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +68,10 @@ public class SettingsFragment extends Fragment {
         name = root.findViewById(R.id.name_tv);
         email = root.findViewById(R.id.email_tv);
         mobile_no = root.findViewById(R.id.mobile_no);
+        viewTeams = root.findViewById(R.id.view_teams);
+
         getUserData();
+        getTeams();
         String adminOf = preferences.getString(Constants.ADMIN, "");
         Gson gson = new GsonBuilder().create();
         ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
@@ -152,5 +157,17 @@ public class SettingsFragment extends Fragment {
 
                     }
                 });
+    }
+
+    private void setTeamsData(){
+        if(teams == null){
+            Toast.makeText(getContext(), "No teams found!!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+    }
+
+    private void getTeams() {
+        //TODO
     }
 }
