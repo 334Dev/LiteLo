@@ -2,23 +2,30 @@ package com.dev334.litelo.UI.settings;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.member.Member;
+
 import java.util.List;
 
 public class TeamMemberAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.settings.TeamMemberAdapter.CustomVH> {
     private List<Member> members;
     Context context;
 
-    public TeamMemberAdapter(List<Member>  members, Context context) {
+    public TeamMemberAdapter(List<Member> members, Context context) {
         this.members = members;
         this.context = context;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 
     @NonNull
@@ -51,7 +58,9 @@ public class TeamMemberAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI
                 }
             });
         }
+
         public void setView(Member member) {
+            Log.i("Member", member.getUser().getName());
             name.setText(member.getUser().getName());
         }
 

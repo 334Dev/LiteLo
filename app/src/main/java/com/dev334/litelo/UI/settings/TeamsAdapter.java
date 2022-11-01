@@ -20,17 +20,22 @@ import com.dev334.litelo.model.Participation;
 import com.dev334.litelo.model.Team;
 import com.dev334.litelo.model.member.Member;
 import com.dev334.litelo.model.member.TeamMemberResponse;
+import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.settings.TeamsAdapter.CustomVH> {
-private List<Member> members;
     private List<Team> teams;
+    private Map<String, TeamMemberAdapter> adapterMap = new HashMap<>();
+    private Map<String, List<Member>> memberMap = new HashMap<>();
     Context context;
 
     public TeamsAdapter(List<Team> teams, Context context) {
@@ -55,9 +60,10 @@ private List<Member> members;
     }
 
     public class CustomVH extends RecyclerView.ViewHolder {
-        private TextView name, status_indicator,events;
+        private TextView name, status_indicator, events;
         private RecyclerView recyclerView;
         private ImageView img;
+        private TeamMemberAdapter adapter;
 
         public CustomVH(@NonNull View itemView) {
             super(itemView);
@@ -66,7 +72,10 @@ private List<Member> members;
             recyclerView = itemView.findViewById(R.id.teams_recycler_view);
             events = itemView.findViewById(R.id.events);
             img = itemView.findViewById(R.id.expansion);
-
+            recyclerView = itemView.findViewById(R.id.teams_recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            adapter = new TeamMemberAdapter(new ArrayList<>(), context);
+            recyclerView.setAdapter(adapter);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,9 +86,11 @@ private List<Member> members;
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(recyclerView.getVisibility() == View.GONE){
+                    if (recyclerView.getVisibility() == View.GONE) {
+                        img.setImageResource(R.drawable.ic_baseline_expand_less_24);
                         recyclerView.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
+                        img.setImageResource(R.drawable.ic_baseline_expand_circle_down_24);
                         recyclerView.setVisibility(View.GONE);
                     }
                 }
@@ -89,36 +100,60 @@ private List<Member> members;
         public void setView(Team team) {
             name.setText(team.getTeam().getName());
             status_indicator.setText(team.getStatus());
-            if(team.getStatus() == "PENDING"){
-                    status_indicator.setTextColor(Color.RED);
-            }else{
+            if (team.getStatus() == "PENDING") {
+                status_indicator.setTextColor(Color.RED);
+            } else {
                 status_indicator.setTextColor(Color.GREEN);
             }
             String str = "";
-            for(Participation p : team.getTeam().getParticipation()){
-                str +=  p.getEvent().getName() + ", ";
+            for (Participation p : team.getTeam().getParticipation()) {
+                str += p.getEvent().getName() + ", ";
             }
+            if (str.equals(""))
+                str = "No events";
+            else
+                str = str.substring(0, str.length() - 2);
 
             events.setText(str);
-           getMembers(team.getTeamId());
 
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.team_details_cardview, null);
+            if (!memberMap.containsKey(String.valueOf(team.getTeamId())))
+                getMembers(team.getTeamId());
+            else {
+                adapter.setMembers(memberMap.get(String.valueOf(team.getTeamId())));
+                adapter.notifyDataSetChanged();
+            }
 
-            RecyclerView recyclerView = view.findViewById(R.id.teams_recycler_view);
-            recyclerView.setHasFixedSize(true);
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(layoutManager);
-
-            TeamMemberAdapter adapter = new TeamMemberAdapter(members , context);
-            recyclerView.setAdapter(adapter);
-
-            if(recyclerView.getVisibility() == View.GONE){
+            if (recyclerView.getVisibility() == View.GONE) {
                 img.setImageResource(R.drawable.ic_baseline_expand_circle_down_24);
-            }else{
+            } else {
                 img.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
+        }
+
+        public void getMembers(Integer id) {
+            RetrofitAccessObject.getRetrofitAccessObject()
+                    .getTeamMembers(id, context.getSharedPreferences(Constants.SHARED_PREFERENCE, Context.MODE_PRIVATE).getString(Constants.TOKEN, ""))
+                    .enqueue(new Callback<TeamMemberResponse>() {
+                        @Override
+                        public void onResponse(Call<TeamMemberResponse> call, Response<TeamMemberResponse> response) {
+                            if (response.isSuccessful() && response.body() != null && response.body().getSuccess()) {
+                                List<Member> toRemove = new ArrayList<>();
+                                for (Member member : response.body().getMembers()) {
+                                    if (member.getUser().getName().equals(""))
+                                        toRemove.add(member);
+                                }
+                                response.body().getMembers().removeAll(toRemove);
+                                memberMap.put(String.valueOf(id), response.body().getMembers());
+                                adapter.setMembers(memberMap.get(String.valueOf(id)));
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TeamMemberResponse> call, Throwable t) {
+
+                        }
+                    });
         }
     }
 
@@ -126,23 +161,6 @@ private List<Member> members;
         if (i > 9)
             return String.valueOf(i);
         return "0" + i;
-    }
-
-    public void getMembers(Integer id){
-        RetrofitAccessObject.getRetrofitAccessObject()
-                .getTeamMembers(id)
-                .enqueue(new Callback<TeamMemberResponse>() {
-                    @Override
-                    public void onResponse(Call<TeamMemberResponse> call, Response<TeamMemberResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSuccess()) {
-                            members = response.body().getMembers();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<TeamMemberResponse> call, Throwable t) {
-
-                    }
-                });
     }
 
 }

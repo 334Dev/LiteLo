@@ -45,5 +45,5 @@ public interface CustomRetrofit {
     Call<TeamInvitesResponse> getTeamInvites(@Header("Authorization") String auth);
 
     @GET("user/team/{id}")
-    Call<TeamMemberResponse> getTeamMembers(@Path("id") Integer teamId);
+    Call<TeamMemberResponse> getTeamMembers(@Path("id") Integer teamId, @Header("Authorization") String auth);
 }

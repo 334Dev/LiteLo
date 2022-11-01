@@ -120,6 +120,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_attach_file_24.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24_gray.xml" value="0.321875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_expand_circle_down_24.xml" value="0.30462962962962964" />
+        <entry key="app/src/main/res/drawable/ic_baseline_expand_less_24.xml" value="0.30462962962962964" />
         <entry key="app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.321875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.321875" />
@@ -152,6 +154,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/notification_list_item.xml" value="0.3015625" />
+        <entry key="app/src/main/res/layout/team_details_cardview.xml" value="0.20606884057971014" />
         <entry key="app/src/main/res/layout/timeline_card.xml" value="0.536" />
         <entry key="app/src/main/res/menu/home_bottom_navigation.xml" value="0.3015625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.321875" />
