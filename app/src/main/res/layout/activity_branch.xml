@@ -13,12 +13,45 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:ellipsize="end"
         android:fontFamily="@font/poppinsmedium"
+        android:maxLines="1"
+        android:paddingEnd="5dp"
         android:text="CyberQuest"
         android:textColor="@color/Text"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/subscribeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/secondary_filled_box"
+        android:hapticFeedbackEnabled="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Subscribe"
+        android:textColor="@color/White"
+        app:layout_constraintBottom_toBottomOf="@id/department"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/department" />
+
+    <ProgressBar
+        android:id="@+id/subscribeProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:hapticFeedbackEnabled="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/department"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/department" />
 
     <TextView
         android:id="@+id/description"

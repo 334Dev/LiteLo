@@ -168,5 +168,20 @@
             app:layout_constraintBottom_toBottomOf="@+id/branchEvent_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/branchEvent_textView" />
+
+        <ProgressBar
+            android:id="@+id/subscribeProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:hapticFeedbackEnabled="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/branchEvent_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/branchEvent_textView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

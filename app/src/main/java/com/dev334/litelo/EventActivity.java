@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private FirebaseFirestore fireStore;
     private List<Map<String, Object>> EventMap = new ArrayList<>();
     private List<EventCoordinator> eventCoordinators = new ArrayList<>();
+    private ProgressBar progressBar;
     private static String TAG = "branchActivityLog";
 
     @Override
@@ -143,6 +145,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         coordinatorRecycler = findViewById(R.id.coordie_recycler);
         preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         fireStore = FirebaseFirestore.getInstance();
+        progressBar = findViewById(R.id.subscribeProgress);
     }
 
     private void setValues() {
@@ -166,7 +169,8 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                     Toast.makeText(EventActivity.this, "Cannot unsubscribe : You have registered for the event!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                subscribeBtn.setEnabled(false);
+                subscribeBtn.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 if (subscribed) {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -214,7 +218,8 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(eventModel.getId(), subscribed);
         editor.apply();
-        subscribeBtn.setEnabled(true);
+        subscribeBtn.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         if (subscribed) {
             subscribeBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.grey_filled_box));
             subscribeBtn.setText("Unsubscribe");
