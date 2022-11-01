@@ -3,23 +3,28 @@ package com.dev334.litelo.UI.settings;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
-import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.Participation;
 import com.dev334.litelo.model.Team;
 import com.dev334.litelo.model.member.Member;
-import java.util.Calendar;
+import com.dev334.litelo.model.member.TeamMemberResponse;
+import com.dev334.litelo.utility.RetrofitAccessObject;
+
 import java.util.List;
-import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.settings.TeamsAdapter.CustomVH> {
 private List<Member> members;
@@ -77,7 +82,6 @@ private List<Member> members;
                     }
                 }
             });
-
         }
 
         public void setView(Team team) {
@@ -94,12 +98,12 @@ private List<Member> members;
             }
 
             events.setText(str);
- /*          getMembers(team.getTeam().getId());
+           getMembers(team.getTeam().getId());
 
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.team_details_dialog, null);
+            View view = layoutInflater.inflate(R.layout.team_details_cardview, null);
 
-            RecyclerView recyclerView = view.findViewById(R.id.team_members);
+            RecyclerView recyclerView = view.findViewById(R.id.teams_recycler_view);
             recyclerView.setHasFixedSize(true);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -107,8 +111,6 @@ private List<Member> members;
 
             TeamMemberAdapter adapter = new TeamMemberAdapter(members , context);
             recyclerView.setAdapter(adapter);
-
-       */
 
             if(recyclerView.getVisibility() == View.GONE){
                 img.setImageResource(R.drawable.ic_baseline_expand_circle_down_24);
@@ -124,8 +126,21 @@ private List<Member> members;
         return "0" + i;
     }
 
-    public void getMembers(String id){
+    public void getMembers(Integer id){
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getTeamMembers(id)
+                .enqueue(new Callback<TeamMemberResponse>() {
+                    @Override
+                    public void onResponse(Call<TeamMemberResponse> call, Response<TeamMemberResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSuccess()) {
+                            members = response.body().getMembers();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<TeamMemberResponse> call, Throwable t) {
 
+                    }
+                });
     }
 
 }
