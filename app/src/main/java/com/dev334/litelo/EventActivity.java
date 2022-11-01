@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -160,6 +161,11 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         subscribeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences registered = getSharedPreferences(Constants.REGISTERED_EVENTS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+                if (registered.getBoolean(eventModel.getId(), false)) {
+                    Toast.makeText(EventActivity.this, "Cannot unsubscribe : You have registered for the event!", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 subscribeBtn.setEnabled(false);
                 if (subscribed) {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {

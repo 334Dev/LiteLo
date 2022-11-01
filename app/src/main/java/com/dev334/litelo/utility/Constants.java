@@ -12,4 +12,5 @@ public class Constants {
     public static final String PARENT = "parent";
     public static final String DEPT_FROM_NOTIFICATION = "dept_from_notification";
     public static final String EVENT_FROM_NOTIFICATION = "event_from_notification";
+    public static final String REGISTERED_EVENTS_SHARED_PREFERENCE = "com.dev334.litelo.events_registered";
 }

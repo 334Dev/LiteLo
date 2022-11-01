@@ -5,7 +5,9 @@ import static android.view.View.GONE;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -33,6 +35,10 @@ import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.R;
 import com.dev334.litelo.model.DepartmentModel;
 import com.dev334.litelo.model.DepartmentResponse;
+import com.dev334.litelo.model.Participation;
+import com.dev334.litelo.model.Team;
+import com.dev334.litelo.model.TeamInvitesResponse;
+import com.dev334.litelo.model.Team__1;
 import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.utility.Constants;
 import com.dev334.litelo.utility.RetrofitAccessObject;
@@ -90,6 +96,8 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         eventDateTV.setText(getDate(1));
         fetchEvents(getDate(1), false);
 
+        getRegisteredEvents();
+
         String[] branch_names = new String[]{
                 "Cyberquest", "Oligopoly", "Techno Art", "Rasayans", "Kreedomania", "Monopoly", "Nirmaan", "Astrowing", "PowerSurge", "Mechrocosm", "Robomania",
                 "Aerodynamix", "Genesis", "Electromania", "Gnosiomania"
@@ -137,18 +145,18 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         fetchEvents(getDate(0), true);
         fetchEvents(getDate(1), false);
         eventDateTV.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-            Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
-            DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH));
-            datePicker.setCancelable(false);
-            datePicker.setTitle("Select the date");
-            datePicker.show();
-    }
-});
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance(TimeZone.getDefault()); // Get current date
+                DatePickerDialog datePicker = new DatePickerDialog(getContext(), datePickerListener,
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH));
+                datePicker.setCancelable(false);
+                datePicker.setTitle("Select the date");
+                datePicker.show();
+            }
+        });
         return root;
 
     /*    filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -179,6 +187,32 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         */
     }
 
+    private void getRegisteredEvents() {
+        SharedPreferences preferences = requireContext().getSharedPreferences(Constants.SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences registered = requireContext().getSharedPreferences(Constants.REGISTERED_EVENTS_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getTeamInvites(preferences.getString(Constants.TOKEN, ""))
+                .enqueue(new Callback<TeamInvitesResponse>() {
+                    @Override
+                    public void onResponse(Call<TeamInvitesResponse> call, Response<TeamInvitesResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSuccess()) {
+                            registered.edit().clear().apply();
+                            for (Team team : response.body().getTeams()) {
+                                for (Participation participation : team.getTeam().getParticipation()) {
+                                    preferences.edit().putBoolean(participation.getEventId(), true).apply();
+                                    registered.edit().putBoolean(participation.getEventId(), true).apply();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TeamInvitesResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
     private void fetchEvents(String date, boolean today) {
         FirebaseFirestore.getInstance()
                 .collection("DateWiseEvent")
@@ -201,7 +235,7 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                                 filterRecycler.setVisibility(View.VISIBLE);
                                 AdapterFilter.setList((List<Map<String, Object>>) task.getResult().get("Events"));
                                 AdapterFilter.notifyDataSetChanged();
-                            }else{
+                            } else {
                                 filterRecycler.setVisibility(View.GONE);
                                 nofilter_event.setVisibility(View.VISIBLE);
 
@@ -261,7 +295,6 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
         Log.i("DateSelectedAdmin", "onDateSet: " + year + " " + month + " " + dayOfMonth);
         String date = year + "-" + month + "-" + dayOfMonth;
     }
-
 
 
     Function<Map<String, Object>, TimelineModel> MapToEvents = new Function<Map<String, Object>, TimelineModel>() {
