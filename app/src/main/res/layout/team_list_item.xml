@@ -9,8 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The solo squad"
-        android:paddingEnd="75dp"
+        android:paddingEnd="30dp"
+        android:fontFamily="@font/poppinsbold"
         android:padding="10dp"
+        android:textSize="@dimen/_12ssp"
         android:drawableStart="@drawable/ic_baseline_groups_24"
         android:drawablePadding="15dp"
         />
@@ -19,9 +21,11 @@
         android:id="@+id/status_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The solo squad"
+        android:fontFamily="@font/poppinslight"
+        android:text="PENDING"
+        android:layout_marginLeft="30dp"
         android:padding="10dp"
-        android:drawableStart="@drawable/ic_baseline_groups_24"
+        android:drawableEnd="@drawable/ic_baseline_lens_24"
         android:drawablePadding="15dp"
         />
 
