@@ -1,13 +1,14 @@
 package com.dev334.litelo.UI.splash;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.view.animation.AnimationUtils;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dev334.litelo.HomeActivity;
 import com.dev334.litelo.Login.LoginActivity;
@@ -15,11 +16,15 @@ import com.dev334.litelo.R;
 import com.dev334.litelo.utility.Constants;
 
 public class SplashActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        goToNextActivity();
+    }
+
+    private void goToNextActivity() {
         findViewById(R.id.parent).setAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
         SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         String token = preferences.getString(Constants.TOKEN, "");

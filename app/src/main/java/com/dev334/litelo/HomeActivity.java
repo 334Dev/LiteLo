@@ -1,21 +1,29 @@
 package com.dev334.litelo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.dev334.litelo.Interfaces.PassDataInterface;
 import com.dev334.litelo.Login.LoginActivity;
-import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.UI.home.HomeFragment;
 import com.dev334.litelo.UI.notification.NotificationFragment;
 import com.dev334.litelo.UI.settings.SettingsFragment;
+import com.dev334.litelo.UI.splash.SplashActivity;
+import com.dev334.litelo.model.TimelineModel;
 import com.dev334.litelo.utility.Constants;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
@@ -35,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        checkUpdate();
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
         //notificationFragment=new NotificationFragment();
@@ -69,6 +78,24 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
 
         checkIntentAndRedirect();
 
+    }
+
+    private void checkUpdate() {
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(new com.google.android.play.core.tasks.OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo result) {
+                if (result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && result.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    try {
+                        appUpdateManager.startUpdateFlowForResult(result, AppUpdateType.FLEXIBLE, HomeActivity.this, 1);
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     private void checkIntentAndRedirect() {
