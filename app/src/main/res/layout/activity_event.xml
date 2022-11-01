@@ -125,6 +125,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/coordie_tv" />
 
+        <ProgressBar
+            android:id="@+id/data_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_timeline_tv" />
+
         <TextView
             android:id="@+id/event_timeline_tv"
             android:layout_width="wrap_content"
@@ -147,6 +158,7 @@
             android:layout_marginEnd="8dp"
             android:background="@color/background"
             android:clipToPadding="false"
+            android:minHeight="100dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -174,12 +186,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:visibility="gone"
             android:hapticFeedbackEnabled="true"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:indeterminate="true"
             android:indeterminateTint="@color/colorPrimary"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/branchEvent_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/branchEvent_textView" />

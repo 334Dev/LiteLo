@@ -68,7 +68,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     private FirebaseFirestore fireStore;
     private List<Map<String, Object>> EventMap = new ArrayList<>();
     private List<EventCoordinator> eventCoordinators = new ArrayList<>();
-    private ProgressBar progressBar;
+    private ProgressBar subscribeProgress, dataProgress;
     private static String TAG = "branchActivityLog";
 
     @Override
@@ -145,7 +145,8 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         coordinatorRecycler = findViewById(R.id.coordie_recycler);
         preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
         fireStore = FirebaseFirestore.getInstance();
-        progressBar = findViewById(R.id.subscribeProgress);
+        subscribeProgress = findViewById(R.id.subscribeProgress);
+        dataProgress = findViewById(R.id.data_progress);
     }
 
     private void setValues() {
@@ -170,7 +171,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                     return;
                 }
                 subscribeBtn.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
+                subscribeProgress.setVisibility(View.VISIBLE);
                 if (subscribed) {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(eventModel.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -219,7 +220,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
         editor.putBoolean(eventModel.getId(), subscribed);
         editor.apply();
         subscribeBtn.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        subscribeProgress.setVisibility(View.GONE);
         if (subscribed) {
             subscribeBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.grey_filled_box));
             subscribeBtn.setText("Unsubscribe");
@@ -265,12 +266,14 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                                     return c;
                                 }
                             });
+                            dataProgress.setVisibility(View.GONE);
                             setUpRecycler();
                         } else {
                             if (task.getException() != null)
                                 Log.i(TAG, "onFailure: " + task.getException().getMessage());
                             else
                                 Toast.makeText(EventActivity.this, "Some error occurred", Toast.LENGTH_LONG).show();
+                            dataProgress.setVisibility(View.GONE);
                         }
                     }
                 });

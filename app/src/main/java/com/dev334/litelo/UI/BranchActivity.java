@@ -51,7 +51,7 @@ public class BranchActivity extends AppCompatActivity {
     private Boolean subscribed = false;
     private List<EventModel> events = new ArrayList<>();
     private SharedPreferences preferences;
-    private ProgressBar progressBar;
+    private ProgressBar subscribeProgress, dataProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,8 @@ public class BranchActivity extends AppCompatActivity {
         eventsRecycler = findViewById(R.id.eventsRecycler);
         subscribeBtn = findViewById(R.id.subscribeBtn);
         preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
-        progressBar = findViewById(R.id.subscribeProgress);
+        subscribeProgress = findViewById(R.id.subscribeProgress);
+        dataProgress = findViewById(R.id.data_progress);
     }
 
     private void setValues() {
@@ -81,7 +82,7 @@ public class BranchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 subscribeBtn.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
+                subscribeProgress.setVisibility(View.VISIBLE);
                 if (subscribed) {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(departmentModel.getName().toLowerCase(Locale.ROOT)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -119,7 +120,7 @@ public class BranchActivity extends AppCompatActivity {
         editor.putBoolean(departmentModel.getName().toLowerCase(Locale.ROOT), subscribed);
         editor.apply();
         subscribeBtn.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        subscribeProgress.setVisibility(View.GONE);
         if (subscribed) {
             subscribeBtn.setBackground(ContextCompat.getDrawable(this, R.drawable.grey_filled_box));
             subscribeBtn.setText("Unsubscribe");
@@ -142,7 +143,11 @@ public class BranchActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             if (response.body().getEvents() != null)
                                 events = response.body().getEvents();
+                            dataProgress.setVisibility(View.GONE);
                             setUpAdapter();
+                        } else {
+                            dataProgress.setVisibility(View.GONE);
+                            Toast.makeText(BranchActivity.this, "Some error occurred!", Toast.LENGTH_LONG).show();
                         }
                     }
 
