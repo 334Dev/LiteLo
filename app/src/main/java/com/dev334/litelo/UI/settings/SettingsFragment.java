@@ -1,27 +1,37 @@
 package com.dev334.litelo.UI.settings;
 
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dev334.litelo.AdminActivity;
 import com.dev334.litelo.ChangePassword;
 import com.dev334.litelo.Database.TinyDB;
 import com.dev334.litelo.Login.LoginActivity;
 import com.dev334.litelo.R;
+import com.dev334.litelo.UI.notification.NotificationAdapter;
 import com.dev334.litelo.UserFeedback;
 import com.dev334.litelo.model.AdminModel;
-import com.dev334.litelo.model.TeamsModel;
+import com.dev334.litelo.model.Participation;
+import com.dev334.litelo.model.Team;
+import com.dev334.litelo.model.TeamInvitesResponse;
 import com.dev334.litelo.model.UserDetails;
 import com.dev334.litelo.model.UserResponse;
 import com.dev334.litelo.utility.Constants;
@@ -48,10 +58,12 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences preferences;
     private static String TAG = "SettingsFragmentLog";
     private TinyDB tinyDB;
-    RecyclerView teams_recycler;
     private UserDetails details;
-    private List<TeamsModel> teams = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
+    private RecyclerView teamsRecyclerView;
+    private TeamsAdapter teamsAdapter;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,9 +81,14 @@ public class SettingsFragment extends Fragment {
         email = root.findViewById(R.id.email_tv);
         mobile_no = root.findViewById(R.id.mobile_no);
         viewTeams = root.findViewById(R.id.view_teams);
-
         getUserData();
+
+        teamsRecyclerView = root.findViewById(R.id.teams_recycler_view);
+        LinearLayoutManager llm = new LinearLayoutManager(requireContext());
+        llm.setAutoMeasureEnabled(false);
+        teamsRecyclerView.setLayoutManager(llm);
         getTeams();
+
         String adminOf = preferences.getString(Constants.ADMIN, "");
         Gson gson = new GsonBuilder().create();
         ArrayList<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
@@ -88,6 +105,17 @@ public class SettingsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
+            }
+        });
+
+        viewTeams.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 if(teamsRecyclerView.getVisibility() == View.VISIBLE){
+                     teamsRecyclerView.setVisibility(View.GONE);
+                 }else{
+                     teamsRecyclerView.setVisibility(View.VISIBLE);
+                 }
             }
         });
 
@@ -128,7 +156,6 @@ public class SettingsFragment extends Fragment {
                 startActivity(i);
             }
         });
-
         return root;
     }
 
@@ -168,6 +195,25 @@ public class SettingsFragment extends Fragment {
     }
 
     private void getTeams() {
-        //TODO
+        RetrofitAccessObject.getRetrofitAccessObject()
+                .getTeamInvites(preferences.getString(Constants.TOKEN, ""))
+                .enqueue(new Callback<TeamInvitesResponse>() {
+                    @Override
+                    public void onResponse(Call<TeamInvitesResponse> call, Response<TeamInvitesResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSuccess()) {
+                            teams = response.body().getTeams();
+                        }
+                        teamsAdapter = new TeamsAdapter(teams, requireContext());
+                        teamsRecyclerView.setAdapter(teamsAdapter);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TeamInvitesResponse> call, Throwable t) {
+
+                    }
+                });
     }
+
+
+
 }

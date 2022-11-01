@@ -318,6 +318,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         }
     }
 
+
     private void addNotificationToFirebase(AlertDialog show, JSONObject notificationObj, String eventId) {
         FirebaseFirestore.getInstance()
                 .collection("Notifications")

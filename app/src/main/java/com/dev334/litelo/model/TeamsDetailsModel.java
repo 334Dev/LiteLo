@@ -1,12 +1,13 @@
 package com.dev334.litelo.model;
 
-public class TeamsModel {
+public class TeamsDetailsModel {
     private String id,name,status;
 
-    public TeamsModel() {
+    public TeamsDetailsModel() {
+
     }
 
-    public TeamsModel(String id, String name, String status) {
+    public TeamsDetailsModel(String id, String name, String status) {
         this.id = id;
         this.name = name;
         this.status = status;

@@ -24,6 +24,8 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
     private ChipNavigationBar bottomNavigation;
     private List<TimelineModel> Events, TomorrowEvents;
     private String TAG = "HomeActivity";
+    private AppUpdateManager mAppUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +52,12 @@ public class HomeActivity extends AppCompatActivity implements PassDataInterface
         //notificationFragment=new NotificationFragment();
         notificationFragment = new NotificationFragment();
         bottomNavigation = findViewById(R.id.bottom_navigation_bar);
+        mAppUpdateManager = AppUpdateManagerFactory.create(this);
+
 
         Events = new ArrayList<>();
         TomorrowEvents = new ArrayList<>();
+
 
         if (savedInstanceState == null) {
 //            bottomNavigation.setVisibility(View.INVISIBLE);

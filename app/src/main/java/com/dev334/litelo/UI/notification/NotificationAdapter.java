@@ -64,6 +64,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             name.setText(notificationModel.getTitle());
             desc.setText(notificationModel.getBody());
             time.setText(format(notificationModel.getTime()));
+
         }
     }
 
