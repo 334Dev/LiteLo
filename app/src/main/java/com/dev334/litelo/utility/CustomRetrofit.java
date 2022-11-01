@@ -8,6 +8,7 @@ import com.dev334.litelo.model.EventCoordinatorResponse;
 import com.dev334.litelo.model.EventRequest;
 import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.LoginRequest;
+import com.dev334.litelo.model.TeamInvitesResponse;
 import com.dev334.litelo.model.UserResponse;
 
 import retrofit2.Call;
@@ -37,4 +38,7 @@ public interface CustomRetrofit {
 
     @POST("event-coordie")
     Call<CoordinatorResponse> getCoordinators(@Body CoordinatorRequest request);
+
+    @GET("user/team-invite")
+    Call<TeamInvitesResponse> getTeamInvites(@Header("Authorization") String auth);
 }
