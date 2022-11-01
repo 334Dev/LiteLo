@@ -75,6 +75,7 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         String event = getIntent().getStringExtra(Constants.EVENT_FROM_NOTIFICATION);
         String dept = getIntent().getStringExtra(Constants.DEPT_FROM_NOTIFICATION);
         setReferences();

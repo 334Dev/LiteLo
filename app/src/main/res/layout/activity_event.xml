@@ -51,7 +51,7 @@
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/poppinslight"
                 android:justificationMode="inter_word"
-                android:textColor="#666666"
+                android:textColor="#A09E9E"
                 android:textSize="14sp" />
 
             <ImageButton

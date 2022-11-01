@@ -77,6 +77,7 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         addEvent = findViewById(R.id.admin_addEvent);
         sendNotification = findViewById(R.id.admin_notification);
         firestore = FirebaseFirestore.getInstance();
