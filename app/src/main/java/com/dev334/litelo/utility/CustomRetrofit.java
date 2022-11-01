@@ -10,12 +10,14 @@ import com.dev334.litelo.model.EventResponse;
 import com.dev334.litelo.model.LoginRequest;
 import com.dev334.litelo.model.TeamInvitesResponse;
 import com.dev334.litelo.model.UserResponse;
+import com.dev334.litelo.model.member.TeamMemberResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface CustomRetrofit {
     @POST("auth/signin")
@@ -41,4 +43,7 @@ public interface CustomRetrofit {
 
     @GET("user/team-invite")
     Call<TeamInvitesResponse> getTeamInvites(@Header("Authorization") String auth);
+
+    @GET("user/team/{id}")
+    Call<TeamMemberResponse> getTeamMembers(@Path("id") String teamId);
 }
