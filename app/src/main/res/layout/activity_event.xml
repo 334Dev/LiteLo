@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:fontFamily="@font/poppinslight"
                 android:justificationMode="inter_word"
                 android:textColor="#666666"
                 android:textSize="14sp" />
