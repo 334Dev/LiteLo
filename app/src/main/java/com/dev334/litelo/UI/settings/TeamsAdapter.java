@@ -46,7 +46,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
     @NonNull
     @Override
     public com.dev334.litelo.UI.settings.TeamsAdapter.CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new com.dev334.litelo.UI.settings.TeamsAdapter.CustomVH(View.inflate(parent.getContext(), R.layout.team_list_item, null));
+        return new com.dev334.litelo.UI.settings.TeamsAdapter.CustomVH(View.inflate(parent.getContext(), R.layout.team_details_cardview, null));
     }
 
     @Override
@@ -60,18 +60,19 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
     }
 
     public class CustomVH extends RecyclerView.ViewHolder {
-        private TextView name, status_indicator;
+        private TextView name, status_indicator,events;
+        private RecyclerView recyclerView;
 
         public CustomVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.team_name);
-            status_indicator = itemView.findViewById(R.id.status_indicator);
+            status_indicator = itemView.findViewById(R.id.status);
+            recyclerView = itemView.findViewById(R.id.teams_recycler_view);
+            events = itemView.findViewById(R.id.events);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Team team = teams.get(getAdapterPosition());
-                    showTeamMembers(team);
 
                 }
             });
@@ -85,9 +86,17 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
                     status_indicator.setTextColor(Color.RED);
             }else{
                 status_indicator.setTextColor(Color.GREEN);
-
             }
+
+            String str = "";
+            for(Participation p : team.getTeam().getParticipation()){
+                str +=  p.getEvent().getName() + ", ";
+            }
+            events.setText(str);
         }
+
+        getMembers();
+
     }
 
     private String format(Long time) {
@@ -116,44 +125,44 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
                 c.getDisplayName(Calendar.AM_PM, Calendar.LONG, Locale.getDefault());
     }
 
+    public void getMembers(){
+
+    }
+
     private String appendZero(int i) {
         if (i > 9)
             return String.valueOf(i);
         return "0" + i;
     }
-
-    public void showTeamMembers(Team team){
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.team_details_dialog, null);
-        TextView team_name,events;
-        ListView team_members;
-
-        ImageView closeAlert = view.findViewById(R.id.addEvent_close);
-        team_name = view.findViewById(R.id.team_name);
-        events = view.findViewById(R.id.events_tv);
-        team_members = view.findViewById(R.id.team_members);
-
-        alert.setView(view);
-        AlertDialog show = alert.show();
-
-        closeAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                show.dismiss();
-            }
-        });
-
-        String str = "";
-        for(Participation p : team.getTeam().getParticipation()){
-          str +=  p.getEvent().getName() + ", ";
-        }
-
-
-        events.setText(str);
-        team_name.setText(team.getTeam().getName());
-
-    }
+//
+//    public void showTeamMembers(Team team){
+//
+//        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+//        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View view = layoutInflater.inflate(R.layout.team_details_dialog, null);
+//        TextView team_name,events;
+//        ListView team_members;
+//
+//        ImageView closeAlert = view.findViewById(R.id.addEvent_close);
+//        team_name = view.findViewById(R.id.team_name);
+//        events = view.findViewById(R.id.events_tv);
+//        team_members = view.findViewById(R.id.team_members);
+//
+//        alert.setView(view);
+//        AlertDialog show = alert.show();
+//
+//        closeAlert.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                show.dismiss();
+//            }
+//        });
+//
+////
+////
+////        events.setText(str);
+////        team_name.setText(team.getTeam().getName());
+//
+//    }
 
 }

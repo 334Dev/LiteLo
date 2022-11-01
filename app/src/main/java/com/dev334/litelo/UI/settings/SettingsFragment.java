@@ -84,9 +84,7 @@ public class SettingsFragment extends Fragment {
         getUserData();
 
         teamsRecyclerView = root.findViewById(R.id.teams_recycler_view);
-        LinearLayoutManager llm = new LinearLayoutManager(requireContext());
-        llm.setAutoMeasureEnabled(false);
-        teamsRecyclerView.setLayoutManager(llm);
+        teamsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         getTeams();
 
         String adminOf = preferences.getString(Constants.ADMIN, "");
@@ -206,7 +204,6 @@ public class SettingsFragment extends Fragment {
                         teamsAdapter = new TeamsAdapter(teams, requireContext());
                         teamsRecyclerView.setAdapter(teamsAdapter);
                     }
-
                     @Override
                     public void onFailure(Call<TeamInvitesResponse> call, Throwable t) {
 
