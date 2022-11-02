@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="280dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         app:cardBackgroundColor="@color/Grey"
@@ -27,25 +27,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsbold"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
                 android:text="The Lol Gang"
                 android:textColor="@color/Text"
-                android:textSize="@dimen/_17ssp" />
+                android:textSize="@dimen/_15ssp" />
 
             <TextView
                 android:id="@+id/events"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsbold"
+                android:fontFamily="@font/poppinsmedium"
                 android:paddingStart="10dp"
+                android:paddingBottom="15dp"
                 android:text="The Lol Gang"
                 android:textColor="@color/Text"
-                android:textSize="@dimen/_11ssp" />
+                android:textSize="@dimen/_10ssp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/teams_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
                 android:visibility="gone" />
 
             <LinearLayout

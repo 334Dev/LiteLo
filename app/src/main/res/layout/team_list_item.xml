@@ -9,9 +9,11 @@
         android:layout_height="wrap_content"
         android:text="The solo squad"
         android:paddingEnd="30dp"
+        android:textColor="@color/Text"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
         android:fontFamily="@font/poppinsbold"
-        android:padding="10dp"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_11ssp"
         android:drawablePadding="10dp"
         />
 
