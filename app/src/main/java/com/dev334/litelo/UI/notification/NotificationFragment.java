@@ -36,14 +36,17 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_notification, container, false);
+        view = inflater.inflate(R.layout.fragment_notification_second, container, false);
 
-        notificationRecyclerView = view.findViewById(R.id.notifaction_recycler);
-        LinearLayoutManager llm = new LinearLayoutManager(requireContext());
-        llm.setAutoMeasureEnabled(false);
-        notificationRecyclerView.setLayoutManager(llm);
+        notificationRecyclerView = view.findViewById(R.id.notificationRecycler);
+        notificationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        notificationRecyclerView.setNestedScrollingEnabled(false);
         fetchNotifications();
         return view;
+    }
+
+    private void fetchDummyNotification() {
+
     }
 
     private void fetchNotifications() {

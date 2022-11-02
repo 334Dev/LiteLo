@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dev334.litelo.EventActivity;
 import com.dev334.litelo.EventAdapter;
 import com.dev334.litelo.R;
+import com.dev334.litelo.UI.home.FilterEventAdapter;
 import com.dev334.litelo.model.EventModel;
 import com.dev334.litelo.model.NotificationModel;
 import com.dev334.litelo.utility.Constants;
@@ -36,7 +37,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public NotificationAdapter.CustomVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NotificationAdapter.CustomVH(View.inflate(parent.getContext(), R.layout.notification_list_item, null));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
+        return new NotificationAdapter.CustomVH(view);
     }
 
     @Override

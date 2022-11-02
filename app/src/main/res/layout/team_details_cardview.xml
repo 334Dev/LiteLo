@@ -26,18 +26,18 @@
                 android:id="@+id/team_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsbold"
+                android:fontFamily="@font/poppinssemibold"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="The Lol Gang"
                 android:textColor="@color/Text"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_14ssp" />
 
             <TextView
                 android:id="@+id/events"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsmedium"
+                android:fontFamily="@font/poppinsregular"
                 android:paddingStart="10dp"
                 android:paddingBottom="15dp"
                 android:text="The Lol Gang"
@@ -58,32 +58,50 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <ImageView
                     android:id="@+id/expansion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:layout_weight="1"
                     android:src="@drawable/ic_baseline_expand_circle_down_24"
                     app:tint="@color/White" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/status"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/poppinsbold"
-                    android:gravity="end"
-                    android:text="PENDING"
-                    android:textColor="@color/Text"
-                    app:drawableStartCompat="@drawable/ic_baseline_lens_24" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="2"
+                    android:foregroundGravity="right"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/statusDot"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardCornerRadius="6dp" />
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/poppinsmedium"
+                        android:gravity="center"
+                        android:paddingStart="6dp"
+                        android:paddingTop="4dp"
+                        android:text="PENDING"
+                        android:textAllCaps="false"
+                        android:textColor="@color/Text" />
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

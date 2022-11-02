@@ -3,6 +3,9 @@ package com.dev334.litelo.UI.settings;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +69,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
         private RecyclerView recyclerView;
         private ImageView img;
         private TeamMemberAdapter adapter;
+        private CardView statusDot;
 
         public CustomVH(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +78,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
             recyclerView = itemView.findViewById(R.id.teams_recycler_view);
             events = itemView.findViewById(R.id.events);
             img = itemView.findViewById(R.id.expansion);
+            statusDot = itemView.findViewById(R.id.statusDot);
             recyclerView = itemView.findViewById(R.id.teams_recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             adapter = new TeamMemberAdapter(new ArrayList<>(), context);
@@ -101,9 +108,9 @@ public class TeamsAdapter extends RecyclerView.Adapter<com.dev334.litelo.UI.sett
             name.setText(team.getTeam().getName());
             status_indicator.setText(team.getStatus());
             if (team.getStatus() == "PENDING") {
-                status_indicator.setTextColor(Color.RED);
+                statusDot.setCardBackgroundColor(ContextCompat.getColor(statusDot.getContext(), R.color.red));
             } else {
-                status_indicator.setTextColor(Color.GREEN);
+                statusDot.setCardBackgroundColor(ContextCompat.getColor(statusDot.getContext(), R.color.green));
             }
             String str = "";
             for (Participation p : team.getTeam().getParticipation()) {

@@ -30,15 +30,19 @@
                 android:layout_marginTop="16dp"
                 android:paddingStart="16dp"
                 android:text="Event Name"
+                android:textColor="@color/Text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/event_spinner"
+                android:theme="@style/Widget.AppCompat.Light.DropDownItem.Spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp" />
+                tools:listitem="@layout/dropdown_item_filter"
+                android:layout_marginTop="6dp">
+            </Spinner>
 
             <EditText
                 android:id="@+id/notificationDesc"

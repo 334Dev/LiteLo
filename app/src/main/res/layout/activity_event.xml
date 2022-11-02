@@ -81,9 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="@font/poppinsmedium"
+            android:fontFamily="@font/poppinsregular"
             android:paddingEnd="8dp"
-            android:textColor="#666666"
+            android:textColor="#A09E9E"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/criteria_tv" />
