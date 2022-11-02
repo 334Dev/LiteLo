@@ -191,15 +191,19 @@ public class AdminActivity extends AppCompatActivity implements DatePickerDialog
         DoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
+                String Date = eDate.getText().toString();
+                String Link = eLink.getText().toString();
+                String Desc = eDesc.getText().toString();
+                String Time = eTime.getText().toString();
+                if (Date.equals("") || Link.equals("") || Time.equals("") || Desc.equals("")) {
+                    Toast.makeText(AdminActivity.this, "Please enter all details", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 progressBar.setVisibility(View.VISIBLE);
                 DoneBtn.setVisibility(View.GONE);
                 SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCE, MODE_PRIVATE);
                 AdminModel selected = (AdminModel) eventSpinner.getSelectedItem();
                 String Name = selected.getEvent();
-                String Date = eDate.getText().toString();
-                String Link = eLink.getText().toString();
-                String Desc = eDesc.getText().toString();
-                String Time = eTime.getText().toString();
 
                 //add Data to firebase;
                 Map<String, Object> map = new HashMap<>();
