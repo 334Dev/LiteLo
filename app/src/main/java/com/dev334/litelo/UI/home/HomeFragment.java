@@ -51,6 +51,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -224,7 +225,9 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                         if (task.isSuccessful() && task.getResult() != null) {
                             if (today) {
                                 if (task.getResult().get("Events") != null) {
-                                    AdapterToday.setList((List<Map<String, Object>>) task.getResult().get("Events"));
+                                    List<Map<String, Object>> events = (List<Map<String, Object>>) task.getResult().get("Events");
+                                    Collections.sort(events, new OrderByTime());
+                                    AdapterToday.setList(events);
                                     AdapterToday.notifyDataSetChanged();
                                     noEvent.setVisibility(View.INVISIBLE);
                                 } else {
@@ -233,7 +236,9 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
                             } else if (task.getResult().get("Events") != null) {
                                 nofilter_event.setVisibility(View.INVISIBLE);
                                 filterRecycler.setVisibility(View.VISIBLE);
-                                AdapterFilter.setList((List<Map<String, Object>>) task.getResult().get("Events"));
+                                List<Map<String, Object>> events = (List<Map<String, Object>>) task.getResult().get("Events");
+                                Collections.sort(events, new OrderByTime());
+                                AdapterFilter.setList(events);
                                 AdapterFilter.notifyDataSetChanged();
                             } else {
                                 filterRecycler.setVisibility(View.GONE);
@@ -304,5 +309,26 @@ public class HomeFragment extends Fragment implements BranchAdapter.ClickInterfa
             return event;
         }
     };
+
+    public static class OrderByTime implements Comparator<Map<String, Object>> {
+
+        @Override
+        public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+            String t1, t2;
+            t1 = (String) o1.get("time");
+            t2 = (String) o2.get("time");
+
+            Integer time1 = 0, time2 = 0;
+            time1 = (t1.charAt(0)-'0')*10 + (t1.charAt(1)-'0');
+            time1 = time1*60;
+            time1 = time1 + (t1.charAt(0)-'0')*10 + (t1.charAt(1)-'0');
+
+            time2 = (t2.charAt(0)-'0')*10 + (t2.charAt(1)-'0');
+            time2 = time2*60;
+            time2 = time2 + (t2.charAt(0)-'0')*10 + (t2.charAt(1)-'0');
+
+            return time1 - time2;
+        }
+    }
 
 }
