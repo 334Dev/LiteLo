@@ -43,7 +43,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
     @Override
     public void onBindViewHolder(@NonNull TimelineAdapter.TimeLineViewHolder holder, int position) {
         holder.setDetails(timelineModelList.get(position).getDesc(),
-                timelineModelList.get(position).getDate(), timelineModelList.get(position).getLink());
+                timelineModelList.get(position).getDate(), timelineModelList.get(position).getTime(), timelineModelList.get(position).getLink());
     }
 
     @Override
@@ -90,9 +90,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimeLi
             });
         }
 
-        public void setDetails(String desc, String date, String link) {
+        public void setDetails(String desc, String date, String time, String link) {
             descText.setText(desc);
-            dateText.setText(date);
+            dateText.setText(date + " at " + time);
             if (link.equals("")) eventLink.setVisibility(View.GONE);
             else eventLink.setVisibility(View.VISIBLE);
             if (URLUtil.isValidUrl(link)) {
