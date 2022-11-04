@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                tools:listitem="@layout/dropdown_item_filter"
+                android:popupBackground="@color/White"
                 android:layout_marginTop="6dp">
             </Spinner>
 
