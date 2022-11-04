@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev334.litelo.model.AdminModel;
 import com.dev334.litelo.model.CoordinatorRequest;
 import com.dev334.litelo.model.CoordinatorResponse;
 import com.dev334.litelo.model.EventCoordinator;
@@ -38,6 +39,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.ArrayList;
@@ -242,8 +246,11 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
-                            for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments())
-                                timelineModels.add(documentSnapshot.toObject(TimelineModel.class));
+                            for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                                TimelineModel model = documentSnapshot.toObject(TimelineModel.class);
+                                model.setId(documentSnapshot.getId());
+                                timelineModels.add(model);
+                            }
                             timelineModels.sort(new Comparator<TimelineModel>() {
                                 @Override
                                 public int compare(TimelineModel o1, TimelineModel o2) {
@@ -281,7 +288,14 @@ public class EventActivity extends AppCompatActivity implements TimelineAdapter.
     }
 
     private void setUpRecycler() {
-        timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this, this);
+        String adminOf = preferences.getString(Constants.ADMIN, "");
+        Gson gson = new GsonBuilder().create();
+        List<AdminModel> adminModels = gson.fromJson(adminOf, new TypeToken<ArrayList<AdminModel>>() {
+        }.getType());
+        boolean admin = false;
+        for (AdminModel model : adminModels)
+            admin |= model.getEventId().equals(eventModel.getId());
+        timelineAdapter = new TimelineAdapter(timelineModels, EventActivity.this, this, admin, eventModel.getId());
         timelineRecycler.setAdapter(timelineAdapter);
     }
 

@@ -3,7 +3,7 @@ package com.dev334.litelo.model;
 import java.util.Map;
 
 public class TimelineModel {
-    private String name, parent, link, desc, date, time;
+    private String name, parent, link, desc, date, time, id;
 
     public TimelineModel(String name, String parent, String link, String desc, String date, String time) {
         this.name = name;
@@ -72,5 +72,13 @@ public class TimelineModel {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
